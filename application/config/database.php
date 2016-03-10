@@ -65,9 +65,24 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 
-$db['jcpbadges']['hostname'] = 'localhost';
+/*$db['jcpbadges']['hostname'] = 'localhost';
 $db['jcpbadges']['username'] = 'devjenny_user1';
 $db['jcpbadges']['password'] = ';x~+iH,fQ];+';//test
+$db['jcpbadges']['database'] = 'devjenny_databaSe';
+$db['jcpbadges']['dbdriver'] = 'mysql';
+$db['jcpbadges']['dbprefix'] = 'ci_';
+$db['jcpbadges']['pconnect'] = TRUE;
+$db['jcpbadges']['db_debug'] = TRUE;
+$db['jcpbadges']['cache_on'] = FALSE;
+$db['jcpbadges']['cachedir'] = '';
+$db['jcpbadges']['char_set'] = 'utf8';
+$db['jcpbadges']['dbcollat'] = 'utf8_general_ci';
+$db['jcpbadges']['swap_pre'] = '';
+$db['jcpbadges']['autoinit'] = TRUE;
+$db['jcpbadges']['stricton'] = FALSE;*/
+$db['jcpbadges']['hostname'] = 'localhost';
+$db['jcpbadges']['username'] = 'admin';
+$db['jcpbadges']['password'] = 'admin';//test
 $db['jcpbadges']['database'] = 'devjenny_databaSe';
 $db['jcpbadges']['dbdriver'] = 'mysql';
 $db['jcpbadges']['dbprefix'] = 'ci_';
