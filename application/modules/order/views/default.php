@@ -1,4 +1,5 @@
 <div class="main clb">
+	<div class="small-red-heading-order">The name on your badge needs to match your first name, or your order will be delayed as a further approval process will be necessary.</div>
 	<div class="<?php echo (count($cart)>0)?"main-left":"main-left-no-border";?> fll" id="main-left">
 		<div class="badgeStyle overH mb-15">
 			<h3 class="title">Select Badge Style </h3>

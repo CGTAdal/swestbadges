@@ -11,6 +11,7 @@
 				<span class="required">Centre Number:</span>
 				<input type="text" name="number" id="number" class="validate[required, ajax[ajaxCheckAccountNumber]]"/>
 			</label> -->
+			<div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div>
 			<label>
 				<span class="required">Name:</span>
 				<input type="text" name="name" id="" class="validate[required]"/>
@@ -51,15 +52,41 @@
 				<span class="required">Zip:</span>
 				<input type="text" name="zip" id="zip" class="validate[required]"/>
 			</label>
+			<label>
+				<span class="required">Employee #:</span>
+				<input type="text" name="employee" id="employee" class="validate[required]"/>
+			</label>
+			<label>
+				<span class="required">Mailcode:</span>
+				<input type="text" name="mailcode" id="mailcode" class="validate[funcCall[checkMailCode]]]"/>
+				<a class="mailcode-link" href="javascript:void(0);" onclick="showLocationField()">Don’t have a mailcode?</a>
+			</label>
+			<label class="hidden">
+				<span class="required">Please enter your Location and Title:</span>
+				<input type="text" name="location_title" id="location_title" class="validate[required]"/>
+			</label>
 			<label><span>&nbsp;</span><input type="submit" name="submit" value="Submit" id=""/></label>
 		</div>
 	</div>
 </form>
 <script>
+	var isMailCode = true;
+
 	$("#signup-form").validationEngine({
 		promptPosition : "topRight", 
 		ajaxFormValidationMethod: 'post',
 		autoHidePrompt: true,
 		autoHideDelay: 3000
 	});
+	
+	function showLocationField() {
+		isMailCode = false;
+		$(".hidden").show();
+	}
+	function checkMailCode(field, rules, i, options){
+		if (isMailCode) {
+	        rules.push('required'); 
+	        // return "* This field is required";
+	    }
+	}
 </script>

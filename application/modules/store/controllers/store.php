@@ -145,6 +145,10 @@ class Store extends MX_Controller {
 				$data['store_number'] 		= $this->input->post('number');
 				$data['store_role']			= 3;
 				$data['store_password']		= ($this->input->post('password')) ? md5(trim($this->input->post('password'))) : '';
+
+				$data['store_employee']		= $this->input->post('employee');
+				$data['store_mailcode']		= $this->input->post('mailcode');
+				$data['store_location_title']	= $this->input->post('location_title');
 				
 				$store_id = $this->store_model->saveItem('stores',array('id'=>0),$data);
 				
