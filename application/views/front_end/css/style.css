@@ -203,3 +203,13 @@ table tr.row1{background:#fff;}
 @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {
 	.navmain li{padding:0 18px 0 13px;}
 }*/
+
+/* CREATE ACCOUNT PAGE */
+.small-red-heading{color: red;margin-bottom: 10px; font-weight: bold; font-size: 15px; text-align: center;}
+.mailcode-link{font-size: 14px;}
+.hidden{display: none;}
+/* CREATE ACCOUNT PAGE */
+
+/* SELECT ORDER PAGE */
+.small-red-heading-order{color: red;margin:0px 0px 10px 24px; font-weight: bold; font-size: 14px; text-align: left;}
+/* SELECT ORDER PAGE */
