@@ -5,7 +5,7 @@
 		<a href="<?php echo base_url();?>"><img class="mb-60" src="<?php echo base_url();?>application/views/front_end/images/namebadge.png"></a>
 		<div class="login-c">
 			<label>
-				<span>Franchise Centre Number:</span>
+				<span>Email:</span>
 				<?php 
 					$data = array(
 								'name'	=> "franchise_number",
@@ -23,7 +23,7 @@
 			</label>
 			<?php echo ($error_messages!="")?"<p>".$error_messages."</p>":"";?>
 			<label><span>&nbsp;</span><input type="submit" name="submit" value="Submit" id=""/></label>
-			<label style="padding-left:10px;font-size:14px"><a href="<?php echo base_url();?>store/franchise_signup">Create New Account</a></label>
+			<label style="padding-left:10px;font-size:14px"><a href="<?php echo base_url();?>store/create_account">Create New Account</a></label>
 			<label style="padding-left:10px;font-size:14px">
 				<a href="javascript: void(0);" id="request_lost_pw">Request Lost Password</a>
 				<br/>
@@ -38,7 +38,7 @@
 		$('#request_lost_pw').click(function(){
 			var fc_number = $('#franchise_number');
 			if(fc_number.val() == "") {
-				alert('Please enter Franchise Center Number');
+				alert('Please enter Email');
 				fc_number.focus();
 				return false;
 			}

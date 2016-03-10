@@ -101,7 +101,7 @@ class Ajax extends MX_Controller {
 		switch($type) {
 			case '1':
 				$data['number']	 = $current_input_boxes_number + 1;
-				$data['style']	 = "silver name badge";
+				$data['style']	 = "Southwest Name Badge";
 				#$data['title']	 = "no title included";
 				#$data['license'] = 1;
 				$this->load->view('order/form/additional_input_name_form',$data);
@@ -109,8 +109,8 @@ class Ajax extends MX_Controller {
 			break;
 			case '2':
 				$data['number']	= $current_input_boxes_number + 1;
-				$data['style']	= "lead expert";
-				$data['title']	= "lead expert";
+				$data['style']	= "Southwest Wing";
+				#$data['title']	= "";
 				$this->load->view('order/form/additional_input_name_form',$data);
 				return;
 			break;
@@ -188,7 +188,7 @@ class Ajax extends MX_Controller {
 			case '1':
 				$data	= array();
 				$data['description']	= "";
-				$data['style']			= "silver name badge";
+				$data['style']			= "Southwest Name Badge";
 				#$data['title']			= "no title included";
 				$data['type']			= 1;
 				//$data['license']		= 1;
@@ -196,9 +196,9 @@ class Ajax extends MX_Controller {
 				break;
 			case '2':
 				$data	= array();
-				$data['description']	= "Title: lead expert";
-				$data['style']			= "lead expert";
-				$data['title']			= "lead expert";
+				$data['description']	= "";
+				$data['style']			= "Southwest Wing";
+				#$data['title']			= "no title included";
 				$data['type']			= 2;
 				$this->load->view('order/form/input_names_form',$data);
 				break;
@@ -366,7 +366,7 @@ class Ajax extends MX_Controller {
 		$total_mf	= (isset($cart['order_mf_qty']))?$cart['order_mf_qty']:0;
 		$total_pf	= (isset($cart['order_pf_qty']))?$cart['order_pf_qty']:0;
 		
-		$total_order_price = number_format(($cart_total-1)*4.75 + $total_mf * 6.25 + $total_pf * 3.5,2);
+		$total_order_price = number_format(($cart_total-1)*10.00 + $total_mf * 6.25 + $total_pf * 3.5,2);
 		$tmp	= explode(".", $total_order_price);
 		$first 	= $tmp[0];
 		$last	= $tmp[1];
@@ -389,7 +389,7 @@ class Ajax extends MX_Controller {
 		$cart	= $this->session->userdata['cart'];
 		
 		$total_badges	= isset($this->session->userdata['cart_total'])?$this->session->userdata['cart_total']:0;
-		$badges_cost	= $total_badges*4.75;
+		$badges_cost	= $total_badges*10.00;
 		$extras_cost	= 0;
 		switch ($type) {
 			

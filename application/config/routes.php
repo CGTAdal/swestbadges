@@ -66,7 +66,7 @@ if ($handle)
 		}
 	}
 }
-$route['default_controller'] = "store/login";
+$route['default_controller'] = "store/franchise_login";
 $route['404_override'] 		 = '';
 
 

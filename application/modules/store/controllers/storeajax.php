@@ -76,9 +76,10 @@ class Storeajax extends MX_Controller {
 	function resetPassword() {
 		$store_number 	= $this->input->post('store_number',true);
 		$store_role 	= (int)$this->input->post('store_role');
-		$type = ($store_role==2)?'Market Number':'Franchise Centre Number';		
+		//$type = ($store_role==2)?'Market Number':'Franchise Centre Number';
+		$type = ($store_role==2)?'Market Number':'Email';			
 		
-		$account = $this->store_model->getStoreDetail(array('store_number'=>$store_number, 'store_role'=>$store_role));
+		$account = $this->store_model->getStoreDetail(array('store_email'=>$store_number, 'store_role'=>$store_role));
 
 		if(count($account)<=0) {
 			echo "This {$type} does not exist.";
@@ -103,7 +104,7 @@ class Storeajax extends MX_Controller {
 			# to
 			$this->email->to($account->store_email);
 			#set subject
-			$subject	= '[Jenny Craig Badges] New Password';
+			$subject	= '[Southwest Name Badges] New Password';
 			#set content
 			$message	= "Your new password is: {$new_pass} <br/><br/>
 			Best Name Badges <br />";

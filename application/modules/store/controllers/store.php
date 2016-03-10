@@ -103,7 +103,8 @@ class Store extends MX_Controller {
 				$this->form_validation->set_rules('franchise_number', 'Franchise Centre Number', 'required');
 				if($this->form_validation->run()) {
 					$number	= $this->input->post('franchise_number',true);
-					$store 	= $this->store_model->getStoreDetail(array('store_number'=>$number,'store_role'=>3));
+					$store 	= $this->store_model->getStoreDetail(array('store_email'=>$number,'store_role'=>3));
+					//$store 	= $this->store_model->getStoreDetail(array('store_number'=>$number,'store_role'=>3)); // 20160219
 					
 					if(count($store)>0) {
 						$pw 	= $this->input->post('password',true);
@@ -115,7 +116,7 @@ class Store extends MX_Controller {
 							$this->error_messages = "Password is not correct. Please enter it again.";
 						}
 					} else {
-						$this->error_messages = "Franchise Number does not exist.";
+						$this->error_messages = "Franchise Email does not exist.";
 					}
 				}
 				
@@ -188,9 +189,9 @@ class Store extends MX_Controller {
 	
 	function franchise_change_password() {
 		if($this->input->post('submit')) {
-			$store_number = $this->input->post('fc_number',true);
+			$store_number = $this->input->post('email',true);
 			
-			$account = $this->store_model->getStoreDetail(array('store_number'=>$store_number));
+			$account = $this->store_model->getStoreDetail(array('store_email'=>$store_number));
 	
 			if(count($account) > 0) {
 				$old_pw	= $this->input->post('old_password');
@@ -204,8 +205,9 @@ class Store extends MX_Controller {
 					$this->error_messages = "Your password has been updated successfully. Please click <a href='".base_url()."store/franchise_login'>here</a> to login";
 				}
 			} else {
-				$data['fc_number'] = $store_number;
-				$this->error_messages = "Franchise Centre Number does not exist.";
+				//$data['fc_number'] = $store_number;
+				$data['email'] = $store_number;				
+				$this->error_messages = "Email does not exist.";
 			}
 		}
 		
@@ -220,7 +222,7 @@ class Store extends MX_Controller {
 		$this->session->unset_userdata('cart');
 		$this->session->unset_userdata('cart_total');
 		$this->session->unset_userdata('tenured_total');
-		redirect('store/login');
+		redirect('store/franchise_login');
 	}
 	
 }

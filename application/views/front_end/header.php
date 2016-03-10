@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=7" />
-    <title>Jenny Craig Badges</title>
+    <title>Southwest Name Badges</title>
     
     <link href="<?php echo base_url();?>application/views/front_end/css/fonts.css" type="text/css" rel="stylesheet" />
     <link href="<?php echo base_url();?>application/views/front_end/css/style.css" type="text/css" rel="stylesheet" />

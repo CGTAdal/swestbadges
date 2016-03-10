@@ -53,7 +53,7 @@ class Order extends MX_Controller {
 		$data['order_shipping']		= serialize($shipping);
 		$data['order_mf_qty']		= $total_mf = (isset($cart['order_mf_qty'])) ? $cart['order_mf_qty'] : 0;
 		$data['order_pf_qty']		= $total_pf = (isset($cart['order_pf_qty'])) ? $cart['order_pf_qty'] : 0;
-		$data['order_cost']			= number_format($total * 4.75 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
+		$data['order_cost']			= number_format($total * 10.00 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
 
 		$data['order_mf_qty']	= (isset($cart['order_mf_qty'])) ? $cart['order_mf_qty'] : 0;
 		$data['order_pf_qty']	= (isset($cart['order_pf_qty'])) ? $cart['order_pf_qty'] : 0;
@@ -95,7 +95,7 @@ class Order extends MX_Controller {
 				# to
 				$this->email->to($market_director->store_email);
 				#set subject
-				$subject	= '[Jenny Craig Badges] New Order Needs Your Approval';
+				$subject	= '[Southwest Name Badges] New Order Needs Your Approval';
 				#set content
 				$link		= base_url()."order/approvaldetail/{$orderId}/{$code}";
 				$message	= "You have 1 new order that needs your immediate attention. Please review this order by clicking on the following link: <br/>{$link}<br/></br/>
@@ -435,7 +435,7 @@ class Order extends MX_Controller {
 				if(!isset($this->session->userdata['cart'])) { // if cart is empty
 					redirect('order/select');
 				}
-				$amount 	= number_format($total * 4.75 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
+				$amount 	= number_format($total * 10.00 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
 				// get billing info
 				$billing	= array();
 				$billing['fname']	= $this->input->post('fname',true);
