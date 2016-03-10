@@ -54,7 +54,7 @@ class Ajax extends MX_Controller {
 				# to
 				$this->email->to($market_director->store_email);
 				#set subject
-				$subject	= '[Jenny Craig Badges] New Order Needs Your Approval';
+				$subject	= '[Southwest Name Badges] New Order Needs Your Approval';
 				#set content
 				$link		= base_url()."order/approvaldetail/{$order->order_id}/{$order->order_code}";
 				$message	= "You have 1 new order that needs your immediate attention. Please review this order by clicking on the following link: <br/>{$link}<br/></br/>

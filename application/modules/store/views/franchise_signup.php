@@ -7,9 +7,17 @@
 		<br/>
 		<a href="<?php echo base_url();?>"><img class="mb-60" src="<?php echo base_url();?>application/views/front_end/images/namebadge.png"></a>
 		<div class="fc-signup">
-			<label>
+			<!-- <label>
 				<span class="required">Centre Number:</span>
 				<input type="text" name="number" id="number" class="validate[required, ajax[ajaxCheckAccountNumber]]"/>
+			</label> -->
+			<label>
+				<span class="required">Name:</span>
+				<input type="text" name="name" id="" class="validate[required]"/>
+			</label>
+			<label>
+				<span class="required">Email:</span>
+				<input type="text" name="email" id="email" class="validate[required, custom[email], ajax[ajaxCheckEmailExists]]"/>
 			</label>
 			<label>
 				<span class="required">Password:</span>
@@ -18,18 +26,10 @@
 			<label>
 				<span class="required">Confirm Password:</span>
 				<input type="password" name="" id="confirm_password" class="validate[required, equals[password]]"/>
-			</label>
+			</label>			
 			<label>
-				<span>Name:</span>
-				<input type="text" name="name" id=""/>
-			</label>
-			<label>
-				<span class="required">Email:</span>
-				<input type="text" name="email" id="email" class="validate[required, custom[email], ajax[ajaxCheckEmailExists]]"/>
-			</label>
-			<label>
-				<span>Phone:</span>
-				<input type="text" name="phone" id=""/>
+				<span class="required">Phone:</span>
+				<input type="text" name="phone" id="" class="validate[required]" />
 			</label>
 			<label>
 				<span class="required">Mailing Address:</span>

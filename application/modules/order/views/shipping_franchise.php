@@ -12,8 +12,8 @@
 			<form action="" method="post" id="form_order_customer">
 				<h3 class="title">Shipping Address:</h3>
 				<div class="pl-20 fontGL mb-30">
-					<div>Jenny Craig Centre <?php echo $store->store_number;?></div>
-					<div>ATTN: <?php echo $store->store_location_name;?></div>
+					<!-- <div>Jenny Craig Centre <?php echo $store->store_number;?></div> -->
+					<div><!--ATTN:--> <?php echo $store->store_location_name;?></div>
 					<div><?php echo $store->store_address;?></div>
 					<div><?php echo $store->store_address_2;?></div>
 					<div><?php echo $store->store_city.', '.$store->store_state.' '.$store->store_zip;?></div>
@@ -21,7 +21,7 @@
 				<h3 class="title">Order Total:</h3>
 				<div class="pl-20 fontGL mb-30">
 					<?php if($total_badges>0) {?>
-						<div>Total Badges: <font id="total-badges-number"><?php echo ($total_badges);?></font> x $4.75</div>
+						<div>Total Badges: <font id="total-badges-number"><?php echo ($total_badges);?></font> x $10.00</div>
 					<?php }?>
 					<?php if($total_tenured>0) {?>
 						<div>Total Tenured Badges: <font id="total-badges-number"><?php echo ($total_tenured);?></font> x $6.25</div>
@@ -33,7 +33,7 @@
 						<div id="total-pins">Total 5-Pack Pins: <?php echo $total_pf.' x $3.5';?></div>
 					<?php }?>
 					<?php 
-						$tmp 	= explode('.',number_format($total_badges*4.75 + $total_tenured*6.25 + $total_mf*6.25 + $total_pf*3.5,2));
+						$tmp 	= explode('.',number_format($total_badges*10.00 + $total_tenured*6.25 + $total_mf*6.25 + $total_pf*3.5,2));
 						$first 	= $tmp[0];
 						$last	= $tmp[1];
 						if($last > 0){
@@ -56,7 +56,7 @@
 				<div class="pl-20 fontGL mb-30" id="edit-shipping-box">
 					<label>
 						<span>First Name:</span>
-						<input type="text" name="fname" id="" class="validate[required]" value="<?php echo @$_REQUEST['fname'] ?>"/>
+						<input type="text" name="fname" id="" class="validate[required]" value="<?php echo @$_REQUEST['fname'] ?>"/>						
 					</label>
 					<label>
 						<span>Last Name:</span>

@@ -66,9 +66,9 @@ $db['default']['stricton'] = FALSE;
 
 
 $db['jcpbadges']['hostname'] = 'localhost';
-$db['jcpbadges']['username'] = 'admin';
-$db['jcpbadges']['password'] = 'admin';//test
-$db['jcpbadges']['database'] = 'devjenny_databaSe';
+$db['jcpbadges']['username'] = 'southwes_dabges';
+$db['jcpbadges']['password'] = 'dabges123';//test
+$db['jcpbadges']['database'] = 'southwes_namebadges';
 $db['jcpbadges']['dbdriver'] = 'mysql';
 $db['jcpbadges']['dbprefix'] = 'ci_';
 $db['jcpbadges']['pconnect'] = TRUE;
