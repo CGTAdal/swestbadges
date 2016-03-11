@@ -48,14 +48,15 @@
 					<label>Order # </label>
 					<input type="text" class="medium" size="12" name="fname" id="search_order_id" value="<?php echo ($search_order_id!="")?$search_order_id:"";?>">
 				</div>
-				<div class="field">
+				<!-- <div class="field">
 					<label>Unit #</label>
 					<input type="text" class="medium" size="12" name="fname" id="search_store_number" value="<?php echo ($search_store_number!="")?$search_store_number:"";?>">
-				</div>
+				</div> -->
 				<div class="field">
 					<label>Total</label>
 					<input type="text" class="medium" size="12" name="fname" id="search_order_total" value="<?php echo ($search_order_total!="")?number_format($search_order_total,2):"";?>">
 				</div>
+				<?php /*?>
 				<div class="field">
 					<label>Account Type</label>
 					<select id="search_store_type">
@@ -64,6 +65,7 @@
 						<option <?php echo ($search_store_type==3)?'selected':'';?> value="3">Franchise</option>
 					</select>
 				</div>
+				<?php */?>
 				<div class="buttonrow">
 					<input type="button" value="filter" id="submit_orer_list" class="btn btn-small" >
 				</div>
@@ -77,22 +79,23 @@
 				<tr>
 					<th id ="test">Order Date</th>
 					<th class="sortable <?php echo ($sort_order_id!="")?"sorting_".$sort_order_id:"sorting";?>" value="order_id">Order #</th>
-					<th class="sortable <?php echo ($sort_unit!="")?"sorting_".$sort_unit:"sorting";?>" value="store_number">Unit #</th>
-					<th>Type</th>
+					<!-- <th class="sortable <?php echo ($sort_unit!="")?"sorting_".$sort_unit:"sorting";?>" value="store_number">Unit #</th> -->
+					<th>Name</th>
+					<!-- <th>Type</th> -->
 					<th>State</th>
-					<th>Market Director</th>
+					<!-- <th>Market Director</th> -->
 					<th>Ship Date</th>
-					<th>Item</th>
+					<!-- <th>Item</th>
 					<th>Badge Qty</th>
 					<th>Tenured Qty</th>
 					<th>5-Pack Magnets</th>
-					<th>5-Pack Pins</th>
+					<th>5-Pack Pins</th> -->
 					<th class="sortable <?php echo ($sort_cost!="")?"sorting_".$sort_cost:"sorting";?>" value="cost">Order Cost</th>
 					<th>Tax</th>
 					<th >Total</th>
 					<th>Status</th>
-					<th>Approved Date</th>
-					<th>Approval Email</th>
+					<!-- <th>Approved Date</th>
+					<th>Approval Email</th> -->
 					<th style="text-align:center">Action</th>
 				</tr>
 			</thead>
@@ -105,24 +108,26 @@
 						<td>
 							<a href="<?php echo base_url();?>admin/order/detail/<?php echo $order->order_id;?>"><?php echo str_pad($order->order_id,6,'0',STR_PAD_LEFT);?></a>							
 						</td>
-						<td>
+						<?php /*?> <td>
 							<a href="<?php echo base_url();?>admin/store/detail/<?php echo $order->store_id;?>"><?php echo $order->store_number;?></a>
-						</td>
-						<td>
+						</td> <?php */?>
+						<td> <?php echo $order->store_location_name; ?> </td>
+						<?php /*?> <td>
 							<?php 
 								echo ($order->store_type==1) ? "Store" : (($order->store_type==2)? "Market Director" : "Franchise");
 							?>
-						</td>
+						</td> <?php */?>
 						<td>
 							<?php echo $order->store_state;?>
 						</td>
-						<td>
+						<?php /*?><td>
 							<a href="<?php echo base_url();?>admin/store/detail/<?php echo $order->director_id;?>"><?php echo $order->director_number;?></a>
-						</td>
+						</td> <?php */?>
 						<td><?php echo ($order->order_shipdate==0)?'&nbsp;':date('m/d/Y',$order->order_shipdate)?></td>
+						<?php /*?>
 						<td>
 							Name Badges
-						</td>
+						</td> 
 						<td>
 							<?php echo $order->order_total?>
 						</td>
@@ -135,6 +140,7 @@
 						<td>
 							<?php echo $order->order_pf_qty?>
 						</td>
+						<?php */?>
 						<td>
 							<?php
 								if($order->order_cost==0) { 
@@ -165,6 +171,7 @@
 								<option value="3" <?php echo ($order->order_status==3)?'selected':'';?>>Denied</option>
 							</select>
 						</td>
+						<?php /*?>
 						<?php if($order->order_status==2) {?>
 						<td><?php echo date('m/d/Y',$order->order_approve_dated);?></td>
 						<?php } else {?>
@@ -175,6 +182,7 @@
 								<a href="javascript: void(0);" class="resend_approval" value="<?php echo $order->order_id;?>">RESEND</a>
 							<?php } else echo '&nbsp;'?>
 						</td>
+						<?php */?>
 						<td align="center">
 							<?php if($order->order_shipdate==0) {?><a href="javascript: void(0)" value="<?php echo $order->order_id;?>" class="delete-order">Delete</a><?php }?>
 						</td>

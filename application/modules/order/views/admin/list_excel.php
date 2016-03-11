@@ -3,17 +3,17 @@
 		<tr>
 			<th>Order Date</th>
 			<th>Order #</th>
-			<th >Unit #</th>
-			<th>Ship Date</th>
-			<th>Item</th>
+			<th >Name</th>
+			<?php /*?><th>Ship Date</th>
+			<th>Item</th> <?php */?>
 			<th>State</th>
-			<th>Market #</th>
+			<?php /*?><th>Market #</th>
 			<th>Badge Quantity</th>
 			<th>Badge Total</th>
 			<th>Tenured Quantity</th>
 			<th>Tenured Total</th>
 			<th>5-Pack Magnets</th>
-			<th>5-Pack Pins</th>
+			<th>5-Pack Pins</th> <?php */?>
 			<th>Order Cost</th>
 			<th>Tax</th>
 			<th >Total</th>
@@ -29,10 +29,14 @@
 				<td>
 					<?php echo str_pad($order->order_id,6,'0',STR_PAD_LEFT);?>
 				</td>
-				<td><?php echo $order->store_number;?></td>
-				<td><?php echo ($order->order_shipdate==0)?'pending':date('m/d/Y',$order->order_shipdate);?></td>
+				<?php /*?> <td><?php //echo $order->store_number;?></td> <?php */?>
+				<td><?php echo $order->store_location_name;?></td>
+				<?php /*?>
+				<td><?php //echo ($order->order_shipdate==0)?'pending':date('m/d/Y',$order->order_shipdate);?></td>
 				<td>Name Badges</td>
+				<?php */?>
 				<td><?php echo $order->store_state;?></td>
+				<?php /*?>
 				<td><?php echo $order->director_number;?></td>
 				<td><?php echo $order->order_total?></td>
 				<td>
@@ -44,6 +48,7 @@
 				</td>
 				<td><?php echo $order->order_mf_qty?></td>
 				<td><?php echo $order->order_pf_qty?></td>
+				<?php */?>
 				<td>
 					<?php
 						if($order->order_cost==0) { 

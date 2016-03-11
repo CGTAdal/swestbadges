@@ -49,29 +49,29 @@ class Process extends MX_Controller {
 					} else {
 						$this->session->set_userdata('sort_by_order_id','desc');
 					}
-					$this->session->set_userdata('sort_by_store_number','');
+					$this->session->set_userdata('sort_by_store_location_name','');
 					$this->session->set_userdata('sort_by_order_shipdate','');
 					$order_by = array(
 						'field'		=> 'order_id',
 						'sort_type'	=> $this->session->userdata['sort_by_order_id']
 					);
 				break;
-				case 'store_number':
-					if(isset($this->session->userdata['sort_by_store_number'])) {
-						$current_type = $this->session->userdata['sort_by_store_number'];
+				case 'store_location_name':
+					if(isset($this->session->userdata['sort_by_store_location_name'])) {
+						$current_type = $this->session->userdata['sort_by_store_location_name'];
 						if($current_type=='desc') {
-							$this->session->set_userdata('sort_by_store_number','asc');
+							$this->session->set_userdata('sort_by_store_location_name','asc');
 						} else {
-							$this->session->set_userdata('sort_by_store_number','desc');
+							$this->session->set_userdata('sort_by_store_location_name','desc');
 						}
 					} else {
-						$this->session->set_userdata('sort_by_store_number','desc');
+						$this->session->set_userdata('sort_by_store_location_name','desc');
 					}
 					$this->session->set_userdata('sort_by_order_id','');
 					$this->session->set_userdata('sort_by_order_shipdate','');
 					$order_by = array(
-						'field'		=> 'stores.store_number',
-						'sort_type'	=> $this->session->userdata['sort_by_store_number']
+						'field'		=> 'stores.store_location_name',
+						'sort_type'	=> $this->session->userdata['sort_by_store_location_name']
 					);
 				break;
 				case 'order_shipdate':
@@ -86,7 +86,7 @@ class Process extends MX_Controller {
 						$this->session->set_userdata('sort_by_order_shipdate','desc');
 					}
 					$this->session->set_userdata('sort_by_order_id','');
-					$this->session->set_userdata('sort_by_store_number','');
+					$this->session->set_userdata('sort_by_store_location_name','');
 					$order_by = array(
 						'field'		=> 'order_shipdate',
 						'sort_type'	=> $this->session->userdata['sort_by_order_shipdate']
@@ -95,7 +95,7 @@ class Process extends MX_Controller {
 			}
 		} else {
 			setSessionVariable(false, 'sort_by_order_id', 'desc');
-			setSessionVariable(false, 'sort_by_store_number', '');
+			setSessionVariable(false, 'sort_by_store_location_name', '');
 			setSessionVariable(false, 'sort_by_order_shipdate', '');
 			$order_by = array(
 				'field'		=> 'order_id',
@@ -132,7 +132,7 @@ class Process extends MX_Controller {
 		$s_to_date		= setSessionVariable($s_to_date, 'filter_processing_shipped_to_date', '');
 		
 		$search_order_id 	 = setSessionVariable($this->input->post('search_order_id'), 'search_order_id', '');		
-		$search_store_number = setSessionVariable($this->input->post('search_store_number'), 'search_store_number', '');
+		$search_store_location_name = setSessionVariable($this->input->post('search_store_location_name'), 'search_store_location_name', '');
 				
 		$filter = array(
 			'from_date'		=> $from_date,
@@ -143,7 +143,7 @@ class Process extends MX_Controller {
 			'perpage'   	=> $perpage,
 			'order_by'		=> $order_by,
 			'order_id'		=> $search_order_id,
-			'store_number'	=> $search_store_number,
+			'store_location_name'	=> $search_store_location_name,
 			'order_status'	=> 2
 		);
 		
@@ -175,9 +175,9 @@ class Process extends MX_Controller {
 		$data['s_from_date']		= $s_from_date;
 		$data['s_to_date']			= $s_to_date;
 		$data['search_order_id']	= $this->session->userdata['search_order_id'];
-		$data['search_store_number']= $this->session->userdata['search_store_number'];		
+		$data['store_location_name']= $this->session->userdata['search_store_location_name'];		
 		$data['sort_order_id']		= $this->session->userdata['sort_by_order_id'];
-		$data['sort_unit']			= $this->session->userdata['sort_by_store_number'];		
+		$data['sort_store_location_name'] = $this->session->userdata['sort_by_store_location_name'];		
 		$data['order_shipdate']		= $this->session->userdata['sort_by_order_shipdate'];
 		$data['pagination'] 		= $pagination;
 		$data['role'] 				= $this->session->userdata['role'];		

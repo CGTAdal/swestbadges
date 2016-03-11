@@ -19,8 +19,8 @@ class Store extends MX_Controller {
 	}
 	
 	function liststores(){
-		$search_store_unit_number	= setSessionVariable($this->input->post('search_store_unit_number'), 'search_store_unit_number', '');		
-		$search_store_type			= setSessionVariable($this->input->post('search_store_type'), 'search_store_type', 'all');
+		$store_location_name	= setSessionVariable($this->input->post('store_location_name'), 'store_location_name', '');		
+		// $search_store_type			= setSessionVariable($this->input->post('search_store_type'), 'search_store_type', 'all');
 		$search_assigned_store		= setSessionVariable($this->input->post('search_assigned_store'), 'search_store_assigned', '');
 		$perpage					= setSessionVariable($this->input->post('perpage'), 'store_on_per_page', 12);
 		$offset						= ($this->uri->segment(4)=='')?0:$this->uri->segment(4);
@@ -28,8 +28,8 @@ class Store extends MX_Controller {
 		$filter = array(		
 			'offset'    	=> $offset,
 			'perpage'   	=> $perpage,
-			'store_number' 	=> $search_store_unit_number,
-			'store_role'	=> $search_store_type,
+			'store_location_name' 	=> $store_location_name,
+			// 'store_role'	=> $search_store_type,
 			'store_assigned'=> $search_assigned_store
 		);
 
@@ -62,8 +62,8 @@ class Store extends MX_Controller {
 		#$store_list = $this->store_model->getStoreList($filter);
 		
 		$data['stores'] 					= $stores;
-		$data['search_store_unit_number'] 	= $this->session->userdata['search_store_unit_number'];
-		$data['search_store_type'] 			= $this->session->userdata['search_store_type'];
+		$data['store_location_name'] 		= $this->session->userdata['store_location_name'];
+		// $data['search_store_type'] 		= $this->session->userdata['search_store_type'];
 		$data['search_store_assigned']		= $this->session->userdata['search_store_assigned']; 
 		$data['pagination'] 				= $pagination;
 		$data['select_perpage'] 			= $this->session->userdata['store_on_per_page'];

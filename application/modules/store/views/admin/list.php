@@ -10,9 +10,10 @@
 	<div style="margin-bottom:10px">
 			<div class="portlet-content form">							
 				<div class="field">
-					<label>Unit # </label>
-					<input type="text" class="medium" size="12" name="fname" id="search_store_unit_number" value="<?php echo ($search_store_unit_number!="")?$search_store_unit_number:"";?>">
+					<label>Name </label>
+					<input type="text" class="medium" size="12" name="" id="store_location_name" value="<?php echo ($store_location_name!="")?$store_location_name:"";?>">
 				</div>
+				<?php /*?>
 				<div class="field">
 					<label>Type </label>
 					<select name="" id="search_store_type">
@@ -22,6 +23,7 @@
 						<option value="3" <?php echo ($search_store_type=="3")?"selected":"";?>>Franchise</option>
 					</select>
 				</div>
+				<?php */?>
 				<?php if(count($market_directors) > 0) {?>
 					<div class="field">
 						<label>Assigned to</label>
@@ -67,11 +69,11 @@
 		<table cellpadding="0" cellspacing="0" align="center">
 			<thead>
 				<tr>
-					<th>Type</th>
-					<th >Unit #</th>
-					<th >Express Account #</th>
+					<!-- <th>Type</th> -->
+					<th >Name</th>
+					<!-- <th >Express Account #</th>
 					<th >Ground Account #</th>
-					<th >Location name</th>
+					<th >Location name</th> -->
 					<th >Address</th>
 					<th >City</th>
 					<th >State</th>
@@ -85,6 +87,7 @@
 			<?php if(count($stores)>0){?>	
 				<?php foreach($stores as $store){?>	
 					<tr>
+						<?php /*?>
 						<td>
 							<?php 
 								switch ($store->store_role) {
@@ -95,12 +98,16 @@
 									case '3': echo 'Franchise';
 								}
 							?>
-						<td >
-							<a href="<?php echo base_url();?>admin/store/detail/<?php echo $store->store_id;?>"><?php echo $store->store_number;?></a>
 						</td>
+						<td>
+							<a href="<?php echo base_url();?>admin/store/detail/<?php echo $store->store_id;?>"><?php echo $store->store_number;?></a>
+						</td> <?php */?>
+						<td><?php echo $store->store_location_name;?></td>
+						<?php /*?>
 						<td ><?php echo $store->store_express;?></td>
 						<td ><?php echo $store->store_ground;?></td>
-						<td><?php echo $store->store_location_name;?></td>
+						<td><?php //echo $store->store_location_name;?></td> 
+						<?php */?>
 						<td style="width:76px"><?php echo $store->store_address;?></td>
 						<td ><?php echo $store->store_city;?></td>
 						<td ><?php echo $store->store_state;?></td>
@@ -148,13 +155,14 @@ $(document).ready(function(){
 		var input_search_store_type 	= "<input type='hidden' name='search_store_type' value='"+search_store_type+"'/>";
 		var search_assigned_store		= $('#search_assigned_to').val();
 		var input_search_assigned_store	= "<input type='hidden' name='search_assigned_store' value='"+search_assigned_store+"'/>";
+		var store_location_name		= $('#store_location_name').val();
+		var input_store_location_name	= "<input type='hidden' name='store_location_name' value='"+store_location_name+"'/>";
 		//var search_director_of_store	= ('').val();
-		
-		
 			
 		$('#list_stores_form').append(input_search_store_number);
 		$('#list_stores_form').append(input_search_store_type);
 		$('#list_stores_form').append(input_search_assigned_store);
+		$('#list_stores_form').append(input_store_location_name);
 		$('#list_stores_form').submit();		
 	});
 	$('.select_perpage_list_store').bind('change', function(event){
