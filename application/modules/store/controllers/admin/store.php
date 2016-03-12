@@ -19,8 +19,8 @@ class Store extends MX_Controller {
 	}
 	
 	function liststores(){
-		$search_store_unit_number	= setSessionVariable($this->input->post('search_store_unit_number'), 'search_store_unit_number', '');		
-		$search_store_type			= setSessionVariable($this->input->post('search_store_type'), 'search_store_type', 'all');
+		$store_location_name	= setSessionVariable($this->input->post('store_location_name'), 'store_location_name', '');		
+		// $search_store_type			= setSessionVariable($this->input->post('search_store_type'), 'search_store_type', 'all');
 		$search_assigned_store		= setSessionVariable($this->input->post('search_assigned_store'), 'search_store_assigned', '');
 		$perpage					= setSessionVariable($this->input->post('perpage'), 'store_on_per_page', 12);
 		$offset						= ($this->uri->segment(4)=='')?0:$this->uri->segment(4);
@@ -28,8 +28,8 @@ class Store extends MX_Controller {
 		$filter = array(		
 			'offset'    	=> $offset,
 			'perpage'   	=> $perpage,
-			'store_number' 	=> $search_store_unit_number,
-			'store_role'	=> $search_store_type,
+			'store_location_name' 	=> $store_location_name,
+			// 'store_role'	=> $search_store_type,
 			'store_assigned'=> $search_assigned_store
 		);
 
@@ -62,8 +62,8 @@ class Store extends MX_Controller {
 		#$store_list = $this->store_model->getStoreList($filter);
 		
 		$data['stores'] 					= $stores;
-		$data['search_store_unit_number'] 	= $this->session->userdata['search_store_unit_number'];
-		$data['search_store_type'] 			= $this->session->userdata['search_store_type'];
+		$data['store_location_name'] 		= $this->session->userdata['store_location_name'];
+		// $data['search_store_type'] 		= $this->session->userdata['search_store_type'];
 		$data['search_store_assigned']		= $this->session->userdata['search_store_assigned']; 
 		$data['pagination'] 				= $pagination;
 		$data['select_perpage'] 			= $this->session->userdata['store_on_per_page'];
@@ -159,7 +159,29 @@ class Store extends MX_Controller {
 		if($this->input->post('submit')){
 			$submit	= $this->input->post('submit');
 			$data	= array();		
-			$data['store_express'] 		= $this->input->post('store_express');
+			$data['store_location_name']= $this->input->post('store_location_name');		
+			$data['store_email'] 		= $this->input->post('store_email');
+			// $data['store_password']		= ($this->input->post('store_password')) ? md5(trim($this->input->post('store_password'))) : '';
+			if($this->input->post('store_password')) {
+				$data['store_password']		= ($this->input->post('store_password')) ? md5(trim($this->input->post('store_password'))) : '';
+			}
+			$data['store_phone'] 		= $this->input->post('store_phone');			
+
+			$data['store_address'] 		= $this->input->post('store_address');
+			$data['store_address_2'] 	= $this->input->post('store_address_2');
+			$data['store_city'] 		= $this->input->post('store_city');
+			$data['store_state']		= $this->input->post('store_state');
+			$data['store_zip'] 			= $this->input->post('store_zip');
+
+			$data['store_employee']		= $this->input->post('employee');
+			$data['store_mailcode']		= $this->input->post('mailcode');
+			$data['store_location_title']	= $this->input->post('store_location_title');
+			// $data['store_role']			= (int)$this->input->post('store_role');
+			if($this->input->post('store_role')==1) {
+				$data['store_role']			= (int)$this->input->post('store_role');
+			}
+
+			/*$data['store_express'] 		= $this->input->post('store_express');
 			$data['store_ground'] 		= $this->input->post('store_ground');
 			$data['store_location_name']= $this->input->post('store_location_name');		
 			$data['store_address'] 		= $this->input->post('store_address');
@@ -176,7 +198,7 @@ class Store extends MX_Controller {
 			
 			if($this->input->post('store_role')==1) {
 				$data['store_assigned']	= (string)$this->input->post('assigned_to');
-			}
+			}*/
 			$this->store_model->saveItem('stores',array('field'=>'store_id','id'=>$store_id),$data);
 			
 			if($submit == "Save"){
@@ -204,12 +226,32 @@ class Store extends MX_Controller {
 	function add(){
 		if($this->input->post()){
 			$this->load->library('form_validation');
-			$this->form_validation->set_rules('store_number', 'Unit #');			
+			// $this->form_validation->set_rules('store_number', 'Unit #');			
 			$this->form_validation->set_rules('store_phone', 'Phone');
 			$this->form_validation->set_rules('store_email', 'Email');
 			if($this->form_validation->run()) {
 				$data = array();		
-				$data['store_express'] 		= (int)$this->input->post('store_express');
+				$data['store_location_name']= $this->input->post('store_location_name');		
+				$data['store_email'] 		= $this->input->post('store_email');
+				$data['store_password']		= ($this->input->post('store_password')) ? md5(trim($this->input->post('store_password'))) : '';
+				$data['store_phone'] 		= $this->input->post('store_phone');			
+
+				$data['store_address'] 		= $this->input->post('store_address');
+				$data['store_address_2'] 	= $this->input->post('store_address_2');
+				$data['store_city'] 		= $this->input->post('store_city');
+				$data['store_state']		= $this->input->post('store_state');
+				$data['store_zip'] 			= $this->input->post('store_zip');
+				// $data['store_contact'] 		= $this->input->post('store_contact');
+				// $data['store_number'] 		= $this->input->post('store_number');
+
+				$data['store_employee']		= $this->input->post('employee');
+				$data['store_mailcode']		= $this->input->post('mailcode');
+				$data['store_location_title']	= $this->input->post('store_location_title');
+
+				$data['store_role']			= (int)$this->input->post('store_role');
+
+				// OLD FIELDS
+				/*$data['store_express'] 		= (int)$this->input->post('store_express');
 				$data['store_ground'] 		= (int)$this->input->post('store_ground');
 				$data['store_location_name']= $this->input->post('store_location_name');		
 				$data['store_address'] 		= $this->input->post('store_address');
@@ -223,7 +265,28 @@ class Store extends MX_Controller {
 				$data['store_number'] 		= $this->input->post('store_number');
 				$data['store_role']			= (int)$this->input->post('store_role');
 				$data['store_password']		= ($this->input->post('store_password')) ? md5(trim($this->input->post('store_password'))) : '';
-				
+
+				$data['store_employee']		= $this->input->post('employee');
+				$data['store_mailcode']		= $this->input->post('mailcode');
+				$data['store_location_title']	= $this->input->post('location_title');*/
+
+				// -------------------------------------
+				/*$data['store_location_name']= $this->input->post('name');		
+				$data['store_address'] 		= $this->input->post('mailing_address');
+				$data['store_address_2'] 	= $this->input->post('line2');
+				$data['store_city'] 		= $this->input->post('city');
+				$data['store_state']		= $this->input->post('state');
+				$data['store_zip'] 			= $this->input->post('zip');
+				$data['store_phone'] 		= $this->input->post('phone');			
+				$data['store_email'] 		= $this->input->post('email');
+				$data['store_number'] 		= $this->input->post('number');
+				$data['store_role']			= 3;
+				$data['store_password']		= ($this->input->post('password')) ? md5(trim($this->input->post('password'))) : '';
+
+				$data['store_employee']		= $this->input->post('employee');
+				$data['store_mailcode']		= $this->input->post('mailcode');
+				$data['store_location_title']	= $this->input->post('location_title');*/
+
 				$this->store_model->saveItem('stores',array('id'=>0),$data);					
 				redirect('admin/store/liststores');
 			}

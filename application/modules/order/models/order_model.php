@@ -2,7 +2,7 @@
 class Order_Model extends General_Model {
 
 	function getOrderList($filter=array()) {
-		$this->db->select('orders.*, stores.store_id as store_id, stores.store_number as store_number,stores.store_state as store_state, stores.store_role as store_type, stores2.store_id as director_id, stores2.store_number as director_number');
+		$this->db->select('orders.*, stores.store_id as store_id, stores.store_number as store_number,stores.store_location_name as store_location_name,stores.store_state as store_state, stores.store_role as store_type, stores2.store_id as director_id, stores2.store_number as director_number');
 		$this->db->from('orders as orders');
 		$this->db->join('stores as stores','stores.store_id = orders.store_id');
 		$this->db->join('stores as stores2','stores2.store_id = stores.store_assigned','left');
@@ -30,6 +30,9 @@ class Order_Model extends General_Model {
 		}
 		if(isset($filter['store_number']) && $filter['store_number']!="") {
 			$this->db->like('stores.store_number',$filter['store_number']);			
+		}
+		if(isset($filter['store_location_name']) && $filter['store_location_name']!="") {
+			$this->db->like('stores.store_location_name',$filter['store_location_name']);			
 		}
 		if(isset($filter['store_type']) && $filter['store_type']!="") {
 			if($filter['store_type']==3) {
@@ -92,6 +95,9 @@ class Order_Model extends General_Model {
 		}
 		if(isset($filter['store_number']) && $filter['store_number']!="") {
 			$this->db->like('stores.store_number',$filter['store_number']);			
+		}
+		if(isset($filter['store_location_name']) && $filter['store_location_name']!="") {
+			$this->db->like('stores.store_location_name',$filter['store_location_name']);			
 		}
 		if(isset($filter['store_type']) && $filter['store_type']!="") {
 			if($filter['store_type']==3) {

@@ -62,9 +62,9 @@ class Order extends MX_Controller {
 			'perpage'  	 	=> $perpage,
 			'order_by'		=> $order_by,
 			'order_id'		=> $search_order_id,
-			'store_number'	=> $search_store_number,
+			// 'store_number'	=> $search_store_number,
 			'order_total'	=> $search_order_total,
-			'store_type'	=> $search_store_type
+			// 'store_type'	=> $search_store_type
 		);
 		
 		$orders = $this->order_model->getOrderList($filter);
@@ -218,11 +218,11 @@ class Order extends MX_Controller {
 		// filter by order_id 
 		$search_order_id = setSessionVariable($this->input->post('search_order_id'), 'search_order_id', '');
 		// filter by store number		
-		$search_store_number = setSessionVariable($this->input->post('search_store_number'), 'search_store_number', '');
+		// $search_store_number = setSessionVariable($this->input->post('search_store_number'), 'search_store_number', '');
 		// filter by order total
 		$search_order_total = setSessionVariable($this->input->post('search_order_total'), 'search_order_total', '');
 		// filter by store type
-		$search_store_type	= setSessionVariable($this->input->post('search_store_type'), 'search_orders_by_store_type', '');
+		// $search_store_type	= setSessionVariable($this->input->post('search_store_type'), 'search_orders_by_store_type', '');
 				
 		$filter = array(
 			'from_date'		=> $from_date,
@@ -233,9 +233,9 @@ class Order extends MX_Controller {
 			'perpage'   	=> $perpage,
 			'order_by'		=> $order_by,
 			'order_id'		=> $search_order_id,
-			'store_number'	=> $search_store_number,
+			// 'store_number'	=> $search_store_number,
 			'order_total'	=> $search_order_total,
-			'store_type'	=> $search_store_type
+			// 'store_type'	=> $search_store_type
 		);
 		#Create pagintaion
 		$order_total = $this->order_model->getOrderTotal($filter);
@@ -267,12 +267,12 @@ class Order extends MX_Controller {
 		$data['s_from_date']		= $s_from_date;
 		$data['s_to_date']			= $s_to_date;
 		$data['search_order_id']	= $this->session->userdata['search_order_id'];
-		$data['search_store_number']= $this->session->userdata['search_store_number'];
+		// $data['search_store_number']= $this->session->userdata['search_store_number'];
 		$data['search_order_total']	= $this->session->userdata['search_order_total'];
 		$data['sort_order_id']		= $this->session->userdata['sort_by_order_id'];
 		$data['sort_unit']			= $this->session->userdata['sort_by_store_number'];
 		$data['sort_cost']			= $this->session->userdata['sort_by_cost'];
-		$data['search_store_type']	= $this->session->userdata['search_orders_by_store_type'];
+		// $data['search_store_type']	= $this->session->userdata['search_orders_by_store_type'];
 		$data['pagination'] 		= $pagination;
 		$data['select_perpage'] 	= $this->session->userdata['order_on_per_page']; 
 		$data['role'] 				= $this->session->userdata['role'];

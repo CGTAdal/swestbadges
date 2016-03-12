@@ -36,8 +36,8 @@
 					<input type="text" class="medium" size="12" name="fname" id="search_order_id" value="<?php echo ($search_order_id!="")?$search_order_id:"";?>">
 				</div>
 				<div class="field">
-					<label>Unit #</label>
-					<input type="text" class="medium" size="12" name="fname" id="search_store_number" value="<?php echo ($search_store_number!="")?$search_store_number:"";?>">
+					<label>Name</label>
+					<input type="text" class="medium" size="12" name="fname" id="store_location_name" value="<?php echo ($store_location_name!="")?$store_location_name:"";?>">
 				</div>
 				<div class="buttonrow">
 					<input type="button" value="filter" id="submit_orer_list" class="btn btn-small" >
@@ -49,13 +49,13 @@
 				<tr>
 					<th id ="test">Order Date</th>
 					<th class="sortable <?php echo ($sort_order_id!="")?"sorting_".$sort_order_id:"sorting";?>" value="order_id">Order #</th>
-					<th class="sortable <?php echo ($sort_unit!="")?"sorting_".$sort_unit:"sorting";?>" value="store_number">Unit #</th>
+					<th class="sortable <?php echo ($sort_store_location_name!="")?"sorting_".$sort_store_location_name:"sorting";?>" value="store_location_name">Name</th>
 					<th class="sortable <?php echo ($order_shipdate!="")?"sorting_".$order_shipdate:"sorting";?>" value="order_shipdate">Ship Date</th>
-					<th>Item</th>
+					<!-- <th>Item</th>
 					<th>Badge Quantity</th>
 					<th>Tenured Quantity</th>
 					<th>5-Pack Magnets</th>
-					<th>5-Pack Pins</th>
+					<th>5-Pack Pins</th> -->
 					<th style="text-align:right">Processed By</th>
 				</tr>
 			</thead>
@@ -69,11 +69,12 @@
 							<a href="<?php echo base_url();?>admin/process/detail/<?php echo $order->order_id;?>"><?php echo str_pad($order->order_id,6,'0',STR_PAD_LEFT);?></a>							
 						</td>
 						<td>
-							<?php echo $order->store_number;?>
+							<?php echo $order->store_location_name;?>
 						</td>
 						<td>
 							<?php echo ($order->order_shipdate==0)?'pending':date('m/d/Y',$order->order_shipdate);?>
 						</td>
+						<?php /*?> 
 						<td>Name Badges</td>
 						<td>
 							<?php echo $order->order_total;?>
@@ -87,6 +88,7 @@
 						<td>
 							<?php echo $order->order_pf_qty?>
 						</td>
+						<?php */?> 
 						<td align="right">
 							<?php echo $order->order_process;?>
 						</td>
@@ -122,17 +124,17 @@ $(document).ready(function(){
 		var s_from_date		= $('#shipped_from_date').val();
 		var s_to_date		= $('#shipped_to_date').val();
 		var search_order_id 			= $('#search_order_id').val();
-		var search_store_number 		= $('#search_store_number').val();
+		var store_location_name 		= $('#store_location_name').val();
 		var search_order_total 			= $('#search_order_total').val();		
 		var input_search_order_id 		= "<input type='hidden' name='search_order_id' value='"+search_order_id+"' />";	
-		var input_search_store_numberd	= "<input type='hidden' name='search_store_number' value='"+search_store_number+"' />";	
+		var input_store_location_name	= "<input type='hidden' name='search_store_location_name' value='"+store_location_name+"' />";	
 		var input_search_order_total	= "<input type='hidden' name='search_order_total' value='"+search_order_total+"' />";		
 		var input_from_date 			= "<input type='hidden' name='from_date' value='"+from_date+"' />";		
 		var input_to_date				= "<input type='hidden' name='to_date' value='"+to_date+"' />";
 		var input_s_from_date 			= "<input type='hidden' name='s_from_date' value='"+s_from_date+"' />";
 		var input_s_to_date 			= "<input type='hidden' name='s_to_date' value='"+s_to_date+"' />";
 		$('#list_orders_form').append(input_search_order_id);
-		$('#list_orders_form').append(input_search_store_numberd);
+		$('#list_orders_form').append(input_store_location_name);
 		$('#list_orders_form').append(input_search_order_total);	
 		$('#list_orders_form').append(input_from_date);
 		$('#list_orders_form').append(input_to_date);

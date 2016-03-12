@@ -7,6 +7,10 @@ class Store_Model extends General_Model {
 		if(isset($filter['store_number'])&&$filter['store_number']!=''){
 			$this->db->like('store_number',$filter['store_number']);
 		}
+		if(isset($filter['store_location_name'])&&$filter['store_location_name']!=''){
+			$this->db->like('store_location_name',$filter['store_location_name']);
+		}
+		
 		if(isset($filter['store_role'])&&$filter['store_role']!='all'){
 			$this->db->where('store_role',$filter['store_role']);
 		}
@@ -23,12 +27,16 @@ class Store_Model extends General_Model {
 		
 		$query	 = $this->db->get();
 		$results = $query->result();
+		// print_r($this->db->last_query());
 		
 		return $results;
 	}
 	function getStoreTotal($filter=array()){			
 		if(isset($filter['store_number'])&&$filter['store_number']!=''){
 			$this->db->like('store_number',$filter['store_number']);
+		}
+		if(isset($filter['store_location_name'])&&$filter['store_location_name']!=''){
+			$this->db->like('store_location_name',$filter['store_location_name']);
 		}
 		if(isset($filter['store_role'])&&$filter['store_role']!='all'){
 			$this->db->where('store_role',$filter['store_role']);
