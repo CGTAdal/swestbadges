@@ -63,7 +63,7 @@
 			</label>
 			<label class="hidden">
 				<span class="required">Please enter your Location and Title:</span>
-				<input type="text" name="location_title" id="location_title" class="validate[required]"/>
+				<input type="text" name="store_location_title" id="store_location_title" class="validate[required]"/>
 			</label>
 			<label><span>&nbsp;</span><input type="submit" name="submit" value="Submit" id=""/></label>
 		</div>
@@ -86,7 +86,6 @@
 	function checkMailCode(field, rules, i, options){
 		if (isMailCode) {
 	        rules.push('required'); 
-	        // return "* This field is required";
 	    }
 	}
 </script>

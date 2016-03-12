@@ -27,8 +27,7 @@ class Store_Model extends General_Model {
 		
 		$query	 = $this->db->get();
 		$results = $query->result();
-
-		print_r($this->db->last_query());
+		// print_r($this->db->last_query());
 		
 		return $results;
 	}

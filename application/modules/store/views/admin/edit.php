@@ -1,7 +1,8 @@
 <div style="min-height: 300px;" class="portlet x12">
 	<div class="portlet-header"><h4>Edit Account</h4></div>			
 		<div class="portlet-content" >		
-			<form class="form label-inline" id="form_store_edit" method="post" action="<?php echo base_url();?>admin/store/edit/<?echo $store->store_id; ?>">
+			<form class="form label-inline" id="form_store_edit" method="post" action="<?php echo base_url();?>admin/store/edit/<?php echo $store->store_id;?>">
+				<?php /*?>
 				<div class="field">
 					<label>Type </label> 
 					<b><?php echo ($store->store_role==1)?"Store":($store->store_role==2)?"Market Director":"Franchise";?></b>
@@ -17,48 +18,11 @@
 				<div class="field">
 					<label>Ground Account # </label> 
 					<input type="text" class="medium" size="50" name="store_ground" id="store_ground" value="<?php echo (isset($store->store_ground))?$store->store_ground:"";?>">
-				</div>	
-				<div class="field">
-					<label>Location name</label> 
-					<input type="text" class="medium" size="50" name="store_location_name" id="store_location_name" value="<?php echo (isset($store->store_location_name))?$store->store_location_name:"";?>">
-				</div>				
-				<div class="field">
-					<label class="required">Address 1</label> 
-					<input type="text" class="medium validate[required]" size="50" name="store_address" id="store_address" value="<?php echo (isset($store->store_address))?$store->store_address:"";?>">
 				</div>
+				<?php */?>	
 				<div class="field">
-					<label>Address 2</label> 
-					<input type="text" class="medium" size="50" name="store_address_2" id="store_address_2" value="<?php echo (isset($store->store_address_2))?$store->store_address_2:"";?>">
-				</div>
-				<div class="field">
-					<label  class="required">City </label> 
-					<input type="text" class="medium validate[required]" size="50" name="store_city" id="store_city" value="<?php echo (isset($store->store_city))?$store->store_city:"";?>">
-				</div>					
-				<div class="field">
-					<label  class="required">State </label> 
-					<input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php echo (isset($store->store_state))?$store->store_state:"";?>">
-				</div>
-				<div class="field">
-					<label  class="required">Zip </label> 
-					<input type="text" class="large validate[required]" size="50" name="store_zip" id="store_zip" value="<?php echo (isset($store->store_zip))?$store->store_zip:"";?>">
-				</div>				
-				<div class="field">
-					<label for="address2">Contact </label> 
-					<input type="text" class="large" size="50" name="store_contact" id="store_contact" value="<?php echo (isset($store->store_contact))?$store->store_contact:"";?>">
-				</div>				
-				<div class="field">
-					<label for="address2">Phone </label> 
-					<?php						 
-						$data = array(
-								'name'	=> "store_phone",
-								'id'	=> "store_phone",
-								'value'	=> (isset($store->store_phone))?$store->store_phone:"",
-								'class' => 'medium',
-								'size'	=> '50'
-							);
-						echo form_input($data);						
-						echo ($error_phone!="")?"<p>".$error_phone."</p>":"";
-					?>
+					<label class="required">Name</label> 
+					<input type="text" class="medium validate[required]" size="50" name="store_location_name" id="store_location_name" value="<?php echo (isset($store->store_location_name))?$store->store_location_name:"";?>">
 				</div>
 				<?php if($store->store_role != 1) {?>				
 					<div class="field">
@@ -75,8 +39,6 @@
 							echo ($error_email!="")?"<p>".$error_email."</p>":"";
 						?>
 					</div>
-				<?php }?>
-				<?php if($store->store_role != 1) {?>				
 					<div class="field">
 						<label>Password</label> 
 						<?php						 
@@ -90,6 +52,62 @@
 						?>
 					</div>
 				<?php }?>
+				<div class="field">
+					<label for="address2">Phone </label> 
+					<?php						 
+						$data = array(
+								'name'	=> "store_phone",
+								'id'	=> "store_phone",
+								'value'	=> (isset($store->store_phone))?$store->store_phone:"",
+								'class' => 'medium',
+								'size'	=> '50'
+							);
+						echo form_input($data);						
+						echo ($error_phone!="")?"<p>".$error_phone."</p>":"";
+					?>
+				</div>
+
+				<div class="field">
+					<label class="required">Mailing Address</label> 
+					<input type="text" class="medium validate[required]" size="50" name="store_address" id="store_address" value="<?php echo (isset($store->store_address))?$store->store_address:"";?>">
+				</div>
+				<div class="field">
+					<label>Address Line 2</label> 
+					<input type="text" class="medium" size="50" name="store_address_2" id="store_address_2" value="<?php echo (isset($store->store_address_2))?$store->store_address_2:"";?>">
+				</div>
+				<div class="field">
+					<label  class="required">City </label> 
+					<input type="text" class="medium validate[required]" size="50" name="store_city" id="store_city" value="<?php echo (isset($store->store_city))?$store->store_city:"";?>">
+				</div>					
+				<div class="field">
+					<label  class="required">State </label> 
+					<input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php echo (isset($store->store_state))?$store->store_state:"";?>">
+				</div>
+				<div class="field">
+					<label  class="required">Zip </label> 
+					<input type="text" class="large validate[required]" size="50" name="store_zip" id="store_zip" value="<?php echo (isset($store->store_zip))?$store->store_zip:"";?>">
+				</div>	
+				<?php /*?>
+				<div class="field">
+					<label for="address2">Contact </label> 
+					<input type="text" class="large" size="50" name="store_contact" id="store_contact" value="<?php echo (isset($store->store_contact))?$store->store_contact:"";?>">
+				</div>				
+				<?php */?>
+				<div class="field">
+					<label class="required">Employee #:</label>
+					<input type="text" name="employee" id="employee" size="50" class="validate[required] large" value="<?php echo (isset($store->store_employee))?$store->store_employee:"";?>" />
+				</div>
+				<div class="field">
+					<label class="required">Mailcode:</label>
+					<input type="text" name="mailcode" id="mailcode" size="50" class="<?php if($store->store_location_title=="") { echo 'validate[funcCall[checkMailCode]]]'; }?> large" value="<?php echo (isset($store->store_mailcode))?$store->store_mailcode:"";?>" />
+					<a class="mailcode-link" href="javascript:void(0);" onclick="showLocationField()">Don’t have a mailcode?</a>
+					
+				</div>
+				<div class="field <?php if($store->store_location_title=="") { echo 'hidden'; }?>">
+					<label class="required">Please enter your Location and Title:</label>
+					<input type="text" name="store_location_title" id="store_location_title" size="50" class="validate[required] large" value="<?php echo (isset($store->store_location_title))?$store->store_location_title:"";?>" />
+				</div>
+				<?php /*?>
 				<?php if($store->store_role==1) {?>
 					<div class="field">
 						<label>Assigned To</label>
@@ -101,6 +119,7 @@
 						</select>
 					</div>
 				<?php }?>
+				<?php */?>
 				<div class="field"><?php echo ($error_full!="")?"<p>".$error_full."</p>":"";?></div>
 				<input type="hidden" name="store_role" id="store_role" value="<?php echo (isset($store->store_role))?$store->store_role:"";?>">
 				<input type="hidden" name="store_id" id="store_id" value="<?php echo (isset($store->store_id))?$store->store_id:"";?>">
