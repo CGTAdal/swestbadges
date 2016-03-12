@@ -6,6 +6,7 @@
 					<span>First name <font style="color:red">only</font>:</span>
 					<input type="text" class="first_name" size="50" value="" name="first_name_<?php echo $number;?>" id="">				
 				</label>
+				<?php /*?>
 				<?php if(isset($license)) {?>
 					<label>
 						<span style="width:285px;margin:0px">License # (for required states only):</span>				
@@ -52,6 +53,7 @@
 					<div class="order-des">see restrictions / disclaimer below.</div>
 				</div>
 				-->
+				<?php */?>
 				<input type="hidden" id="style_<?php echo $number;?>" value="<?php echo $style;?>" />
 				<?php if(isset($title)) {?><input type="hidden" id="title_<?php echo $number;?>" value="<?php echo $title;?>" /><?php }?>
 			</div>

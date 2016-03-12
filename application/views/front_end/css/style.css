@@ -88,7 +88,7 @@ h3.title{font-size:18px; font-weight:normal;}
 .main .main-left-no-border{width:488px; margin:0 0 40px 24px; padding:0 66px 50px 0;}
 .main .main-right{width:330px; margin-right:24px; padding-bottom:50px;}
 
-.badgeStyle ul li{float:left; margin:0 3px 12px 0;}
+.badgeStyle ul li{float:left; margin:0 3px 12px 0; height: 130px;}
 .badgeStyle ul li .badgestyle-icon{display:block; width:222px; /*height:80px*/; margin-bottom:4px; cursor:pointer;}
 .badgeStyle ul li .badgestyle-icon.white-name{background:url(../images/white-name.png) no-repeat;}
 .badgeStyle ul li .badgestyle-icon.white-nametitle{background:url(../images/white-nametitle.png) no-repeat;}

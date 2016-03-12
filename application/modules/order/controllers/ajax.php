@@ -97,7 +97,16 @@ class Ajax extends MX_Controller {
 	
 	function addInputBox() {				
 		$current_input_boxes_number = $this->input->post('current_input_boxes_number');
-		$type = $this->input->post('type');		
+		$type = $this->input->post('type');	
+
+		$data	= array();
+		$data['number']	 = $current_input_boxes_number + 1;
+		$data['description']	= "";
+		$data['style']			= "";
+		$data['type']			= $type;
+		$this->load->view('order/form/additional_input_name_form',$data);
+
+		/*	
 		switch($type) {
 			case '1':
 				$data['number']	 = $current_input_boxes_number + 1;
@@ -180,10 +189,17 @@ class Ajax extends MX_Controller {
 				$this->load->view('order/form/additional_input_name_form',$data);
 				return;
 		}
+		*/
 	}
 	
 	function showNamesField() {
 		$type	= $this->input->post('type');		
+		$data	= array();
+		$data['description']	= "";
+		$data['style']			= "";
+		$data['type']			= $type;
+		$this->load->view('order/form/input_names_form',$data);
+		/*
 		switch ($type) {
 			case '1':
 				$data	= array();
@@ -287,7 +303,7 @@ class Ajax extends MX_Controller {
 				);
 				$this->load->view('order/form/input_names_form',$data);
 				break;
-		}
+		}*/
 	}
 	
 	function deleteApprovalBadge() {

@@ -11,7 +11,10 @@ class Payment {
     public $transaction_id;
 
     public function charge($paybilling) {
-        //print_r($paybilling);
+        if($_SERVER['SERVER_NAME']=='localhost'){
+            $this->transaction_id = rand(1000,9000);
+            return array('success'=>true);
+        }
         //TESTING ACCOUNT
         //get from account API settings these are not valid keys, key_id, gateway_id or password
         $key = 'za4FB6RtBhtNdr0GC2O1NrGO3VDmLXAU';

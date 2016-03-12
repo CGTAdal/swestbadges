@@ -424,6 +424,7 @@ class Order extends MX_Controller {
 		} else {
 			// get cart info
 			$cart	= $this->session->userdata['cart'];
+			// echo '<pre>'; print_r($cart); exit;
 			// count total amount
 			$total		= $this->session->userdata('cart_total') ? $this->session->userdata('cart_total') : 0;
 			// total tenured 

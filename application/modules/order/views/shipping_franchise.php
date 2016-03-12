@@ -26,14 +26,15 @@
 					<?php if($total_tenured>0) {?>
 						<div>Total Tenured Badges: <font id="total-badges-number"><?php echo ($total_tenured);?></font> x $6.25</div>
 					<?php }?>
-					<?php if($total_mf > 0) {?>
+					<?php /*if($total_mf > 0) {?>
 						<div id="total-magnetics">Total 5-Pack Magnets: <?php echo $total_mf.' x $6.25';?></div>
 					<?php }?>
 					<?php if($total_pf > 0) {?>
 						<div id="total-pins">Total 5-Pack Pins: <?php echo $total_pf.' x $3.5';?></div>
-					<?php }?>
+					<?php } */?>
 					<?php 
-						$tmp 	= explode('.',number_format($total_badges*10.00 + $total_tenured*6.25 + $total_mf*6.25 + $total_pf*3.5,2));
+						// $tmp 	= explode('.',number_format($total_badges*10.00 + $total_tenured*6.25 + $total_mf*6.25 + $total_pf*3.5,2));
+						$tmp 	= explode('.',number_format($total_badges*10.00,2));
 						$first 	= $tmp[0];
 						$last	= $tmp[1];
 						if($last > 0){

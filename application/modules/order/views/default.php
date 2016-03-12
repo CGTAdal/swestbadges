@@ -5,9 +5,9 @@
 			<h3 class="title">Select Badge Style </h3>
 			<ul class="ul-main fontGL" id="badgeStyle">
 				<?php foreach($items as $item) {?>
-					<?php if($item->item_minor_required && !$store_minor) continue;?>
-					<?php if($item->item_id==12 && $store_role==1) continue;?>
-					<li id="item_<?php echo $item->item_id;?>_<?php echo $item->item_type?>" class="items <?php //echo ($i==0)?'badgeStyleActive':'';?>">
+					<?php //if($item->item_minor_required && !$store_minor) continue;?>
+					<?php //if($item->item_id==12 && $store_role==1) continue;?>
+					<li id="item_<?php echo $item->item_id;?>_<?php echo $item->item_type?>" show-name="<?php echo $item->item_name_required?>" class="items <?php //echo ($i==0)?'badgeStyleActive':'';?>">
 						<a href="javascript:void(0)">
 							<span class="badgestyle-icon ">
 								<img src="<?php echo base_url().$item->item_img;?>" />
@@ -16,17 +16,18 @@
 						</a>
 					</li>
 				<?php }?>
-				<?php if($store_minor) {?>
+				<?php /*if($store_minor) {?>
 					<li>
 						<div style="font-size:13px;color:#888;margin-top:3px;margin-bottom:5px">
 							Certain states require minors under the age of 18 years of age to wear a blue badge
 						</div>
 					</li>
-				<?php }?>
+				<?php }*/?>
 			</ul>
 			<input type="hidden" id="selected_item_id" value="<?php echo $items[0]->item_id;?>"/>
 			<input type="hidden" id="selected_item_type" value="<?php echo $items[0]->item_type;?>" />
 		</div>
+		<?php /*?>
 		<div class="qty-top">
         	<a href="javascript: void(0);" class="qty-click" id="select-extras-link">Click Here To Order Additional Fasteners</a> <img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" width="60" /> <img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" />
         </div>
@@ -47,6 +48,7 @@
             <div class="clb">&nbsp;</div>
             <div class="txtC mb-15"><input type="button" id="add_fasteners" value="Add Fasteners to Order"></div>
         </div>
+        <?php */?>
 		<div id="enter-names-field">
 		</div>
 	</div>
@@ -139,13 +141,18 @@
 			item 		= item.split('_');
 			var id		= item[1];
 			var type 	= item[2];
-			$.post(
-				"<?php echo base_url();?>order/ajax/showNamesField",
-				{type: type},
-				function(data) {
-					$("#enter-names-field").html(data);
-				}		
-			);
+
+			if($(this).attr('show-name')>=1){
+				$.post(
+					"<?php echo base_url();?>order/ajax/showNamesField",
+					{type: type},
+					function(data) {
+						$("#enter-names-field").html(data);
+					}		
+				);
+			}else{
+				$("#enter-names-field").html('');
+			}
 			return;
 		})
 
@@ -184,11 +191,12 @@
 					if(service_year!=undefined) {
 						new_value		+= '<p><strong>Years Of Service:</strong><span class="badge_service_year">'+service_year+' years</span></p></div>';
 					}
+					new_value		+= '<p style="display:nonw"><span class="badge_id">'+item_id+'</span></p>';
 					$('#popup_values').append(new_value);
 
 					if(style=='optical' && license!="") {
 						k++;
-					}			
+					}
 				}
 				
 				if(name == ''){
@@ -210,7 +218,8 @@
 			}
 						
 		});
-		
+
+		/*
 		$('#add_generic_names').live('click',function(){
 			var count_magnetic 	= 0;
 			var count_pin		= 0;
@@ -304,6 +313,7 @@
 				alert('Please enter numeric value');
 			}
 		});
+		*/
 		
 		$("#proceed").live('click',function(){
 			var order_style 		= new Array();
@@ -338,6 +348,7 @@
 					order_service_year.push(parseInt(service_year));
 				}
 			});
+
 			$.post(
 				"<?php echo base_url();?>order/ajax/addBadgesToCart",
 				{styles:order_style, names: order_name,titles: order_title, licenses: order_license, fasteners: order_fastener, spk_spanish: order_spk_spanish, service_year: order_service_year},
