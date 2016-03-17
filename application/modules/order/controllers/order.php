@@ -256,8 +256,14 @@ class Order extends MX_Controller {
 		$attributes['where']	= "store_id = ".(int)$account->store_id;
 		$attributes['order_by']	= array('order_id','DESC');
 		$orders	= $this->order_model->getItemList('orders',$attributes);	
-		
+		$this->db->select('item_id, item_name, item_price');
+		$items_query = $this->db->get_where('items',array('item_status' => 1));
+		$items = $items_query->result_array();
+
+		//echo '<pre>'; print_r($items); exit;
+
 		$data['orders']		= $orders;
+		$data['items']		= $items;
 		$data['content']	= 'list';
 		$this->load->view('front_end/index',$data);
 	}
@@ -276,6 +282,7 @@ class Order extends MX_Controller {
 	
 	function select() {
 		//echo strlen(md5(trim(addslashes('jcpbadgeS123')));
+		//echo ' <pre>';print_r($this->session->userdata); echo '</pre>';
 		$store	= $this->session->userdata['store'];
 		$items	= $this->order_model->getItemList('items',array('where'=>'item_status = 1','order_by'=>array('item_order','asc')));
 		$cart	= (isset($this->session->userdata['cart']))?$this->session->userdata['cart']:array();
@@ -296,20 +303,24 @@ class Order extends MX_Controller {
 			'specialist'	=> 'specialist'
 		);
 		
+		/*
+		//commented by sunny on 17-march-2016
 		$mf_qty = (isset($cart['order_mf_qty']) && $cart['order_mf_qty'] > 0 ) ? $cart['order_mf_qty'] : 0;
-		$pf_qty = (isset($cart['order_pf_qty']) && $cart['order_pf_qty'] > 0 ) ? $cart['order_pf_qty'] : 0;
+		$pf_qty = (isset($cart['order_pf_qty']) && $cart['order_pf_qty'] > 0 ) ? $cart['order_pf_qty'] : 0;*/
+		$extra_item_count = ( isset($cart['extras']) && count($cart['extras']) > 0 ) ? count($cart['extras']) : 0;
 		
-		$data['store_number']	= $store->store_number;
-		$data['store_minor']	= $store->store_minor;
-		$data['store_role']		= $store->store_role;
-		$data['store_aor']		= '007900';
-		$data['items']			= $items;
-		$data['cart']			= $cart;
-		$data['mf_qty']			= $mf_qty;
-		$data['pf_qty']			= $pf_qty;
-		$data['titles']			= $titles;
-		$data['new_options']	= $new_options;
-		$data['content'] 		= 'default';
+		$data['store_number']		= $store->store_number;
+		$data['store_minor']		= $store->store_minor;
+		$data['store_role']			= $store->store_role;
+		$data['store_aor']			= '007900';
+		$data['items']			    = $items;
+		$data['cart']			    = $cart;
+		/*$data['mf_qty']			= $mf_qty; //commented by sunny on 17-march-2016
+		$data['pf_qty']			= $pf_qty;*/
+		$data['extra_item_count']	= $extra_item_count;
+		$data['titles']				= $titles;
+		$data['new_options']		= $new_options;
+		$data['content'] 			= 'default';
 		$this->load->view('front_end/index',$data);
 	}
 	
@@ -330,16 +341,20 @@ class Order extends MX_Controller {
 			}
 			$cart = $this->session->userdata['cart'];
 			
-			$mf_qty = (isset($cart['order_mf_qty']) && $cart['order_mf_qty'] > 0 ) ? $cart['order_mf_qty'] : 0;
-			$pf_qty = (isset($cart['order_pf_qty']) && $cart['order_pf_qty'] > 0 ) ? $cart['order_pf_qty'] : 0;
+			$mf_qty 		   = (isset($cart['order_mf_qty']) && $cart['order_mf_qty'] > 0 ) ? $cart['order_mf_qty'] : 0;
+			$pf_qty 		   = (isset($cart['order_pf_qty']) && $cart['order_pf_qty'] > 0 ) ? $cart['order_pf_qty'] : 0;
+			$extra_item_count = ( isset($cart['extras']) && count($cart['extras']) > 0 ) ? count($cart['extras']) : 0;
 			
 			$badges = (isset($cart['badges']) && count($cart['badges']) > 0 )? $cart['badges'] : 0;
+			$extras = (isset($cart['extras']) && count($cart['extras']) > 0 )? $cart['extras'] : 0;
 			
 			$data['remove_cart'] 	= $order_uri;
 			$data['cart'] 			= $cart;
 			$data['badges']			= $badges;
+			$data['extras']			= $extras;
 			$data['mf_qty']			= $mf_qty;
 			$data['pf_qty']			= $pf_qty;
+			$data['extra_item_count']			= $extra_item_count;
 		}
 		
 		if($order_uri == 'detail' || $order_uri == 'approvaldetail')
@@ -358,6 +373,7 @@ class Order extends MX_Controller {
 		$this->load->view('order/detailBox',$data);
 	}
 	function shipping() { 
+		//echo ' <pre>';print_r($this->session->userdata); echo '</pre>';
 		if(!isset($this->session->userdata['cart'])) {
 			redirect('order/select');
 		}		
@@ -431,6 +447,7 @@ class Order extends MX_Controller {
 			
 			$total_mf	= (isset($cart['order_mf_qty']))?$cart['order_mf_qty']:0;
 			$total_pf	= (isset($cart['order_pf_qty']))?$cart['order_pf_qty']:0;			
+			
 			if($this->input->post('submit')) {
 				if(!isset($this->session->userdata['cart'])) { // if cart is empty
 					redirect('order/select');
@@ -562,9 +579,11 @@ class Order extends MX_Controller {
 			// get cart info
 			$cart 	= $this->session->userdata['cart'];
 			$badges	= isset($cart['badges'])?$cart['badges']:null;
+			$extras	= isset($cart['extras'])?$cart['extras']:null;
 			
 			$data['store']			= $account;
 			$data['badges']			= $badges;
+			$data['extras']			= $extras;
 			$data['total_badges']	= $total_badges;
 			$data['total_tenured']	= $total_tenured;			
 			$data['total_mf']		= $total_mf;

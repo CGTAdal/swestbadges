@@ -10,12 +10,15 @@ class Ajax extends MX_Controller {
 		if(isset($this->session->userdata['cart'])) {
 			$cart 	= $this->session->userdata['cart'];
 			$badges	= (isset($cart['badges']))?$cart['badges']:array();
+			$total_cost = (isset($this->session->userdata['badges_total_cost'])) ?  $this->session->userdata['badges_total_cost'] : 0;
 		} else {
 			$cart 	= array();
 			$badges	= array();
+			$total_cost = 0;
 		}
 		
 		$styles			= $this->input->post('styles');
+		$prices			= $this->input->post('prices');
 		$names			= $this->input->post('names');
 		$titles			= $this->input->post('titles');
 		$licenses		= $this->input->post('licenses');
@@ -30,7 +33,11 @@ class Ajax extends MX_Controller {
 			$temp_item = array();
 			$temp_item['style']			= $style;
 			$temp_item['name']			= $names[$key];
-			$temp_item['fastener']		= $fasteners[$key];
+			$temp_item['price']			= $prices[$key];
+			$total_cost = $total_cost + $prices[$key];
+			if(isset($fasteners[$key])){
+				$temp_item['fastener']	= $fasteners[$key];
+			}
 			if($titles) {
 				$temp_item['title']		= $titles[$key];
 			}
@@ -53,7 +60,8 @@ class Ajax extends MX_Controller {
 		
 		$cart['badges']	= $badges;
 		$this->session->set_userdata('cart',$cart);
-				
+		$this->session->set_userdata('badges_total_cost',$total_cost);
+		
 		if(!isset($this->session->userdata['cart_total'])) {
 			$cart_total = $total;
 		} else {
@@ -75,6 +83,59 @@ class Ajax extends MX_Controller {
 	}
 	
 	function addExtrasToCart() {
+		//echo '<pre>'; print_r($this->input->post()); exit;
+		if(isset($this->session->userdata['cart'])) {
+			$cart 		= $this->session->userdata['cart'];
+		} else {
+			$cart 		= array();
+		}
+		$total_cost = 0;
+		$extras	= array();
+
+		$extra_qty_array = $this->input->post('extra_qty');
+		$extra_id_array = $this->input->post('extra_id');
+		$extra_price_array = $this->input->post('extra_price');
+
+		$this->db->select('item_id, item_name, item_price');
+		$items_query = $this->db->get_where('items',array('item_status' => 1));
+		$items = $items_query->result_array();
+		
+		//echo '<pre>'; print_r(array_search(1, array_column($items, 'item_id'))); exit;
+
+		if(is_array($extra_qty_array) && count($extra_qty_array) > 0 && array_sum($extra_qty_array) > 0){
+			foreach ($extra_id_array as $key => $extra_item_id) {
+				$temp_item = array();
+				if($extra_item_id !='' && !in_array($extra_item_id, array(-1,0))){
+					
+					$db_item_key = array_search($extra_item_id, array_column($items, 'item_id'));
+					
+					$temp_item['item_id']     = $extra_item_id;
+					$temp_item['item_name']   = (!empty($db_item_key) && isset($items[$db_item_key]['item_name'])) ? $items[$db_item_key]['item_name'] : 'Product #';
+					$temp_item['item_price']  = (!empty($db_item_key) && isset($items[$db_item_key]['item_price'])) ? $items[$db_item_key]['item_price'] : $extra_price_array[$key];
+					$temp_item['item_qty']    = $extra_qty_array[$key];
+					$total_cost 			  = $total_cost + ($temp_item['item_qty'] * $temp_item['item_price']);
+					$extras[] 	= $temp_item;
+
+				}elseif (in_array($extra_item_id, array(-1,0))) {
+					$temp_item['item_id']      = $extra_item_id;
+					$temp_item['item_name']    = ($extra_item_id == -1) ? '5-Pack Magnets' : '5-Pack Pins';
+					$temp_item['item_price']   = ($extra_item_id == -1) ? 6.25 : 3.5;
+					$temp_item['item_qty']     = $extra_qty_array[$key];
+					$total_cost 			   = $total_cost + ($temp_item['item_qty'] * $temp_item['item_price']);
+					$extras[] 	= $temp_item;
+				}
+			}
+			//echo '<pre>'; print_r($extras); exit;
+			$cart['extras'] = $extras;
+			$this->session->set_userdata('cart',$cart);
+			$this->session->set_userdata('extras_total_cost',$total_cost);
+			$data['extras'] = $extras;
+			$this->load->view('order/list_extras',$data);
+			return;
+		}
+
+		/*
+		// commented by sunny on 17-march-2016
 		$magnet_qty = (int)$this->input->post('magnet_qty');
 		$pin_qty	= (int)$this->input->post('pin_qty');
 		
@@ -92,25 +153,37 @@ class Ajax extends MX_Controller {
 			
 			$this->load->view('order/list_extras',$data);
 			return;
-		}
+		}*/
 	}
 	
 	function addInputBox() {				
 		$current_input_boxes_number = $this->input->post('current_input_boxes_number');
 		$type = $this->input->post('type');		
+		$id     = $this->input->post('id');
+		$item_name = '';
+		$price = 0;
+		if(!empty($id)){
+			$item_detail = $this->db->get_where('items',array('item_id' => (int)$id), 1)->result_array();
+			//print_r($item_detail); exit;
+			$item_name = $item_detail[0]['item_name'];
+			$price = $item_detail[0]['item_price'];
+		}
+
 		switch($type) {
 			case '1':
 				$data['number']	 = $current_input_boxes_number + 1;
-				$data['style']	 = "Southwest Name Badge";
+				$data['style']	 = !empty($item_name) ? $item_name : "Southwest Name Badge";
 				#$data['title']	 = "no title included";
 				#$data['license'] = 1;
+				$data['price']	 = $price;
 				$this->load->view('order/form/additional_input_name_form',$data);
 				return;
 			break;
 			case '2':
 				$data['number']	= $current_input_boxes_number + 1;
-				$data['style']	= "Southwest Wing";
+				$data['style']	= !empty($item_name) ? $item_name : "Southwest Wing";
 				#$data['title']	= "";
+				$data['price']	= $price;
 				$this->load->view('order/form/additional_input_name_form',$data);
 				return;
 			break;
@@ -183,23 +256,34 @@ class Ajax extends MX_Controller {
 	}
 	
 	function showNamesField() {
-		$type	= $this->input->post('type');		
+		$type	= $this->input->post('type');
+		$id     = $this->input->post('id');
+		$item_name = '';
+		$price = 0;
+		if(!empty($id)){
+			$item_detail = $this->db->get_where('items',array('item_id' => (int)$id), 1)->result_array();
+			//print_r($item_detail); exit;
+			$item_name = $item_detail[0]['item_name'];
+			$price = $item_detail[0]['item_price'];
+		}
 		switch ($type) {
 			case '1':
 				$data	= array();
 				$data['description']	= "";
-				$data['style']			= "Southwest Name Badge";
+				$data['style']			= !empty($item_name) ? $item_name : "Southwest Name Badge";
 				#$data['title']			= "no title included";
 				$data['type']			= 1;
+				$data['price']			= $price;
 				//$data['license']		= 1;
 				$this->load->view('order/form/input_names_form',$data);
 				break;
 			case '2':
 				$data	= array();
 				$data['description']	= "";
-				$data['style']			= "Southwest Wing";
+				$data['style']			= !empty($item_name) ? $item_name : "Southwest Wing";
 				#$data['title']			= "no title included";
 				$data['type']			= 2;
+				$data['price']			= $price;
 				$this->load->view('order/form/input_names_form',$data);
 				break;
 			case '3':
@@ -346,13 +430,18 @@ class Ajax extends MX_Controller {
 	}
 	
 	function deleteBadge() {		
-		$id 	= (int)$this->input->post('item_id');				
+		//echo '<pre>'; print_r($this->session->userdata['cart']); exit;
+		$id 	= (int)$this->input->post('item_id');
 		$cart 	= $this->session->userdata['cart'];
+		$total_cost = isset($this->session->userdata['badges_total_cost']) ? $this->session->userdata['badges_total_cost'] : 0;
 		$badges	= $cart['badges'];
+		
 		unset($badges[$id]);
 		$new_badges	= array();
+		$total_cost = 0;
 		foreach($badges as $badge) {
 			$new_badges[] = $badge;
+			$total_cost = $total_cost + $badge['price'];
 		}
 		if(count($new_badges)>0) {
 			$cart['badges']	= $new_badges;
@@ -360,6 +449,8 @@ class Ajax extends MX_Controller {
 			unset($cart['badges']);
 		}
 		$this->session->set_userdata('cart',$cart);
+		$this->session->set_userdata('badges_total_cost',$total_cost);
+
 		$cart_total	= $this->session->userdata['cart_total'];
 		$this->session->set_userdata('cart_total',$cart_total-1);
 		
@@ -385,13 +476,31 @@ class Ajax extends MX_Controller {
 	}
 	
 	function deleteExtras() {
-		$type 	= $this->input->post('type');
+		$type 	= (int)$this->input->post('type');
 		$cart	= $this->session->userdata['cart'];
+		$total_cost = isset($this->session->userdata['extras_total_cost']) ? $this->session->userdata['extras_total_cost'] : 0;
+		$extras	= $cart['extras'];
+		//echo '<pre>'; print_r($cart); exit;
 		
+		unset($extras[$type]);
+		$new_extras	= array();
+		$total_cost = 0;
+		foreach($extras as $extra) {
+			$new_extras[] = $extra;
+			$total_cost = $total_cost + $extra['item_price']*$extra['item_qty'];
+		}
+
+		if(count($new_extras)>0) {
+			$cart['extras']	= $new_extras;
+		} else {
+			unset($cart['extras']);
+		}
+
+
 		$total_badges	= isset($this->session->userdata['cart_total'])?$this->session->userdata['cart_total']:0;
 		$badges_cost	= $total_badges*10.00;
 		$extras_cost	= 0;
-		switch ($type) {
+		/*switch ($type) {
 			
 			case '1':
 				unset($cart['order_mf_qty']);
@@ -401,12 +510,15 @@ class Ajax extends MX_Controller {
 				unset($cart['order_pf_qty']);
 				$extras_cost = isset($cart['order_mf_qty']) ? $cart['order_mf_qty'] * 6.25: 0;
 			break;
-		}
+		}*/
 		
 		$this->session->set_userdata('cart',$cart);
+		$this->session->set_userdata('extras_total_cost',$total_cost);
+
 		$data = array(
 			'removed_item'		=> $type,
-			'total_extras'		=> (!isset($cart['order_mf_qty'])&&!isset($cart['order_pf_qty'])) ? 0 : 1,
+			//'total_extras'		=> (!isset($cart['order_mf_qty'])&&!isset($cart['order_pf_qty'])) ? 0 : 1, // commented by sunny on 17-march-2016
+			'total_extras'		=> (!isset($cart['extras'])) ? 0 : 1,
 			'total_cost'		=> number_format($badges_cost + $extras_cost,2)
 		);
 		echo json_encode($data);
@@ -414,6 +526,8 @@ class Ajax extends MX_Controller {
 	
 	function deleteCart(){
 		$this->session->unset_userdata('cart');
+		$this->session->unset_userdata('badges_total_cost');
+		$this->session->unset_userdata('extras_total_cost');
 		$this->session->unset_userdata('cart_total');
 	}
 	

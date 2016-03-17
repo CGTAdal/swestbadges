@@ -2,11 +2,28 @@
 	<div class="small-red-heading-order">The name on your badge needs to match your first name, or your order will be delayed as a further approval process will be necessary.</div>
 	<div class="<?php echo (count($cart)>0)?"main-left":"main-left-no-border";?> fll" id="main-left">
 		<div class="badgeStyle overH mb-15">
-			<h3 class="title">Select Badge Style </h3>
+			<h3 class="title">
+				<!-- Commented by sunny on 16-march-2016 -->
+				<!-- Select Badge Style  -->
+				Custom Engraved Name Badges
+			</h3>
 			<ul class="ul-main fontGL" id="badgeStyle">
 				<?php foreach($items as $item) {?>
 					<?php if($item->item_minor_required && !$store_minor) continue;?>
 					<?php if($item->item_id==12 && $store_role==1) continue;?>
+					<?php 
+						if(!in_array($item->item_id, array(1,2,18,19))) {
+							$temp_extraItem = array();
+							$temp_extraItem['item_id'] = $item->item_id;
+							$temp_extraItem['item_name'] = $item->item_name;
+							$temp_extraItem['item_type'] = $item->item_type;
+							$temp_extraItem['item_img'] = $item->item_img;
+							$temp_extraItem['item_price'] = $item->item_price;
+							$extraItem[] = $temp_extraItem;
+							unset($temp_extraItem);
+							continue;
+						}
+					?>
 					<li id="item_<?php echo $item->item_id;?>_<?php echo $item->item_type?>" class="items <?php //echo ($i==0)?'badgeStyleActive':'';?>">
 						<a href="javascript:void(0)">
 							<span class="badgestyle-icon ">
@@ -15,7 +32,9 @@
 							<span id="name_item_<?php echo $item->item_id;?>"><?php echo $item->item_name;?></span>
 						</a>
 					</li>
-				<?php }?>
+				<?php }
+					//echo '<pre>'; print_r($extraItem); exit;
+					?>
 				<?php if($store_minor) {?>
 					<li>
 						<div style="font-size:13px;color:#888;margin-top:3px;margin-bottom:5px">
@@ -28,22 +47,61 @@
 			<input type="hidden" id="selected_item_type" value="<?php echo $items[0]->item_type;?>" />
 		</div>
 		<div class="qty-top">
-        	<a href="javascript: void(0);" class="qty-click" id="select-extras-link">Click Here To Order Additional Fasteners</a> <img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" width="60" /> <img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" />
+        	<a href="javascript: void(0);" class="qty-click" id="select-extras-link">
+        		<!-- Commented by sunny on 16-march-2016 -->
+        		<!-- Click Here To Order Additional Fasteners -->
+        		Wings, Pins, and Fasteners
+        	</a> 
+        	<img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" width="60" /> 
+        	<img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" />
+        	<?php
+        		foreach ($extraItem as $extra) {
+        			if(!empty($extra['item_img']))
+        				echo '<img src="'.base_url().$extra['item_img'].'" width="60" />';
+        		}
+        	?>
         </div>
         <div class="qty-add clb" id="extras-boxes" style="display:none">
-        	<h3 class="title">Enter Fastener Quantities:</h3>
+        	<h3 class="title">
+        		<!-- Commented by sunny on 16-march-2016 -->
+        		<!-- Enter Fastener Quantities: -->
+        		Enter Quantities:
+        	</h3>
             <div class="qty-item clb">
             	<img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" />
             	<label>
-            		<input type="text" id="extras-magnet-qty" value=""/> Enter Quantity Magnet <div style="padding-left:120px">Pack of 5</div>
+            		<input class="extras-item extras-item-1" type="text" id="extras-magnet-qty" value="" data-id="-1" data-price="6.25"/> 
+            		<!-- Commented by sunny on 16-march-2016 -->
+            		<!-- Enter Quantity Magnet <div style="padding-left:120px">Pack of 5</div> -->
+            		Enter Quantity
             	</label>
             </div>
             <div class="qty-item clb">
             	<img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" />
             	<label>
-            		<input type="text" id="extras-pin-qty" value=""/> Enter Quantity Pin <div style="padding-left:120px">Pack of 5</div>
+            		<input class="extras-item extras-item-2" type="text" id="extras-pin-qty" value="" data-id="0" data-price="3.5"/> 
+            		<!-- Enter Quantity Pin <div style="padding-left:120px">Pack of 5</div> -->
+            		Enter Quantity
             	</label>
             </div>
+            <?php
+            	$j = 3;
+        		foreach ($extraItem as $extra) {
+        			if(!empty($extra['item_img'])){
+        	?>
+        	<div class="qty-item clb">
+            	<img src="<?php echo base_url().$extra['item_img']; ?>"  width="120"/>
+            	<label>
+            		<input class="extras-item extras-item-<?php echo $j; ?>" type="text" value="" data-id="<?php echo $extra['item_id'];?>" data-price="<?php echo $extra['item_price'];?>" /> 
+            		<!-- Enter Quantity Pin <div style="padding-left:120px">Pack of 5</div> -->
+            		Enter Quantity
+            	</label>
+            </div>
+        	<?php
+        				$j++;
+        			}
+        		}
+        	?>
             <div class="clb">&nbsp;</div>
             <div class="txtC mb-15"><input type="button" id="add_fasteners" value="Add Fasteners to Order"></div>
         </div>
@@ -51,7 +109,8 @@
 		</div>
 	</div>
 	<!--END main left-->
-	<div class="main-right flr" style="display:<?php echo (count($cart) + $mf_qty + $pf_qty >0)?"block":"none";?>">		
+	<!-- <div class="main-right flr" style="display:<?php //echo (count($cart) + $mf_qty + $pf_qty >0)?"block":"none";?>">		 -->
+	<div class="main-right flr" style="display:<?php echo (count($cart) + $extra_item_count >0)?"block":"none";?>">		
 		<div class="yourOrder" id = "your_order">		
 			<h3 class="title">Your Order: </h3>			
 			<div class="txtC" id="continue_shipping" style="display:<?php echo (count($cart)<=0)?'none':'block';?>">
@@ -63,6 +122,7 @@
 					<?php foreach($cart['badges'] as $badge) {?>
 						<li>
 							<p><strong>Style:</strong><span><?php echo $badge['style'];?></span></p>
+							<p><strong>Price:</strong><span><?php echo '$'.$badge['price'];?></span></p>
 							<?php if(isset($badge['name'])) {?>
 								<p><strong >Name:</strong><span><?php echo $badge['name'];?></span></p>
 							<?php }?>
@@ -72,7 +132,9 @@
 							<?php if(isset($badge['title'])) {?>
 								<p><strong>Title:</strong><span><?php echo $badge['title'];?></span></p>
 							<?php }?>
+							<?php if(isset($badge['fastener'])) {?>
 							<p><strong>Fastener:</strong><span><?php echo $badge['fastener'];?></span></p>
+							<?php }?>
 							<?php if(isset($badge['spk_spanish'])) {?>
 								<p><strong>Hablo Español:</strong><span><?php echo $badge['spk_spanish'];?></span></p>							
 							<?php }?>
@@ -84,9 +146,12 @@
 					<?php }?>
 				<?php }?>
 			</ul>
-			<h3 class="title no-border" id="extras-title" style="display:<?php echo ($mf_qty + $pf_qty > 0)?"block":"none";?>">Extras:</h3>		
+			<!-- <h3 class="title no-border" id="extras-title" style="display:<?php //echo ($mf_qty + $pf_qty > 0)?"block":"none";?>">Extras:</h3> -->		
+			<h3 class="title no-border" id="extras-title" style="display:<?php echo ($extra_item_count > 0)?"block":"none";?>">Extras:</h3>		
 			<ul class="ul-main mb-30" id="extras_list">
-				<?php if($mf_qty > 0) {?>
+				<?php /*
+					//commented by sunny on 17-march-2016
+					if($mf_qty > 0) {?>
 					<li>
 						<p><strong>Item:</strong><span>5-Pack Magnets</span></p>
 						<p><strong>Quantity:</strong><span><?php echo $cart['order_mf_qty'];?></span></p>
@@ -99,6 +164,38 @@
 						<p><strong>Quantity:</strong><span><?php echo $cart['order_pf_qty'];?></span></p>
 						<a href="javascript:void(0);" class="remove_cart_extras" value="2">Remove</a>
 					</li>
+				<?php }*/?>
+				<?php if(isset($cart['extras'])) {?>
+					<?php foreach ($cart['extras'] as $key => $extra_item) { ?>
+					<li>
+						<p>
+							<strong>Item:</strong>
+							<span>
+							<!-- 5-Pack Magnets -->
+							<?php echo $extra_item['item_name']; ?>
+							</span>
+						</p>
+						<p>
+							<strong>Price:</strong>
+							<span>
+								<?php 
+									/*echo $mf_qty;*/
+									echo '$'.$extra_item['item_price'];
+								?>
+							</span>
+						</p>
+						<p>
+							<strong>Quantity:</strong>
+							<span>
+								<?php 
+									/*echo $mf_qty;*/
+									echo $extra_item['item_qty'];
+								?>
+							</span>
+						</p>
+						<a href="javascript:void(0);" class="remove_cart_extras" value="<?php echo $key;?>">Remove</a>
+					</li>
+					<?php }?>
 				<?php }?>
 			</ul>
 			<div class ="txt_remove" >
@@ -113,11 +210,15 @@
 	$(document).ready(function(){
 		// add more name
 		$('.add-another').live('click',function(){			
-			var current_input_boxes_number = $('#current_input_boxes_number').val();			
-			var type = $(this).attr('value');			
+			var current_input_boxes_number = $('#current_input_boxes_number').val();
+			var type = $(this).attr('value');
+			var active_item	= $('.items.badgeStyleActive').attr('id');
+			active_item 	= active_item.split('_');
+			var id		= active_item[1];
+
 			$.post(
 				'<?php echo base_url();?>order/ajax/addInputBox',
-				{current_input_boxes_number: current_input_boxes_number, type: type},
+				{current_input_boxes_number: current_input_boxes_number, type: type, id: id},
 				function(data) {
 					$("#input_boxes").append(data);
 					$("#current_input_boxes_number").val(parseInt(current_input_boxes_number) + 1);
@@ -141,7 +242,7 @@
 			var type 	= item[2];
 			$.post(
 				"<?php echo base_url();?>order/ajax/showNamesField",
-				{type: type},
+				{type: type, id: id},
 				function(data) {
 					$("#enter-names-field").html(data);
 				}		
@@ -166,18 +267,23 @@
 					var title			= $('#title_'+box_id).val();
 					var fastener 		= $("input[name=fastener_"+box_id+"]:checked").val();
 					var spk_spanish		= $("input[name=speaks_spanish_"+box_id+"]:checked").val();
+					var price			= $("#price_"+box_id+"").val();
 					var service_year	= $("#years_of_service_"+box_id).val();
 						
 					var new_value	= '<div class="orderConfirm mb-30">';
 					new_value		+= '<p><strong>Style:</strong><span class="badge_style">'+style+'</span></p>';
 					new_value		+= '<p><strong>Name:</strong><span class="badge_name">'+name+'</span></p>';
+					
+					new_value		+= '<p><strong>Price:</strong>$<span class="badge_price">'+price+'</span></p>';
 					if(title!=undefined) {
 						new_value		+= '<p><strong>Title:</strong><span class="badge_title">'+title+'</span></p>';
 					}
 					if(license!=undefined) {
 						new_value		+= '<p><strong>License #:</strong><span class="badge_license">'+license+'</span></p>';
 					}
+					if(fastener!=undefined){
 					new_value		+= '<p><strong>Fastener:</strong><span class="badge_fastener">'+fastener+'</span></p>';
+					}
 					if(spk_spanish!=undefined) {
 						new_value		+= '<p><strong>Hablo Español:</strong><span class="badge_spk_spanish">'+spk_spanish+'</span></p></div>';
 					}
@@ -308,6 +414,7 @@
 		$("#proceed").live('click',function(){
 			var order_style 		= new Array();
 			var order_name 			= new Array();
+			var order_price			= new Array();
 			var order_title			= new Array();
 			var order_license		= new Array();
 			var order_fastener 		= new Array();
@@ -316,6 +423,7 @@
 			$('.orderConfirm').each(function(){
 				var style			= $('.badge_style',$(this)).html();
 				var name			= $('.badge_name',$(this)).html();
+				var price			= $('.badge_price',$(this)).html();
 				var title			= $('.badge_title',$(this)).html();
 				var license			= $('.badge_license',$(this)).html();
 				var fastener		= $('.badge_fastener',$(this)).html();
@@ -323,6 +431,7 @@
 				var service_year	= $('.badge_service_year',$(this)).html();
 				
 				order_style.push(style);
+				order_price.push(price);
 				if(license!=null) {
 					order_license.push(license);
 				}
@@ -330,7 +439,9 @@
 				if(title!=null) {
 					order_title.push(title);
 				}
-				order_fastener.push(fastener);
+				if(fastener!=null) {
+					order_fastener.push(fastener);
+				}
 				if(spk_spanish!=null) {
 					order_spk_spanish.push(spk_spanish);
 				}
@@ -340,7 +451,7 @@
 			});
 			$.post(
 				"<?php echo base_url();?>order/ajax/addBadgesToCart",
-				{styles:order_style, names: order_name,titles: order_title, licenses: order_license, fasteners: order_fastener, spk_spanish: order_spk_spanish, service_year: order_service_year},
+				{styles:order_style, prices:order_price, names: order_name,titles: order_title, licenses: order_license, fasteners: order_fastener, spk_spanish: order_spk_spanish, service_year: order_service_year},
 				function(data) {
 					$('#badge_list').append(data);
 					$('#badge-title').show();
@@ -425,6 +536,8 @@
 		});
 
 		$('#add_fasteners').click(function(){
+			/*
+			// commented by sunny on 17-march-2016 as per client requirement
 			var extras_magnet_qty 	= ($('#extras-magnet-qty').val());
 			var extras_pin_qty 		= ($('#extras-pin-qty').val());
 
@@ -454,7 +567,51 @@
 					$('#continue_shipping_two').show();
 					$('.main-right').show();
 				}
+			);*/
+			var extra_item_qty = new Array();
+			var extra_item_id = new Array();
+			var extra_item_price = new Array();
+			var total_qty = '';
+			$('.extras-item').each(function(index){
+				if(parseInt($(this).val()) > 0){
+					extra_item_qty.push($(this).val());
+					extra_item_id.push($(this).attr('data-id'));
+					extra_item_price.push($(this).attr('data-price'));
+					total_qty = total_qty + parseInt($(this).val());
+				}
+				/*console.log(qty+'-'+id+'-'+price)*/
+			});
+
+			if(total_qty == 0){
+				alert('Extra quantity must greater than zero');
+				return;	
+			}else if (total_qty!="" && isNaN(parseInt(total_qty))) {
+				alert('Please enter numeric value');
+				return;
+			}else if (total_qty == '') {
+				alert('Please enter quantity magnet or quantity pin');
+				return; 
+			}
+
+			$.post(
+				"<?php echo base_url();?>order/ajax/addExtrasToCart",
+				{extra_qty: extra_item_qty, extra_id: extra_item_id, extra_price: extra_item_price},
+				function(data) {
+					$('#extras_list').html(data);
+					$('#extras-title').show();
+					$('#main-left').removeClass('main-left-no-border');
+					$('#main-left').addClass('main-left');
+
+					$('#your_order').show();
+					$('#continue_shipping').show();
+					$('#continue_shipping_two').show();
+					$('.main-right').show();
+				}
 			);
+			/*console.log(total_qty);
+			console.log('qty'+ extra_item_qty);
+			console.log('id'+ extra_item_id);
+			console.log('price'+ extra_item_price);*/
 		});
 
 		$('.remove_cart_extras').live('click',function(){

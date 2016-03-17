@@ -5,6 +5,23 @@
 #edit-shipping-box span{width:100px;color:#737373}
 #edit-shipping-box input[type="text"] {width:330px;}
 #payment-box span{width:200px; color:#737373}
+.extra-block{
+	clear: both;
+	margin-top: 10px;
+}
+.product-holder{
+	width: 100%;
+	display: inline-block;
+}
+.product-holder span{
+	float: left;
+}
+.product-holder span:first-child{
+	float: left;
+	width: 200px;
+	height: 24px;
+	overflow: hidden;
+}
 </style>
 <div class="main clb">
 	<div class="main-left fll">
@@ -20,8 +37,83 @@
 				</div>
 				<h3 class="title">Order Total:</h3>
 				<div class="pl-20 fontGL mb-30">
+					<?php 
+						$total_badge_price = isset($this->session->userdata['badges_total_cost']) ? $this->session->userdata['badges_total_cost'] : 0;
+						$total_extra_price = isset($this->session->userdata['extras_total_cost']) ? $this->session->userdata['extras_total_cost'] : 0;
+					?>
 					<?php if($total_badges>0) {?>
-						<div>Total Badges: <font id="total-badges-number"><?php echo ($total_badges);?></font> x $10.00</div>
+						<h3 class="title no-border">Badges:</h3>
+						<?php 
+							foreach ($badges as $key => $badge) {
+							?>
+							<div class="product-holder" title="<?php echo $badge['style']; ?>">
+								<span>
+									<?php 
+										echo $badge['style'];
+									?>
+								</span>
+								<span>
+									&nbsp;&nbsp;: 1 x <?php echo $badge['price']; ?>
+								</span>
+							</div>
+							<?php
+							}
+						?>
+						<div class="product-holder">
+							<span>Total Badges &nbsp;</span>&nbsp;&nbsp;: 
+							<?php
+								echo $total_badge_price;
+							?>
+							<?php 
+								/* //commented by sunny on 17-march-2016
+							?>
+							<font id="total-badges-number">
+								<?php echo ($total_badges);?>
+							</font> 
+							x $10.00
+							<?php */?>
+						</div>
+						<br/>
+					<?php }?>
+					<?php if(count($extras) > 0) {?>
+						<div class="extra-block">
+							<h3 class="title no-border">Extras:</h3>
+							<?php 
+								foreach ($extras as $key => $extra) {
+								?>
+									<div class="product-holder" title="<?php echo $extra['item_name']; ?>">
+										<?php
+											//$extraTotalDetail .= $extra['item_qty'].' x $'.$extra['item_price'].' + ';
+										?>
+										<span>
+											<?php 
+												echo $extra['item_name'];
+											?>
+										</span>
+										<span>
+											&nbsp;&nbsp;: <?php echo $extra['item_qty'].' x '.$extra['item_price']; ?>
+										</span>
+									</div>
+								<?php
+								}
+							?>
+							<div class="product-holder">
+								<span>
+									Total Extras 
+								</span>
+								<span>
+									&nbsp;&nbsp;: <?php echo $total_extra_price; ?>
+								</span>
+							</div>
+							<?php 
+								/*$extraTotalDetail = '';
+								foreach ($extras as $key => $extra) {
+									$extraTotalDetail .= $extra['item_qty'].' x $'.$extra['item_price'].' + ';
+								}
+								echo substr($extraTotalDetail, 0, -2);*/
+							?>
+						</div>
+						<br/>
 					<?php }?>
 					<?php if($total_tenured>0) {?>
 						<div>Total Tenured Badges: <font id="total-badges-number"><?php echo ($total_tenured);?></font> x $6.25</div>
@@ -39,9 +131,14 @@
 						if($last > 0){
 							$last = trim($last,'0');
 						}
-						$total_price = $first.'.'.$last;					
+						//$total_price = $first.'.'.$last;					
+						$total_price = $total_badge_price + $total_extra_price + 3.50;
 					?>
-					<div>Total: $<font id="total-order-price"><?php echo $total_price;?></font></div>
+					<div class="product-holder">
+						<span> Shipping Charge</span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font></div>
+					<br/>
+					<div class="product-holder">
+						<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total-order-price"><?php echo $total_price;?></font></div>
 				</div>
 				<h3 class="title">Billing Address:</h3>
 				<?php /*?>
@@ -171,6 +268,7 @@
 						$('#shipping_list').remove();			
 					}
 					parent.remove();
+					window.location.href = '<?php echo base_url();?>order/shipping';
 				},
 				'json'
 			);									
@@ -188,6 +286,7 @@
 						$('#extras_list').remove();
 					}
 					$('#total-order-price').html(data.total_cost);
+					window.location.href = '<?php echo base_url();?>order/shipping';
 				},
 				'json'
 			);
