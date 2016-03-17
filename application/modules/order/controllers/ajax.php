@@ -107,7 +107,7 @@ class Ajax extends MX_Controller {
 				$temp_item = array();
 				if($extra_item_id !='' && !in_array($extra_item_id, array(-1,0))){
 					
-					$db_item_key = array_search($extra_item_id, array_column($items, 'item_id'));
+					$db_item_key = array_search($extra_item_id, $this->array_column($items, 'item_id'));
 					
 					$temp_item['item_id']     = $extra_item_id;
 					$temp_item['item_name']   = (!empty($db_item_key) && isset($items[$db_item_key]['item_name'])) ? $items[$db_item_key]['item_name'] : 'Product #';
@@ -547,4 +547,23 @@ class Ajax extends MX_Controller {
 			echo "";
 		}
 	}
+
+	function array_column(array $array, $columnKey, $indexKey = null)
+    {
+        $result = array();
+        foreach ($array as $subArray) {
+            if (!is_array($subArray)) {
+                continue;
+            } elseif (is_null($indexKey) && array_key_exists($columnKey, $subArray)) {
+                $result[] = $subArray[$columnKey];
+            } elseif (array_key_exists($indexKey, $subArray)) {
+                if (is_null($columnKey)) {
+                    $result[$subArray[$indexKey]] = $subArray;
+                } elseif (array_key_exists($columnKey, $subArray)) {
+                    $result[$subArray[$indexKey]] = $subArray[$columnKey];
+                }
+            }
+        }
+        return $result;
+    }
 }
