@@ -226,8 +226,12 @@ class Order extends MX_Controller {
 		$order_items = unserialize($order->order_items);
 		# badges
 		$order_badges	= isset($order_items['badges'])?$order_items['badges']:$order_items;
+		# extras
+		$order_extras	= isset($order_items['extras'])?$order_items['extras']:$order_items;
 		# total badges
 		$total_badges	= $order->order_total;
+		# total extras
+		$total_extras	= count($order_extras);
 		# total extras magnetic
 		$total_magnetic_fasteners = $order->order_mf_qty;
 		# total extras pin
@@ -239,6 +243,8 @@ class Order extends MX_Controller {
 
 		#load view
 		$data['order']	 		= $order;
+		$data['badges']	= $order_badges;
+		$data['extras']	= $order_extras;
 		$data['total_badges']	= $total_badges;
 		$data['total_tenured']	= $order->order_tenured_qty;
 		$data['total_mf']		= $total_magnetic_fasteners;
@@ -363,11 +369,15 @@ class Order extends MX_Controller {
 			$order 			= $this->order_model->getItemDetail('orders',array('field'=>'order_id','id'=>$id));
 			$items			= (count($order)>0)?unserialize($order->order_items):'';			
 			
-			$data['cart'] 			= $items;
-			$data['badges']			= count($items) > 0 ? $items : 0;
-			$data['mf_qty']			= $order->order_mf_qty;
-			$data['pf_qty']			= $order->order_pf_qty;
-			$data['remove_cart'] 	= $order_uri;
+			$extra_item_count = ( isset($items['extras']) && count($items['extras']) > 0 ) ? count($items['extras']) : 0;
+			
+			$data['cart'] 				= $items;
+			$data['badges']				= count($items['badges']) > 0 ? $items['badges'] : 0;
+			$data['extras']				= count($items['extras']) > 0 ? $items['extras'] : 0;
+			$data['extra_item_count']	= $extra_item_count;
+			$data['mf_qty']				= $order->order_mf_qty;
+			$data['pf_qty']				= $order->order_pf_qty;
+			$data['remove_cart'] 		= $order_uri;
 		}		
 			
 		$this->load->view('order/detailBox',$data);
@@ -379,6 +389,12 @@ class Order extends MX_Controller {
 		}		
 		// get account logged in 
 		$account = $this->session->userdata['store'];
+		
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+		$data['states'] = $states;
+		
 		if($account->store_role==1) { // if store 			
 			$total_badges	= isset($this->session->userdata['cart_total'])?$this->session->userdata['cart_total']:0;
 			// set attn
@@ -447,12 +463,24 @@ class Order extends MX_Controller {
 			
 			$total_mf	= (isset($cart['order_mf_qty']))?$cart['order_mf_qty']:0;
 			$total_pf	= (isset($cart['order_pf_qty']))?$cart['order_pf_qty']:0;			
+
+			$badges_total_cost = $this->session->userdata('badges_total_cost');
+			$extras_total_cost = $this->session->userdata('extras_total_cost');
 			
 			if($this->input->post('submit')) {
 				if(!isset($this->session->userdata['cart'])) { // if cart is empty
 					redirect('order/select');
 				}
-				$amount 	= number_format($total * 10.00 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
+				//commented by sunny 18-march-2016
+				//$amount 	= number_format($total * 10.00 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
+				$shippingCharge = 3.50;
+				$sale_tax_part = 0;
+				$amount 	= number_format(($badges_total_cost + $extras_total_cost + $shippingCharge),2);
+				if(strtolower($this->input->post('state',true)) == 'florida')
+					$sale_tax_part = $amount*(0.06);
+
+				$amount = $amount+$sale_tax_part;
+				//echo '<pre>'; print_r($amount+$sale_tax); echo '</pre>'; exit;
 				// get billing info
 				$billing	= array();
 				$billing['fname']	= $this->input->post('fname',true);
@@ -501,12 +529,12 @@ class Order extends MX_Controller {
 			    $custemail = mysql_query($qry1) or die('Query failed: ' . mysql_error()); 
 			    $custdata = mysql_fetch_assoc($custemail); 
 			    $array = array('address'=>$billing['address'],'city'=>$billing['city'],'state'=>$billing['state'],'zip'=>$billing['zip']);
-			  
+			    
 			   foreach ($array as $key => $value)
 			    {
 			        $paybilling->$key = $value;
 			    }	
-			    
+
 			    $payment = new Payment();
 			    $payment->cc_name = $this->input->post('credit_card_firstname',true)." ".$this->input->post('credit_card_lastname',true);
 			    $payment->cc_number = $this->input->post('credit_card_number',true);
@@ -520,7 +548,7 @@ class Order extends MX_Controller {
 			    $result = $payment->charge($paybilling); 
 
 				if ($result['success'] == true) {
-					$store	= $this->session->userdata['store'];					
+					$store	= $this->session->userdata['store'];
 					#set shipping address
 					$shipping	= array();
 					$shipping['attn']	 		= $store->store_location_name;
@@ -529,14 +557,16 @@ class Order extends MX_Controller {
 					$shipping['city']	 		= $store->store_city;
 					$shipping['state']	 		= $store->store_state;
 					$shipping['zip']	 		= $store->store_zip;
-					
+					//echo '<pre>'; print_r($shipping); echo '</pre>';/* exit;*/
+					$cart_items['badges'] = isset($cart['badges']) ? $cart['badges'] : 0;
+					$cart_items['extras'] = isset($cart['extras']) ? $cart['extras'] : 0;
 					#set input data
 					$data	= array();		
 					$data['store_id']			= $store->store_id;
 					$data['order_customer']		= '';
 					$data['order_total']		= $total;
 					$data['order_tenured_qty']	= $total_tenured;
-					$data['order_items']		= serialize(isset($cart['badges']) ? $cart['badges'] : 0);	 
+					$data['order_items']		= serialize($cart_items);
 					$data['order_date']			= time();
 					$data['order_shipping']		= serialize($shipping);
 					$data['order_billing']		= serialize($billing);
@@ -547,19 +577,24 @@ class Order extends MX_Controller {
 					
 					$data['order_status'] = 2;
 					$data['order_approve_dated'] = time();
-					
+					//echo '<pre>'; print_r($data); echo '</pre>'; /*exit;*/
 					# save order into database
 					$orderId = $this->order_model->saveItem('orders',array('id'=>0),$data);
-					
+					$store_state = $billing['state'];
 					# unset session
 					$this->session->unset_userdata('cart');
 					$this->session->unset_userdata('cart_total');
 					$this->session->unset_userdata('tenured_total');
 					$this->session->unset_userdata('new_attn');
+					$this->session->unset_userdata('badges_total_cost');
+					$this->session->unset_userdata('extras_total_cost');
 					
 					#load view
 					$data['orderId']		= $orderId;
 					$data['total_badges']	= $total;
+					$data['store_state']	= $store_state;
+					$data['badges']	= $cart_items['badges'];
+					$data['extras']	= $cart_items['extras'];
 					$data['total_tenured']	= $total_tenured;
 					$data['total_mf']		= $total_mf;
 					$data['total_pf']		= $total_pf;

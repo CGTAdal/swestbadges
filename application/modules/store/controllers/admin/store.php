@@ -214,6 +214,11 @@ class Store extends MX_Controller {
 			$market_directories = $this->store_model->getStoreList(array('store_role' => 2));	
 		}		
 		
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+
+		$data['states'] 			= $states;
 		$data['error_full'] 		= $this->error_full;
 		$data['error_phone'] 		= $this->error_phone;
 		$data['error_email'] 		= $this->error_email;
@@ -291,7 +296,13 @@ class Store extends MX_Controller {
 				redirect('admin/store/liststores');
 			}
 		}
+
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+
 		$data['mode'] 				= 'add';	
+		$data['states'] 			= $states;
 		$data['error_full'] 		= $this->error_full;
 		$data['error_number'] 		= $this->error_number;
 		$data['error_phone'] 		= $this->error_phone;

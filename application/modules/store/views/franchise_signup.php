@@ -46,7 +46,18 @@
 			</label>
 			<label>
 				<span class="required">State:</span>
-				<input type="text" name="state" id="state" class="validate[required]"/>
+				<!-- commented by sunny 18-march-2016 -->
+				<!-- <input type="text" name="state" id="state" class="validate[required]"/> -->
+				<select name="state" id="state" class="validate[required] sb-setstatecss">
+					<option value="">Select State</option>
+					<?php 
+						foreach ($states as $key => $state) {
+					?>
+					<option value="<?php echo strtolower($state['state_name']); ?>"><?php echo $state['state_name']; ?></option>
+					<?php 
+						}
+					?>
+				</select>
 			</label>
 			<label>
 				<span class="required">Zip:</span>

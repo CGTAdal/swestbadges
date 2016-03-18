@@ -213,3 +213,10 @@ table tr.row1{background:#fff;}
 /* SELECT ORDER PAGE */
 .small-red-heading-order{color: red;margin:0px 0px 10px 24px; font-weight: bold; font-size: 14px; text-align: left;}
 /* SELECT ORDER PAGE */
+
+.sb-setstatecss{
+    padding: 4px 2px !important;
+}
+.sb-setstatewidthonshpping{
+    width: 341px;
+}

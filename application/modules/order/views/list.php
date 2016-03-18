@@ -41,10 +41,14 @@
 								if(in_array($item['item_id'], $allowedItemsId)){
 									$itemCount = 0;
 									
-									if(!empty($order_detail)){
-										foreach ($order_detail as $order_item) {
-											if(!empty($order_item) && in_array($item['item_name'], $order_item))
+									if(!empty($order_detail['badges'])){
+										foreach ($order_detail['badges'] as $order_item) {
+											/*echo $item['item_name'];
+											echo '<pre>';print_r($order_item); echo '</pre>'; exit;*/
+											if(!empty($order_item) && in_array($item['item_name'], $order_item)){
 												$itemCount++;
+												//exit;	
+											}
 										}
 									}
 									echo '<td>'.$itemCount.'</td>';

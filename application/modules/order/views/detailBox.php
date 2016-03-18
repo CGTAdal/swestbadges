@@ -7,7 +7,9 @@
 					<?php foreach($badges as $badge) {?>
 						<li>
 							<p><strong>Style:</strong><span><?php echo $badge['style'];?></span></p>
+							<?php if(isset($badge['price'])) {?>
 							<p><strong>Price:</strong><span><?php echo '$'.$badge['price'];?></span></p>
+							<?php }?>
 							<?php if(isset($badge['name'])) {?>
 								<p><strong>Name:</strong><span><?php echo $badge['name'];?></span></p>
 							<?php }?>
@@ -36,9 +38,12 @@
 					<?php }?>
 				</ul>
 			<?php }?>
-			
+			<?php /*?>
 			<h3 class="title no-border" id="extras-title" style="display:<?php echo ($mf_qty + $pf_qty > 0)?"block":"none";?>">Extras:</h3>		
-			<h3 class="title no-border" id="extras-title" style="display:<?php echo ($extra_item_count > 0)?"block":"none";?>">Extras:</h3>
+			<?php */?>
+			<?php if(isset($cart['extras']) && is_array($extras) && count($cart['extras']) > 0) {?>
+				<h3 class="title no-border" id="extras-title" style="display:<?php echo ($extra_item_count > 0)?"block":"none";?>">Extras:</h3>
+			<?php }?>
 			<ul class="ul-main mb-30" id="extras_list">
 				<?php /*
 					//commented by sunny on 17-march-2016
@@ -66,7 +71,7 @@
 						<?php }?>
 					</li>
 				<?php }*/?>	
-				<?php if(isset($cart['extras'])) {?>
+				<?php if(isset($cart['extras']) && count($cart['extras']) > 0 && $cart['extras'] != 0) {?>
 					<?php foreach ($cart['extras'] as $key => $extra_item) { ?>
 					<li>
 						<p>
@@ -94,7 +99,12 @@
 								?>
 							</span>
 						</p>
-						<a href="javascript:void(0);" class="remove_cart_extras" value="<?php echo $key;?>">Remove</a>
+						<?php if($remove_cart == "shipping"){?>
+							<a href="javascript:void(0);" class="remove_cart_extras" value="<?php echo $key;?>">Remove</a>
+						<?php }?>
+						<?php if($remove_cart == "approvaldetail") {?>
+							<a href="javascript:void(0);" class="remove_cart_extras" value="<?php echo $key;?>">Remove</a>
+						<?php }?>
 					</li>
 					<?php }?>
 				<?php }?>

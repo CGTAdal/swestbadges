@@ -53,7 +53,7 @@
 									?>
 								</span>
 								<span>
-									&nbsp;&nbsp;: 1 x <?php echo $badge['price']; ?>
+									&nbsp;&nbsp;: 1 x $<?php echo $badge['price']; ?>
 								</span>
 							</div>
 							<?php
@@ -61,7 +61,7 @@
 						?>
 						<div class="product-holder">
 							<span>Total Badges &nbsp;</span>&nbsp;&nbsp;: 
-							<?php
+							$<?php
 								echo $total_badge_price;
 							?>
 							<?php 
@@ -91,7 +91,7 @@
 											?>
 										</span>
 										<span>
-											&nbsp;&nbsp;: <?php echo $extra['item_qty'].' x '.$extra['item_price']; ?>
+											&nbsp;&nbsp;: <?php echo $extra['item_qty'].' x $'.$extra['item_price']; ?>
 										</span>
 									</div>
 								<?php
@@ -102,7 +102,7 @@
 									Total Extras 
 								</span>
 								<span>
-									&nbsp;&nbsp;: <?php echo $total_extra_price; ?>
+									&nbsp;&nbsp;: $<?php echo $total_extra_price; ?>
 								</span>
 							</div>
 							<?php 
@@ -135,10 +135,30 @@
 						$total_price = $total_badge_price + $total_extra_price + 3.50;
 					?>
 					<div class="product-holder">
-						<span> Shipping Charge</span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font></div>
+						<span> Shipping Charge</span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font>
+					</div>
+					
+					<?php //sales tax only applicable on florida ?>
+					<?php 
+						  $sale_tax_part = 0;
+						  $sales_tax_pre = 6; 
+						  $sales_tax = $total_price*($sales_tax_pre/100);
+					?>
+					<?php 
+						$divStyle = 'display:none;';
+						if( $store->store_state == 'florida' ) {
+							$divStyle = '';	
+							$sale_tax_part = $sales_tax;
+						}
+						?>
+					<div class="product-holder" id="sale_tax_holder" style="<?php echo $divStyle;?>">
+						<span> Sales Tax</span> &nbsp;&nbsp;: $<font id="sales_tax_amt"><?php echo number_format($sales_tax,2);?></font>
+					</div>
+
 					<br/>
 					<div class="product-holder">
-						<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total-order-price"><?php echo $total_price;?></font></div>
+						<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part),2);?></font>
+					</div>
 				</div>
 				<h3 class="title">Billing Address:</h3>
 				<?php /*?>
@@ -173,7 +193,22 @@
 					</label>
 					<label>
 						<span>State:</span>
-						<input type="text" name="state" id="" class="validate[required]" value="<?php echo $store->store_state;?>"/>
+						<!-- commented by sunny 18-march-2016 -->
+						<!-- <input type="text" name="state" id="" class="validate[required]" value="<?php //echo $store->store_state;?>"/> -->
+						<select name="state" id="billing-state" class="validate[required] sb-setstatecss sb-setstatewidthonshpping">
+							<option value="">Select State</option>
+							<?php 
+								foreach ($states as $key => $state) {
+									$optionSelected ='';
+
+									if(strtolower($store->store_state) == strtolower($state['state_name']))
+										$optionSelected = 'selected="selected"';
+							?>
+							<option <?php echo $optionSelected; ?> value="<?php echo strtolower($state['state_name']); ?>"><?php echo $state['state_name']; ?></option>
+							<?php 
+								}
+							?>
+						</select>
 					</label>
 					<label>
 						<span>Zip:</span>
@@ -241,6 +276,22 @@
 <!--END main-->
 <script>
 	$(document).ready(function(){
+
+		var total_price = <?php echo $total_price;?>;
+		var sales_tax = <?php echo $sales_tax;?>;
+
+		$('#billing-state').change(function(){
+			state = $(this).val();
+			if(state == 'florida'){
+				total_price = total_price+sales_tax;
+				$('#total_price_amt').html(total_price.toFixed(2));
+				$('#sale_tax_amt').html(sales_tax);
+				$('#sale_tax_holder').css('display','inline-block');
+			}else{
+				$('#sale_tax_holder').css('display','none');
+				$('#total_price_amt').html(total_price.toFixed(2));
+			}
+		});
 
 		$("#form_order_customer").validationEngine('attach',{
 			promptPosition : "topRight", 

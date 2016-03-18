@@ -86,7 +86,21 @@
 				</div>					
 				<div class="field">
 					<label class="required">State </label> 
-					<input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php echo (isset($store->store_state))?$store->store_state:"";?>">
+					<!-- commented by sunny 18-march-2016 -->
+					<!-- <input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php //echo (isset($store->store_state))?$store->store_state:"";?>"> -->
+					<select name="state" class="large validate[required]"   name="store_state" id="store_state">
+						<option value="">Select State</option>
+						<?php 
+							foreach ($states as $key => $state) {
+								$optionSelected ='';
+								if(isset($store->store_state) && (strtolower($store->store_state) == strtolower($state['state_name'])) )
+									$optionSelected = 'selected="selected"';
+						?>
+						<option value="<?php echo strtolower($state['state_name']); ?>" <?php echo $optionSelected; ?>><?php echo $state['state_name']; ?></option>
+						<?php 
+							}
+						?>
+					</select>
 				</div>
 				<div class="field">
 					<label class="required">Zip</label> 
