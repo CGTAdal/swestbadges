@@ -192,7 +192,7 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
                 "ajaxCheckEmailExists": {
-                    "url": "/ryan/southwestnamebadges/store/admin/store_ajax/checkEmailExists",
+                    "url": "/store/admin/store_ajax/checkEmailExists",
                     "extraDataDynamic": ['#store_id'],
                     "alertTextOk": "* This Email is available",
                     "alertText": "* This Email is already taken",
