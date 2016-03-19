@@ -3,7 +3,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>application/views/front_end/js/jquery.validationEngine.js" charset="utf-8"></script>
 <div class="main clb">
 	<div class="main-left-no-border fll" id="main-left">
-		<div class="fc-signup" style="margin-top:30px">
+		<div class="fc-signup fc-edit" style="margin-top:30px">
 			<form action="" method="post" id="edit-account" >
 				<label>
 					<span class="required">Email:</span>
@@ -33,7 +33,7 @@
 					<span class="required">State:</span>
 					<!-- commented by sunny 18-march-2016 -->
 					<!-- <input type="text" name="state" id="state" class="validate[required]" value="<?php //echo $store->store_state;?>"/> -->
-					<select name="state" class="validate[required] sb-setstatecss">
+					<select name="state" class="validate[required] sb-setstatecss sb-setstatecsswidthonfcedit">
 						<option value="">Select State</option>
 						<?php 
 							foreach ($states as $key => $state) {

@@ -243,8 +243,9 @@ class Order extends MX_Controller {
 
 		#load view
 		$data['order']	 		= $order;
-		$data['badges']	= $order_badges;
-		$data['extras']	= $order_extras;
+		$data['badges']			= $order_badges;
+		$data['extras']			= $order_extras;
+		$data['store_state']	= isset($shipping['state']) && !empty($shipping['state']) ? $shipping['state'] : '';
 		$data['total_badges']	= $total_badges;
 		$data['total_tenured']	= $order->order_tenured_qty;
 		$data['total_mf']		= $total_magnetic_fasteners;
@@ -475,11 +476,11 @@ class Order extends MX_Controller {
 				//$amount 	= number_format($total * 10.00 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
 				$shippingCharge = 3.50;
 				$sale_tax_part = 0;
-				$amount 	= number_format(($badges_total_cost + $extras_total_cost + $shippingCharge),2);
-				if(strtolower($this->input->post('state',true)) == 'florida')
+				$amount 	= number_format(($badges_total_cost + $extras_total_cost),2);
+				if(strtolower($account->store_state) == 'florida')
 					$sale_tax_part = $amount*(0.06);
 
-				$amount = $amount+$sale_tax_part;
+				$amount = $amount+$sale_tax_part+$shippingCharge;
 				//echo '<pre>'; print_r($amount+$sale_tax); echo '</pre>'; exit;
 				// get billing info
 				$billing	= array();
@@ -577,10 +578,10 @@ class Order extends MX_Controller {
 					
 					$data['order_status'] = 2;
 					$data['order_approve_dated'] = time();
-					//echo '<pre>'; print_r($data); echo '</pre>'; /*exit;*/
+
 					# save order into database
 					$orderId = $this->order_model->saveItem('orders',array('id'=>0),$data);
-					$store_state = $billing['state'];
+
 					# unset session
 					$this->session->unset_userdata('cart');
 					$this->session->unset_userdata('cart_total');
@@ -592,7 +593,7 @@ class Order extends MX_Controller {
 					#load view
 					$data['orderId']		= $orderId;
 					$data['total_badges']	= $total;
-					$data['store_state']	= $store_state;
+					$data['store_state']	= $store->store_state;
 					$data['badges']	= $cart_items['badges'];
 					$data['extras']	= $cart_items['extras'];
 					$data['total_tenured']	= $total_tenured;

@@ -12,7 +12,7 @@
 					<?php if($item->item_minor_required && !$store_minor) continue;?>
 					<?php if($item->item_id==12 && $store_role==1) continue;?>
 					<?php 
-						if(!in_array($item->item_id, array(1,2,18,19))) {
+						if(!in_array($item->item_id, array(1,2,18))) {
 							$temp_extraItem = array();
 							$temp_extraItem['item_id'] = $item->item_id;
 							$temp_extraItem['item_name'] = $item->item_name;
@@ -53,7 +53,8 @@
         		Wings, Pins, and Fasteners
         	</a> 
         	<img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" width="60" /> 
-        	<img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" />
+        	<!-- removed as per client feedback on 19-march-2016 -->
+        	<!-- <img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" /> -->
         	<?php
         		foreach ($extraItem as $extra) {
         			if(!empty($extra['item_img']))
@@ -76,6 +77,8 @@
             		Enter Quantity
             	</label>
             </div>
+            <?php /*?>
+            <!-- removed as per client feedback on 19-march-2016 -->
             <div class="qty-item clb">
             	<img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" />
             	<label>
@@ -84,6 +87,7 @@
             		Enter Quantity
             	</label>
             </div>
+            <?php */?>
             <?php
             	$j = 3;
         		foreach ($extraItem as $extra) {
@@ -103,7 +107,10 @@
         		}
         	?>
             <div class="clb">&nbsp;</div>
-            <div class="txtC mb-15"><input type="button" id="add_fasteners" value="Add Fasteners to Order"></div>
+            <div class="txtC mb-15">
+            	<!-- <input type="button" id="add_fasteners" value="Add Fasteners to Order"> -->
+            	<input type="button" id="add_fasteners" value="ADD SELECTION TO ORDER">
+            </div>
         </div>
 		<div id="enter-names-field">
 		</div>

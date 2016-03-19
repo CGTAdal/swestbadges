@@ -217,6 +217,12 @@ table tr.row1{background:#fff;}
 .sb-setstatecss{
     padding: 4px 2px !important;
 }
+.sb-setstatecsswidthonfcedit{
+    width:  242px;
+}
 .sb-setstatewidthonshpping{
     width: 341px;
+}
+.fc-edit.fc-signup label span{
+    width: 216px;
 }

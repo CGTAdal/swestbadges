@@ -88,7 +88,7 @@
 					<label class="required">State </label> 
 					<!-- commented by sunny 18-march-2016 -->
 					<!-- <input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php //echo (isset($store->store_state))?$store->store_state:"";?>"> -->
-					<select name="state" class="large validate[required]"   name="store_state" id="store_state">
+					<select class="large validate[required]"   name="store_state" id="store_state">
 						<option value="">Select State</option>
 						<?php 
 							foreach ($states as $key => $state) {
@@ -126,7 +126,10 @@
 					<label class="required">Please enter your Location and Title:</label>
 					<input type="text" name="store_location_title" id="store_location_title" size="50" class="validate[required] large"/>
 				</div>
-
+				<?php 
+					/*
+					//commented as per client feedback. Only single role exist in the website now.
+				?>
 				<div class="field">
 					<label for="address2">Type</label> 
 					<select name="store_role" id="select_role">
@@ -135,6 +138,9 @@
 						<option value="3" selected="selected">Franchise</option>
 					</select>
 				</div>
+				<?php 
+					*/
+				?>
 				<div class="field"><?php echo ($error_full!="")?"<p>".$error_full."</p>":"";?></div>
 				<input type="hidden" name="store_id" id="store_id" value="<?php echo (isset($store->store_id))?$store->store_id:0;?>">				
 				<div class="buttonrow" align="center" style="margin-left:165px">					

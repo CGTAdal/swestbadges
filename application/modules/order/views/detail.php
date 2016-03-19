@@ -59,6 +59,7 @@
 								<h3 class="title no-border">Badges:</h3>
 								<?php 
 									foreach ($badges as $key => $badge) {
+										$total_badge_price = $total_badge_price + $badge['price'];
 									?>
 									<div class="product-holder" title="<?php echo $badge['style']; ?>">
 										<span>
@@ -94,6 +95,7 @@
 								<h3 class="title no-border">Extras:</h3>
 								<?php 
 									foreach ($extras as $key => $extra) {
+										$total_extra_price = $total_extra_price + ($extra['item_qty']*$extra['item_price']);
 									?>
 										<div class="product-holder" title="<?php echo $extra['item_name']; ?>">
 											<?php
@@ -151,7 +153,8 @@
 								$last = trim($last,'0');
 							}
 							//$total_price = $first.'.'.$last;					
-							$total_price = $total_badge_price + $total_extra_price + 3.50;
+							$total_price = $total_badge_price + $total_extra_price;
+							$shipping_charge = 3.50;
 						?>
 						<div class="product-holder">
 							<span> Shipping Charge</span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font>
@@ -165,7 +168,7 @@
 						?>
 						<?php 
 							$divStyle = 'display:none;';
-							if( $billing['state'] == 'florida' ) {
+							if( $store_state == 'florida' ) {
 								$divStyle = '';	
 								$sale_tax_part = $sales_tax;
 							}
@@ -176,7 +179,7 @@
 
 						<br/>
 						<div class="product-holder">
-							<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part),2);?></font>
+							<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part + $shipping_charge),2);?></font>
 						</div>
 
 						<!-- <div>Total: $<font id="total-order-price"><?php //echo $total_price;?></font></div> -->

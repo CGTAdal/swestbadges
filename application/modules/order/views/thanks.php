@@ -133,7 +133,8 @@
 					$last = trim($last,'0');
 				}
 				//$total_price = $first.'.'.$last;					
-				$total_price = $total_badge_price + $total_extra_price + 3.50;
+				$total_price = $total_badge_price + $total_extra_price;
+				$shipping_charge = 3.50;
 			?>
 			<div class="product-holder">
 				<span> Shipping Charge</span><span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font></span>
@@ -158,7 +159,7 @@
 
 			<br/>
 			<div class="product-holder">
-				<span> Total Amount for order #<?php echo $orderId;?></span><span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part),2);?></font></span>
+				<span> Total Amount for order #<?php echo $orderId;?></span><span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part + $shipping_charge),2);?></font></span>
 			</div>
 			<!-- <div align="center">Total for order #<?php //echo $orderId;?>: $<?php //echo $total_price;?></div> -->
 		</div>

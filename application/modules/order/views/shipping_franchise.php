@@ -132,7 +132,8 @@
 							$last = trim($last,'0');
 						}
 						//$total_price = $first.'.'.$last;					
-						$total_price = $total_badge_price + $total_extra_price + 3.50;
+						$total_price = $total_badge_price + $total_extra_price;
+						$shipping_charge = 3.50;
 					?>
 					<div class="product-holder">
 						<span> Shipping Charge</span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font>
@@ -157,7 +158,7 @@
 
 					<br/>
 					<div class="product-holder">
-						<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part),2);?></font>
+						<span> Total Amount</span> &nbsp;&nbsp;: $<font id="total_price_amt"><?php echo number_format(($total_price + $sale_tax_part + $shipping_charge),2);?></font>
 					</div>
 				</div>
 				<h3 class="title">Billing Address:</h3>
@@ -277,21 +278,22 @@
 <script>
 	$(document).ready(function(){
 
-		var total_price = <?php echo $total_price;?>;
-		var sales_tax = <?php echo $sales_tax;?>;
+		//TO DO: Need to remove if client confirm sales tax applied on basis of store state
+		/*var total_price = <?php //echo $total_price;?>;
+		var sales_tax = <?php //echo $sales_tax;?>;*/
 
-		$('#billing-state').change(function(){
+		/*$('#billing-state').change(function(){
 			state = $(this).val();
 			if(state == 'florida'){
-				total_price = total_price+sales_tax;
-				$('#total_price_amt').html(total_price.toFixed(2));
+				total_price1 = total_price+sales_tax;
+				$('#total_price_amt').html(total_price1.toFixed(2));
 				$('#sale_tax_amt').html(sales_tax);
 				$('#sale_tax_holder').css('display','inline-block');
 			}else{
 				$('#sale_tax_holder').css('display','none');
 				$('#total_price_amt').html(total_price.toFixed(2));
 			}
-		});
+		});*/
 
 		$("#form_order_customer").validationEngine('attach',{
 			promptPosition : "topRight", 
