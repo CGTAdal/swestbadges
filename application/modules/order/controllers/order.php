@@ -479,7 +479,7 @@ class Order extends MX_Controller {
 				$amount 	= number_format(($badges_total_cost + $extras_total_cost),2);
 				if(strtolower($account->store_state) == 'florida')
 					$sale_tax_part = $amount*(0.06);
-
+				$amount1 = $amount + $shippingCharge;
 				$amount = $amount+$sale_tax_part+$shippingCharge;
 				//echo '<pre>'; print_r($amount+$sale_tax); echo '</pre>'; exit;
 				// get billing info
@@ -571,7 +571,8 @@ class Order extends MX_Controller {
 					$data['order_date']			= time();
 					$data['order_shipping']		= serialize($shipping);
 					$data['order_billing']		= serialize($billing);
-					$data['order_cost']			= $amount;
+					$data['order_cost']			= $amount1;
+					$data['order_tax']			= $sale_tax_part;
 			
 					$data['order_mf_qty']	= (isset($cart['order_mf_qty'])) ? $cart['order_mf_qty'] : 0;
 					$data['order_pf_qty']	= (isset($cart['order_pf_qty'])) ? $cart['order_pf_qty'] : 0;

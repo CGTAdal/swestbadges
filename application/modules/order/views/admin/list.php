@@ -93,7 +93,7 @@
 					<th class="sortable <?php echo ($sort_cost!="")?"sorting_".$sort_cost:"sorting";?>" value="cost">Order Cost</th>
 					<th>Tax</th>
 					<th >Total</th>
-					<th>Status</th>
+					<!-- <th>Status</th> // Status removed as per client feedback on 21-march-2016 by sunny-->
 					<!-- <th>Approved Date</th>
 					<th>Approval Email</th> -->
 					<th style="text-align:center">Action</th>
@@ -164,6 +164,10 @@
 								}
 							?>
 						</td>
+						<?php 
+							/*
+							// update status removed as per client feedback on 21-march-2016 by sunny
+						?>
 						<td value="<?php echo $order->order_id;?>">
 							<select class="order-status">
 								<option value="1" <?php echo ($order->order_status==1)?'selected':'';?>>Pending</option>
@@ -171,6 +175,9 @@
 								<option value="3" <?php echo ($order->order_status==3)?'selected':'';?>>Denied</option>
 							</select>
 						</td>
+						<?php 
+							*/
+						?>
 						<?php /*?>
 						<?php if($order->order_status==2) {?>
 						<td><?php echo date('m/d/Y',$order->order_approve_dated);?></td>

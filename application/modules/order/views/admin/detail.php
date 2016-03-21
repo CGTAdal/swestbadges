@@ -44,6 +44,26 @@
 				<?php if($order->order_total>0) {?>
 					<div><?php echo $order->order_total; echo ($order->order_total>1)?' Badges':' Badge';?></div>
 				<?php }?>
+				
+				<?php if(isset($extras) && is_array($extras) && count($extras)>0) {?>
+					<div>
+						<?php 
+							$total_extra = 0;
+							foreach ($extras as $key => $extra) {
+								$total_extra = $total_extra + $extra['item_qty'];
+							}
+							echo $total_extra; 
+							echo ($total_extra>1)?' Extras':' Extra';
+						?>
+					</div>
+				<?php }?>
+				
+				<div>Shipping Charge:- $3.50</div>
+
+				<?php if($order->order_tax > 0) {?>
+					<div>Sales Tax:- $<?php echo $order->order_tax;?></div>
+				<?php }?>
+
 				<?php if($order->order_tenured_qty > 0) {?>
 					<div><?php echo $order->order_tenured_qty; echo ($order->order_tenured_qty>1)?' Tenured Badges':' Tenured Badge';?></div>
 				<?php }?>
@@ -67,8 +87,10 @@
 				<tr>
 					<th>Style</th>
 					<th>Name</th>
-					<th>Fastener</th>
-					<th>Years Of Service</th>
+					<!-- <th>Fastener</th>
+					<th>Years Of Service</th> -->
+					<th>Qty</th>
+					<th>Total</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -77,6 +99,7 @@
 						<tr>						
 							<td><?php if(isset($badge['style'])) {echo $badge['style'];}else{}?></td>			
 							<td><?php if(isset($badge['name'])){echo $badge['name'];}else{}?></td>
+							<?php /*?>
 							<td><?php if(isset($badge['fastener'])){echo $badge['fastener'];}else{}?></td>
 							<td>
 								<?php 
@@ -85,6 +108,10 @@
 									}
 								?>
 							</td>
+							<?php */?>
+							<td>1</td>
+							<td><?php if(isset($badge['price'])){echo '$'.$badge['price'];}else{}?></td>
+
 						</tr>
 					<?php $i++;}?>
 				<?php } else {?>
@@ -94,8 +121,39 @@
 				<?php }?>
 			</tbody>
 		</table>
+
+		<h2 class="title"><?php echo ($current_method=='process')?'Ordered Extras:':'Ordered Extras:'?></h2>
+		<table cellspacing="0" cellpadding="0" border="0">	
+			<thead>
+				<tr>
+					<th>Item</th>
+					<!-- <th>Price (per item) </th> -->
+					<th>Qty</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php if(isset($extras)&& ($extras)>0) {?>							
+					<?php $i=0; foreach($extras as $extra){?>
+						<tr>						
+							<td><?php if(isset($extra['item_name'])) {echo $extra['item_name'];}else{}?></td>			
+							<!-- <td><?php //if(isset($extra['item_price'])){echo '$'.$extra['item_price'];}else{}?></td> -->
+							<td><?php if(isset($extra['item_qty'])){echo $extra['item_qty'];}else{}?></td>
+							<td><?php if(isset($extra['item_qty']) && isset($extra['item_price'])){echo '$'.($extra['item_qty']*$extra['item_price']);}else{}?></td>
+
+						</tr>
+					<?php $i++;}?>
+				<?php } else {?>
+					<tr>
+						<td colspan="3" align="center">No Extra</td>
+					</tr>
+				<?php }?>
+			</tbody>
+		</table>
 	</div> <!-- .portlet-content -->	
-	<?php if($current_method=='order'&& count($order)>0){?>	
+	<?php /*
+			// update status removed as per client feedback on 21-march-2016 by sunny
+			if($current_method=='order'&& count($order)>0){?>	
 		<div class="portlet-content">
 			<form action="<?php echo base_url();?>admin/order/detail/<?php echo $order->order_id;?>" method="post" id="order_detail_form">
 				<select name="status" style="margin-bottom:5px">
@@ -108,7 +166,7 @@
 				</div>		 
 			</form>
 		</div>
-	<?php }?>
+	<?php }*/?>
 	<?php if($current_method=='process'&& count($order)>0){?>
 		<form action="<?php echo base_url();?>admin/process/detail/<?php echo $order->order_id;?>" method="post" id="process_detail_form">
 		</form>

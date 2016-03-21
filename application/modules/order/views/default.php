@@ -234,9 +234,9 @@
 		});
 		
 		// convert first name to lower case
-		$('.first_name').live('blur',function(){
+		/*$('.first_name').live('blur',function(){
 			$(this).val($(this).val().toUpperCase());
-		});
+		});*/
 
 		// change field input-names
 		$(".items").click(function(){

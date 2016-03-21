@@ -82,19 +82,24 @@ class Order extends MX_Controller {
 	
 	function detail($id)
 	{
+		/*
+		// update status removed as per client feedback on 21-march-2016 by sunny
 		if(isset($_REQUEST['submit'])) {
 			$data = array('order_status'=>(int)$this->input->post('status'));
 			$this->order_model->saveItem('orders',array('field'=>'order_id','id'=>$id),$data);
-		}
+		}*/
 		$order 		= $this->order_model->getOrderDetail(array('order_id'=>$id));
 		$item		= (count($order)>0)?unserialize($order->order_items):'';		
 		$shipping	= (count($order)>0)?unserialize($order->order_shipping):'';
 		$billing	= (count($order)>0)?unserialize($order->order_billing):'';
 
-		$badges		= (isset($item['badges']))?$item['badges']:((!isset($item['extras']))?$item:null);
-
+		//$badges		= (isset($item['badges'])) ? $item['badges'] : ((!isset($item['extras']))?$item:null);
+		$badges		= (isset($item['badges'])) ? $item['badges'] : null;
+		$extras		= (isset($item['extras'])) ? $item['extras'] : null;
+		//echo '<pre>'; print_r($extras); exit;
 		$data['order'] 		= $order;
 		$data['badges']		= $badges;
+		$data['extras']		= $extras;
 
 		$data['shipping'] 		= $shipping;
 		$data['billing']		= $billing;
