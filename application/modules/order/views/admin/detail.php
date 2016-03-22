@@ -61,7 +61,7 @@
 				<div>Shipping Charge:- $3.50</div>
 
 				<?php if($order->order_tax > 0) {?>
-					<div>Sales Tax:- $<?php echo $order->order_tax;?></div>
+					<div>Sales Tax:- $<?php echo number_format($order->order_tax,2);?></div>
 				<?php }?>
 
 				<?php if($order->order_tenured_qty > 0) {?>
@@ -89,6 +89,7 @@
 					<th>Name</th>
 					<!-- <th>Fastener</th>
 					<th>Years Of Service</th> -->
+					<th>Price</th>
 					<th>Qty</th>
 					<th>Total</th>
 				</tr>
@@ -109,6 +110,7 @@
 								?>
 							</td>
 							<?php */?>
+							<td><?php if(isset($badge['price'])){echo '$'.$badge['price'];}else{} ?></td>
 							<td>1</td>
 							<td><?php if(isset($badge['price'])){echo '$'.$badge['price'];}else{}?></td>
 
@@ -128,6 +130,7 @@
 				<tr>
 					<th>Item</th>
 					<!-- <th>Price (per item) </th> -->
+					<th>Price</th>
 					<th>Qty</th>
 					<th>Total</th>
 				</tr>
@@ -138,6 +141,7 @@
 						<tr>						
 							<td><?php if(isset($extra['item_name'])) {echo $extra['item_name'];}else{}?></td>			
 							<!-- <td><?php //if(isset($extra['item_price'])){echo '$'.$extra['item_price'];}else{}?></td> -->
+							<td><?php if(isset($extra['item_price'])){echo '$'.$extra['item_price'];}else{}?></td>
 							<td><?php if(isset($extra['item_qty'])){echo $extra['item_qty'];}else{}?></td>
 							<td><?php if(isset($extra['item_qty']) && isset($extra['item_price'])){echo '$'.($extra['item_qty']*$extra['item_price']);}else{}?></td>
 

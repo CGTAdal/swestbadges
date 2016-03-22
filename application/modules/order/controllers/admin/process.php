@@ -202,10 +202,14 @@ class Process extends MX_Controller {
 		$item		= (count($order)>0)?unserialize($order->order_items):'';
 		$shipping	= (count($order)>0)?unserialize($order->order_shipping):'';
 		$billing	= (count($order)>0)?unserialize($order->order_billing):'';
-		$badges		= isset($item['badges'])?$item['badges']:(!isset($item['extras'])?$item:null);
+		//$badges		= isset($item['badges'])?$item['badges']:(!isset($item['extras'])?$item:null);
+		$badges		= (isset($item['badges'])) ? $item['badges'] : null;
+		$extras		= (isset($item['extras'])) ? $item['extras'] : null;
 		
 		$data['order']			= $order;
 		$data['badges']			= $badges;
+		$data['extras']		= $extras;
+		
 		$data['shipping'] 		= $shipping;
 		$data['billing']		= $billing;	
 		$data['content']	= 'admin/detail';

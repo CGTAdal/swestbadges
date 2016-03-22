@@ -16,7 +16,10 @@
 			<th>5-Pack Pins</th> <?php */?>
 			<th>Order Cost</th>
 			<th>Tax</th>
+			<th>Sub Total</th>
+			<th>Shipping Charge</th>
 			<th >Total</th>
+			<th >Net</th>
 			<th >Approved Date</th>
 		</tr>
 	</thead>
@@ -51,23 +54,39 @@
 				<?php */?>
 				<td>
 					<?php
-						if($order->order_cost==0) { 
+						/*if($order->order_cost==0) { 
 							echo number_format($order->order_total * 4.75 + $order->order_mf_qty * 6.25 + $order->order_pf_qty * 3.5,2);
 						} else {
 							echo number_format($order->order_cost,2);									
-						}
+						}*/
+						$order_cost = $order->order_cost;
+						echo number_format($order_cost,2);
 					?>
 				</td>
 				<td>
-					<?php echo number_format($order->order_tax,2);?>
+					<?php 
+						//echo number_format($order->order_tax,2);
+						$sales_tax = $order->order_tax;
+						echo number_format($sales_tax,2);
+					?>
 				</td>
+				<td> <?php echo number_format(($order_cost+$sales_tax),2);?> </td>
+				<td> <?php $shipping_charge = 3.50; echo number_format($shipping_charge,2); ?> </td>
 				<td>
 					<?php
-						if($order->order_cost==0) { 
+						/*if($order->order_cost==0) { 
 							echo number_format($order->order_total * 4.75 + $order->order_mf_qty * 6.25 + $order->order_pf_qty * 3.5 + $order->order_tax,2);
 						} else {
 							echo number_format($order->order_cost + $order->order_tax,2);									
-						}
+						}*/
+						$total_amt = number_format(($order_cost+$sales_tax+$shipping_charge),2);
+						echo $total_amt;
+					?>
+				</td>
+				<td> 
+					<?php 
+						$net_amt = (($order->order_total * 2.75) + 3.50) + $total_amt + ($total_amt * (2.45/100)) + 0.28;
+						echo number_format($net_amt,2);
 					?>
 				</td>
 				<td><?php echo ($order->order_status==2)?date('m/d/Y',$order->order_approve_dated):'--';?></td>

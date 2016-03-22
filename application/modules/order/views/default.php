@@ -12,7 +12,7 @@
 					<?php if($item->item_minor_required && !$store_minor) continue;?>
 					<?php if($item->item_id==12 && $store_role==1) continue;?>
 					<?php 
-						if(!in_array($item->item_id, array(1,2,18))) {
+						if(!in_array($item->item_id, array(1,2,18,19))) {
 							$temp_extraItem = array();
 							$temp_extraItem['item_id'] = $item->item_id;
 							$temp_extraItem['item_name'] = $item->item_name;
