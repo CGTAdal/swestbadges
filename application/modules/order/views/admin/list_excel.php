@@ -71,7 +71,12 @@
 					?>
 				</td>
 				<td> <?php echo number_format(($order_cost+$sales_tax),2);?> </td>
-				<td> <?php $shipping_charge = 3.50; echo number_format($shipping_charge,2); ?> </td>
+				<td> 
+					<?php 
+						$shipping_charge = 5.00;
+						echo number_format($shipping_charge,2); 
+					?> 
+				</td>
 				<td>
 					<?php
 						/*if($order->order_cost==0) { 

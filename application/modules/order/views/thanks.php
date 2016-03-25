@@ -134,10 +134,10 @@
 				}
 				//$total_price = $first.'.'.$last;					
 				$total_price = $total_badge_price + $total_extra_price;
-				$shipping_charge = 3.50;
+				$shipping_charge = 5.00;
 			?>
 			<div class="product-holder">
-				<span> Shipping Charge</span><span> &nbsp;&nbsp;: $<font id="total-order-price">3.50</font></span>
+				<span> Shipping Charge</span><span> &nbsp;&nbsp;: $<font id="total-order-price">5.00</font></span>
 			</div>
 			
 			<?php //sales tax only applicable on florida ?>

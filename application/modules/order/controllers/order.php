@@ -474,7 +474,8 @@ class Order extends MX_Controller {
 				}
 				//commented by sunny 18-march-2016
 				//$amount 	= number_format($total * 10.00 + $total_tenured * 6.25 + $total_mf * 6.25 + $total_pf * 3.5,2);
-				$shippingCharge = 3.50;
+				//$shippingCharge = 3.50;
+				$shippingCharge = 5.00;
 				$sale_tax_part = 0;
 				$amount 	= number_format(($badges_total_cost + $extras_total_cost),2);
 				if(strtolower($account->store_state) == 'florida')

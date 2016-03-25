@@ -58,7 +58,7 @@
 					</div>
 				<?php }?>
 				
-				<div>Shipping Charge:- $3.50</div>
+				<div>Shipping Charge:- $5.00</div>
 
 				<?php if($order->order_tax > 0) {?>
 					<div>Sales Tax:- $<?php echo number_format($order->order_tax,2);?></div>
