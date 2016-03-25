@@ -90,7 +90,7 @@
 				</td>
 				<td> 
 					<?php 
-						$net_amt = (($order->order_total * 2.75) + 3.50) + $total_amt + ($total_amt * (2.45/100)) + 0.28;
+						$net_amt = (($order->order_total * 2.75) + 3.50) + ($total_amt * (2.45/100)) + 0.28;
 						echo number_format($net_amt,2);
 					?>
 				</td>
