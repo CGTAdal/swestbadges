@@ -29,7 +29,9 @@
 							<span class="badgestyle-icon ">
 								<img src="<?php echo base_url().$item->item_img;?>" />
 							</span>
-							<span id="name_item_<?php echo $item->item_id;?>"><?php echo $item->item_name;?></span>
+							<span id="name_item_<?php echo $item->item_id;?>">
+								<?php echo $item->item_name;?> | <font class="red-text">Price: $<?php echo $item->item_price;?></font>
+							</span>
 						</a>
 					</li>
 				<?php }
@@ -50,17 +52,17 @@
         	<a href="javascript: void(0);" class="qty-click" id="select-extras-link">
         		<!-- Commented by sunny on 16-march-2016 -->
         		<!-- Click Here To Order Additional Fasteners -->
+        		<!-- removed as per client feedback on 19-march-2016 -->
+        		<!-- <img src="<?php //echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" /> -->
         		Wings, Pins, and Fasteners
+        		<?php
+        			echo '<img src="'.base_url().'application/views/front_end/images/qty-magnet.jpg" width="60" />';
+	        		foreach ($extraItem as $extra) {
+	        			if(!empty($extra['item_img']))
+	        				echo '<img src="'.base_url().$extra['item_img'].'" width="60" />';
+	        		}
+        		?>
         	</a> 
-        	<img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" width="60" /> 
-        	<!-- removed as per client feedback on 19-march-2016 -->
-        	<!-- <img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" /> -->
-        	<?php
-        		foreach ($extraItem as $extra) {
-        			if(!empty($extra['item_img']))
-        				echo '<img src="'.base_url().$extra['item_img'].'" width="60" />';
-        		}
-        	?>
         </div>
         <div class="qty-add clb" id="extras-boxes" style="display:none">
         	<h3 class="title">
@@ -74,7 +76,7 @@
             		<input class="extras-item extras-item-1" type="text" id="extras-magnet-qty" value="" data-id="-1" data-price="6.25"/> 
             		<!-- Commented by sunny on 16-march-2016 -->
             		<!-- Enter Quantity Magnet <div style="padding-left:120px">Pack of 5</div> -->
-            		Enter Quantity
+            		Enter Quantity | <font class="red-text">Price: $6.25</font>
             	</label>
             </div>
             <?php /*?>
@@ -98,7 +100,7 @@
             	<label>
             		<input class="extras-item extras-item-<?php echo $j; ?>" type="text" value="" data-id="<?php echo $extra['item_id'];?>" data-price="<?php echo $extra['item_price'];?>" /> 
             		<!-- Enter Quantity Pin <div style="padding-left:120px">Pack of 5</div> -->
-            		Enter Quantity
+            		Enter Quantity  | <font class="red-text">Price: $<?php echo $extra['item_price'];?></font>
             	</label>
             </div>
         	<?php

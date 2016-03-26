@@ -226,3 +226,7 @@ table tr.row1{background:#fff;}
 .fc-edit.fc-signup label span{
     width: 216px;
 }
+.red-text{
+    color: #f00;
+    /*font-weight: bold;*/
+}
