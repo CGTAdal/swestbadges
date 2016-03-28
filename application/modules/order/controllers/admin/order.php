@@ -263,10 +263,16 @@ class Order extends MX_Controller {
 		
 		# get order list
 		$orders = $this->order_model->getOrderList($filter);
+
+		$this->db->select('item_id, item_name, item_price');
+		$items_query = $this->db->get_where('items',array('item_status' => 1));
+		$items = $items_query->result_array();
+
 //		display($filter);
 //		display($orders); 
 
 		$data['orders']				= $orders;
+		$data['items']				= $items;
 		$data['from_date']			= $from_date;
 		$data['to_date']			= $to_date;
 		$data['s_from_date']		= $s_from_date;
