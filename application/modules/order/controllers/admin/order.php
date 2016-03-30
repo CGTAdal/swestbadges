@@ -66,9 +66,14 @@ class Order extends MX_Controller {
 			'order_total'	=> $search_order_total,
 			// 'store_type'	=> $search_store_type
 		);
+
+		$this->db->select('item_id, item_name, item_price');
+		$items_query = $this->db->get_where('items',array('item_status' => 1));
+		$items = $items_query->result_array();
 		
 		$orders = $this->order_model->getOrderList($filter);
 		$data['orders']	= $orders;
+		$data['items']	= $items;
 		$view 	= $this->load->view('order/admin/list_excel',$data);
 		
 		$file	 = "Badges-Output.xls";
