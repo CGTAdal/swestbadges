@@ -12,7 +12,7 @@
 				$items_sorted = array();
 				$items_badge_arr = array();
 				$items_extra_arr = array();
-				$items_extra_arr = array(10 => array('item_id'=> '21', 'item_name' => '5-Pack Magnets', 'item_price' => 6.25));
+				//$items_extra_arr = array(10 => array('item_id'=> '21', 'item_name' => '5-Pack Magnets', 'item_price' => 6.25));
 				$allowedItemsId = array(1,2,18,19);
 				$i=0;
 				foreach ($items as $key => $value) {
@@ -76,7 +76,7 @@
 										$itemTotalPrice = $itemTotalPrice + ($order_item['price']);
 									}
 								}
-							}elseif (!empty($order_detail['extras'])) {
+							}elseif (!empty($order_detail['extras'])  && !in_array($item['item_id'], $allowedItemsId)) {
 								foreach ($order_detail['extras'] as $order_item) {
 									if(!empty($order_item) && in_array($item['item_id'], $order_item)){
 										$itemCount = $order_item['item_qty'];
