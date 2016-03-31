@@ -76,7 +76,8 @@
             		<input class="extras-item extras-item-1" type="text" id="extras-magnet-qty" value="" data-id="-1" data-price="6.25"/> 
             		<!-- Commented by sunny on 16-march-2016 -->
             		<!-- Enter Quantity Magnet <div style="padding-left:120px">Pack of 5</div> -->
-            		Enter Quantity | <font class="red-text">Price: $6.25</font>
+            		Enter Quantity | <font class="red-text">Price: $3.00</font><br />
+                    
             	</label>
             </div>
             <?php /*?>

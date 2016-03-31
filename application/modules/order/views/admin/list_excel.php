@@ -7,28 +7,6 @@
 			<?php /*?><th>Ship Date</th>
 			<th>Item</th> <?php */?>
 			<th>State</th>
-			<th>Ship Date</th>
-			<?php
-				$items_sorted = array();
-				$items_badge_arr = array();
-				$items_extra_arr = array();
-				$items_extra_arr = array(10 => array('item_id'=> '21', 'item_name' => '5-Pack Magnets', 'item_price' => 6.25));
-				$allowedItemsId = array(1,2,18,19);
-				$i=0;
-				foreach ($items as $key => $value) {
-					if(in_array($value['item_id'], $allowedItemsId))
-						$items_badge_arr[$key] = $value;
-					else
-						$items_extra_arr[$key] = $value;
-				}
-				$items_sorted = $items_badge_arr + $items_extra_arr;
-				//echo '<pre>'; print_r($items_sorted); echo '</pre>'; exit;
-				foreach ($items_sorted as $key => $item) {
-					//if(in_array($item['item_id'], $allowedItemsId))
-						echo '<th>'.$item['item_name'].' Qty'.'</th>';
-						echo '<th>'.$item['item_name'].' Total'.'</th>';
-				}
-			?>
 			<?php /*?><th>Market #</th>
 			<th>Badge Quantity</th>
 			<th>Badge Total</th>
@@ -42,7 +20,7 @@
 			<th>Shipping Charge</th>
 			<th >Total</th>
 			<th >Net</th>
-			<!-- <th >Approved Date</th> -->
+			<th >Approved Date</th>
 		</tr>
 	</thead>
 	<?php if(count($orders)>0) {?>
@@ -61,34 +39,6 @@
 				<td>Name Badges</td>
 				<?php */?>
 				<td><?php echo $order->store_state;?></td>
-				<td><?php echo ($order->order_shipdate==0)?'&nbsp;': date('m/d/Y',$order->order_shipdate);?></td>
-				<?php 
-					$order_detail = unserialize($order->order_items);
-					/*echo '<pre>';print_r($order_detail); echo '</pre>';*/
-					foreach ($items_sorted as $key => $item) {
-						//if(in_array($item['item_id'], $allowedItemsId)){
-							$itemCount = 0;
-							$itemTotalPrice = 0;
-							if(!empty($order_detail['badges']) && in_array($item['item_id'], $allowedItemsId)){
-								foreach ($order_detail['badges'] as $order_item) {
-									if(!empty($order_item) && in_array($item['item_name'], $order_item)){
-										$itemCount++;
-										$itemTotalPrice = $itemTotalPrice + ($order_item['price']);
-									}
-								}
-							}elseif (!empty($order_detail['extras'])) {
-								foreach ($order_detail['extras'] as $order_item) {
-									if(!empty($order_item) && in_array($item['item_id'], $order_item)){
-										$itemCount = $order_item['item_qty'];
-										$itemTotalPrice = $itemTotalPrice + ($order_item['item_price'] * $order_item['item_qty']);
-									}
-								}
-							}
-							echo '<td>'.$itemCount.'</td>';
-							echo '<td>'.$itemTotalPrice.'</td>';
-						//}
-					}
-				?>
 				<?php /*?>
 				<td><?php echo $order->director_number;?></td>
 				<td><?php echo $order->order_total?></td>
@@ -144,7 +94,7 @@
 						echo number_format($net_amt,2);
 					?>
 				</td>
-				<!-- <td><?php //echo ($order->order_status==2)?date('m/d/Y',$order->order_approve_dated):'--';?></td> -->
+				<td><?php echo ($order->order_status==2)?date('m/d/Y',$order->order_approve_dated):'--';?></td>
 			</tr>
 		<?php $i++;}?>
 	<?php } else {?>
