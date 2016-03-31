@@ -113,11 +113,11 @@
 				</div>
 				<div class="field">
 					<label class="required">Mailcode:</label>
-					<input type="text" name="mailcode" id="mailcode" size="50" class="<?php if($store->store_location_title=="") { echo 'validate[funcCall[checkMailCode]]]'; }?> large" value="<?php echo (isset($store->store_mailcode))?$store->store_mailcode:"";?>" />
+					<input type="text" name="mailcode" id="mailcode" size="50" class="<?php if($store->store_location_title=="" && $store->store_mailcode=='') { echo 'validate[funcCall[checkMailCode]]]'; }?> large" value="<?php echo (isset($store->store_mailcode))?$store->store_mailcode:"";?>" />
 					<a class="mailcode-link" href="javascript:void(0);" onclick="showLocationField()">Don’t have a mailcode?</a>
 					
 				</div>
-				<div class="field <?php if($store->store_location_title=="") { echo 'hidden'; }?>">
+				<div class="field <?php if($store->store_mailcode!="") { echo 'hidden'; }?>">
 					<label class="required">Please enter your Location and Title:</label>
 					<input type="text" name="store_location_title" id="store_location_title" size="50" class="validate[required] large" value="<?php echo (isset($store->store_location_title))?$store->store_location_title:"";?>" />
 				</div>
@@ -152,6 +152,16 @@
 	</div>
 </div>
 <script>
+var isMailCode = <?php if($store->store_location_title==""){ echo 'true';}else{ echo 'false'; }?>;
+function showLocationField() {
+	isMailCode = false;
+	$(".hidden").show();
+}
+function checkMailCode(field, rules, i, options){
+	if (isMailCode) {
+        rules.push('required'); 
+    }
+}
 $(document).ready(function(){
 	$('.btn-grey').live('click',function(){				
 		 parent.history.back();
