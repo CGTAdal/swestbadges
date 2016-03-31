@@ -293,6 +293,7 @@ class Order extends MX_Controller {
 		$store	= $this->session->userdata['store'];
 		$items	= $this->order_model->getItemList('items',array('where'=>'item_status = 1','order_by'=>array('item_order','asc')));
 		$cart	= (isset($this->session->userdata['cart']))?$this->session->userdata['cart']:array();
+		/*echo '<pre>'; print_r($this->session->userdata); exit;*/
 		
 		$titles	= array(
 			'licensed optician'				=> 'license optician',

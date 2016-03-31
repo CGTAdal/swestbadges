@@ -56,7 +56,7 @@
         		<!-- <img src="<?php //echo base_url()?>application/views/front_end/images/qty-pin.jpg" width="60" /> -->
         		Wings, Pins, and Fasteners
         		<?php
-        			echo '<img src="'.base_url().'application/views/front_end/images/qty-magnet.jpg" width="60" />';
+        			//echo '<img src="'.base_url().'application/views/front_end/images/qty-magnet.jpg" width="60" />';
 	        		foreach ($extraItem as $extra) {
 	        			if(!empty($extra['item_img']))
 	        				echo '<img src="'.base_url().$extra['item_img'].'" width="60" />';
@@ -65,13 +65,18 @@
         	</a> 
         </div>
         <div class="qty-add clb" id="extras-boxes" style="display:none">
+        	<div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div>
         	<h3 class="title">
         		<!-- Commented by sunny on 16-march-2016 -->
         		<!-- Enter Fastener Quantities: -->
         		Enter Quantities:
         	</h3>
+            <?php 
+            	/*
+            	//commented to make that entry dynamic on 31-march-2016
+            ?>
             <div class="qty-item clb">
-            	<img src="<?php echo base_url()?>application/views/front_end/images/qty-magnet.jpg" />
+            	<img src="<?php //echo base_url()?>application/views/front_end/images/qty-magnet.jpg" />
             	<label>
             		<input class="extras-item extras-item-1" type="text" id="extras-magnet-qty" value="" data-id="-1" data-price="6.25"/> 
             		<!-- Commented by sunny on 16-march-2016 -->
@@ -80,7 +85,7 @@
                     
             	</label>
             </div>
-            <?php /*?>
+            
             <!-- removed as per client feedback on 19-march-2016 -->
             <div class="qty-item clb">
             	<img src="<?php echo base_url()?>application/views/front_end/images/qty-pin.jpg" />
@@ -99,9 +104,14 @@
         	<div class="qty-item clb">
             	<img src="<?php echo base_url().$extra['item_img']; ?>"  width="120"/>
             	<label>
-            		<input class="extras-item extras-item-<?php echo $j; ?>" type="text" value="" data-id="<?php echo $extra['item_id'];?>" data-price="<?php echo $extra['item_price'];?>" /> 
+            		<div class="sb-extra-info-block">
+            			<input class="extras-item extras-item-<?php echo $j; ?>" type="text" value="" data-id="<?php echo $extra['item_id'];?>" data-price="<?php echo $extra['item_price'];?>" /> 
+            		</div>
+            		<div class="sb-extra-info-block sb-extra-info1">
+            			<div><?php echo $extra['item_name']; ?></div>
+            			Enter Quantity  | <font class="red-text">Price: $<?php echo $extra['item_price'];?></font>
+            		</div>
             		<!-- Enter Quantity Pin <div style="padding-left:120px">Pack of 5</div> -->
-            		Enter Quantity  | <font class="red-text">Price: $<?php echo $extra['item_price'];?></font>
             	</label>
             </div>
         	<?php
@@ -268,6 +278,7 @@
 			$('.input_box').each(function(){
 				var box_id		= $(this).attr('value');					
 				var style		= $('#style_'+box_id).val();
+				var item_id		= $('#item_id_'+box_id).val();
 				var name		= $('input[name=first_name_'+box_id+']').val();
 				var license		= $('input[name=license_'+box_id+']').val();
 
@@ -280,7 +291,7 @@
 					var price			= $("#price_"+box_id+"").val();
 					var service_year	= $("#years_of_service_"+box_id).val();
 						
-					var new_value	= '<div class="orderConfirm mb-30">';
+					var new_value	= '<div class="orderConfirm mb-30" data-item-id="'+item_id+'">';
 					new_value		+= '<p><strong>Style:</strong><span class="badge_style">'+style+'</span></p>';
 					new_value		+= '<p><strong>Name:</strong><span class="badge_name">'+name+'</span></p>';
 					
@@ -425,6 +436,7 @@
 			var order_style 		= new Array();
 			var order_name 			= new Array();
 			var order_price			= new Array();
+			var order_item_id		= new Array();
 			var order_title			= new Array();
 			var order_license		= new Array();
 			var order_fastener 		= new Array();
@@ -434,6 +446,7 @@
 				var style			= $('.badge_style',$(this)).html();
 				var name			= $('.badge_name',$(this)).html();
 				var price			= $('.badge_price',$(this)).html();
+				var item_id			= $(this).attr('data-item-id');
 				var title			= $('.badge_title',$(this)).html();
 				var license			= $('.badge_license',$(this)).html();
 				var fastener		= $('.badge_fastener',$(this)).html();
@@ -442,6 +455,7 @@
 				
 				order_style.push(style);
 				order_price.push(price);
+				order_item_id.push(item_id);
 				if(license!=null) {
 					order_license.push(license);
 				}
@@ -461,7 +475,7 @@
 			});
 			$.post(
 				"<?php echo base_url();?>order/ajax/addBadgesToCart",
-				{styles:order_style, prices:order_price, names: order_name,titles: order_title, licenses: order_license, fasteners: order_fastener, spk_spanish: order_spk_spanish, service_year: order_service_year},
+				{styles:order_style, prices:order_price, names: order_name, item_id: order_item_id,titles: order_title, licenses: order_license, fasteners: order_fastener, spk_spanish: order_spk_spanish, service_year: order_service_year},
 				function(data) {
 					$('#badge_list').append(data);
 					$('#badge-title').show();

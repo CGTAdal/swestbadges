@@ -19,6 +19,7 @@ class Ajax extends MX_Controller {
 		
 		$styles			= $this->input->post('styles');
 		$prices			= $this->input->post('prices');
+		$item_id		= $this->input->post('item_id');
 		$names			= $this->input->post('names');
 		$titles			= $this->input->post('titles');
 		$licenses		= $this->input->post('licenses');
@@ -34,6 +35,7 @@ class Ajax extends MX_Controller {
 			$temp_item['style']			= $style;
 			$temp_item['name']			= $names[$key];
 			$temp_item['price']			= $prices[$key];
+			$temp_item['item_id']		= $item_id[$key];
 			$total_cost = $total_cost + $prices[$key];
 			if(isset($fasteners[$key])){
 				$temp_item['fastener']	= $fasteners[$key];
@@ -116,14 +118,16 @@ class Ajax extends MX_Controller {
 					$total_cost 			  = $total_cost + ($temp_item['item_qty'] * $temp_item['item_price']);
 					$extras[] 	= $temp_item;
 
-				}elseif (in_array($extra_item_id, array(-1,0))) {
+				}/*
+					//this code working in case of static extra item which is commented on 31-march-2016
+					elseif (in_array($extra_item_id, array(-1,0))) {
 					$temp_item['item_id']      = $extra_item_id;
 					$temp_item['item_name']    = ($extra_item_id == -1) ? 'Magnetic Fastener' : '5-Pack Pins';
 					$temp_item['item_price']   = ($extra_item_id == -1) ? 3.00 : 3.5;
 					$temp_item['item_qty']     = $extra_qty_array[$key];
 					$total_cost 			   = $total_cost + ($temp_item['item_qty'] * $temp_item['item_price']);
 					$extras[] 	= $temp_item;
-				}
+				}*/
 			}
 			//echo '<pre>'; print_r($extras); exit;
 			$cart['extras'] = $extras;
@@ -161,11 +165,13 @@ class Ajax extends MX_Controller {
 		$type = $this->input->post('type');		
 		$id     = $this->input->post('id');
 		$item_name = '';
+		$item_id = 0;
 		$price = 0;
 		if(!empty($id)){
 			$item_detail = $this->db->get_where('items',array('item_id' => (int)$id), 1)->result_array();
 			//print_r($item_detail); exit;
 			$item_name = $item_detail[0]['item_name'];
+			$item_id = $item_detail[0]['item_id'];
 			$price = $item_detail[0]['item_price'];
 		}
 
@@ -173,6 +179,7 @@ class Ajax extends MX_Controller {
 			case '1':
 				$data['number']	 = $current_input_boxes_number + 1;
 				$data['style']	 = !empty($item_name) ? $item_name : "Southwest Name Badge";
+				$data['item_id'] = $item_id;
 				#$data['title']	 = "no title included";
 				#$data['license'] = 1;
 				$data['price']	 = $price;
@@ -180,8 +187,9 @@ class Ajax extends MX_Controller {
 				return;
 			break;
 			case '2':
-				$data['number']	= $current_input_boxes_number + 1;
-				$data['style']	= !empty($item_name) ? $item_name : "Southwest Wing";
+				$data['number']	 = $current_input_boxes_number + 1;
+				$data['style']	 = !empty($item_name) ? $item_name : "Southwest Wing";
+				$data['item_id'] = $item_id;
 				#$data['title']	= "";
 				$data['price']	= $price;
 				$this->load->view('order/form/additional_input_name_form',$data);
@@ -259,11 +267,13 @@ class Ajax extends MX_Controller {
 		$type	= $this->input->post('type');
 		$id     = $this->input->post('id');
 		$item_name = '';
+		$item_id = 0;
 		$price = 0;
 		if(!empty($id)){
 			$item_detail = $this->db->get_where('items',array('item_id' => (int)$id), 1)->result_array();
 			//print_r($item_detail); exit;
 			$item_name = $item_detail[0]['item_name'];
+			$item_id = $item_detail[0]['item_id'];
 			$price = $item_detail[0]['item_price'];
 		}
 		switch ($type) {
@@ -271,6 +281,7 @@ class Ajax extends MX_Controller {
 				$data	= array();
 				$data['description']	= "";
 				$data['style']			= !empty($item_name) ? $item_name : "Southwest Name Badge";
+				$data['item_id']			= $item_id;
 				#$data['title']			= "no title included";
 				$data['type']			= 1;
 				$data['price']			= $price;
@@ -281,6 +292,7 @@ class Ajax extends MX_Controller {
 				$data	= array();
 				$data['description']	= "";
 				$data['style']			= !empty($item_name) ? $item_name : "Southwest Wing";
+				$data['item_id']			= $item_id;
 				#$data['title']			= "no title included";
 				$data['type']			= 2;
 				$data['price']			= $price;

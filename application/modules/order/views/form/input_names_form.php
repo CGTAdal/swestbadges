@@ -57,12 +57,13 @@
 				-->
 				<input type="hidden" id="style_1" value="<?php echo $style;?>" />
 				<input type="hidden" id="price_1" value="<?php echo $price;?>" />
+				<input type="hidden" id="item_id_1" value="<?php echo $item_id;?>" />
 				<?php if(isset($title)) {?><input type="hidden" id="title_1" value="<?php echo $title;?>" /><?php }?>
 			</div>
 		</div>
 	</div>
 	<div class="clb txtC mb-5">&nbsp;</div>
-	<div class="clb txtC mb-40"><a href="javascript: void(0)" class="add-another" value="<?php echo $type;?>" data-price="<?php echo $price;?>" id="add_more">Add Another Name</a></div>
+	<div class="clb txtC mb-40"><a href="javascript: void(0)" class="add-another" value="<?php echo $type;?>" data-price="<?php echo $price;?>" id="add_more">Add Another Name Badge</a></div>
 	<div class="clb txtC mb-15"><input type="button" value="Add Badges to Order" id="add_names"></div>
 </div>
 <!-- 

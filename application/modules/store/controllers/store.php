@@ -35,7 +35,7 @@ class Store extends MX_Controller {
 	
 	function edit_account() {
 		$store = $this->session->userdata('store');
-		if($store->store_role!=3) {
+		if(empty($store) && $store->store_role!=3) {
 			redirect('order/select');
 		}
 
@@ -47,7 +47,7 @@ class Store extends MX_Controller {
 			$data['store_city'] 		= $this->input->post('city');
 			$data['store_state']		= $this->input->post('state');
 			$data['store_zip'] 			= $this->input->post('zip');
-			$data['store_phone'] 		= $this->input->post('phone');			
+			$data['store_phone'] 		= $this->input->post('phone');
 			//echo '<pre>'; print_r($data); exit;
 			$store_id = $this->store_model->saveItem('stores',array('field'=>'store_id','id'=>$store->store_id),$data);
 			//echo $store_id; exit;
@@ -162,7 +162,6 @@ class Store extends MX_Controller {
 				
 				$this->session->set_userdata('store', $store);
 				redirect('order/select');
-				
 			}
 		}
 		$this->db->select('state_name,state_code');

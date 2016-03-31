@@ -15,7 +15,7 @@
 				</label>
 				<label>
 					<span>Phone:</span>
-					<input type="text" name="phone" id=""/>
+					<input type="text" name="phone" id="store_phone" value="<?php echo $store->store_phone;?>"/>
 				</label>
 				<label>
 					<span class="required">Mailing Address:</span>

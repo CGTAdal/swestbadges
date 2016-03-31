@@ -11,7 +11,7 @@
 				<span class="required">Centre Number:</span>
 				<input type="text" name="number" id="number" class="validate[required, ajax[ajaxCheckAccountNumber]]"/>
 			</label> -->
-			<div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div>
+			<!-- <div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div> -->
 			<label>
 				<span class="required">Name:</span>
 				<input type="text" name="name" id="" class="validate[required]"/>

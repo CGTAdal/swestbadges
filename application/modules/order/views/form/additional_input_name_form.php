@@ -54,6 +54,7 @@
 				-->
 				<input type="hidden" id="style_<?php echo $number;?>" value="<?php echo $style;?>" />
 				<input type="hidden" id="price_<?php echo $number;?>" value="<?php echo $price;?>" />
+				<input type="hidden" id="item_id_<?php echo $number;?>" value="<?php echo $item_id;?>" />
 				<?php if(isset($title)) {?><input type="hidden" id="title_<?php echo $number;?>" value="<?php echo $title;?>" /><?php }?>
 			</div>
 		</div>
