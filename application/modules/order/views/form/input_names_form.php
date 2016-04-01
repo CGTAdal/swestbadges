@@ -1,3 +1,4 @@
+<div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div>
 <div class="order-new clb" id="enter_names">
 	<input type="hidden" value="1" id="current_input_boxes_number"/>
 	<h3 class="title">Enter Name: <?php echo $description!=""?"($description)":$description;?></h3>
