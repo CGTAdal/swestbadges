@@ -71,7 +71,7 @@
 							$itemTotalPrice = 0;
 							if(!empty($order_detail['badges']) && in_array($item['item_id'], $allowedItemsId)){
 								foreach ($order_detail['badges'] as $order_item) {
-									if(!empty($order_item) && in_array($item['item_name'], $order_item)){
+									if(!empty($order_item) && (in_array($item['item_id'], $order_item) || in_array($item['item_name'], $order_item))){
 										$itemCount++;
 										$itemTotalPrice = $itemTotalPrice + ($order_item['price']);
 									}
