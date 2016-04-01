@@ -1,4 +1,4 @@
-<div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div>
+<div class="small-red-heading">You must be a Flight Attendant to purchase these wings. Orders will be verified.</div>
 <div class="order-new clb" id="enter_names">
 	<input type="hidden" value="1" id="current_input_boxes_number"/>
 	<h3 class="title">Enter Name: <?php echo $description!=""?"($description)":$description;?></h3>
@@ -64,7 +64,21 @@
 		</div>
 	</div>
 	<div class="clb txtC mb-5">&nbsp;</div>
-	<div class="clb txtC mb-40"><a href="javascript: void(0)" class="add-another" value="<?php echo $type;?>" data-price="<?php echo $price;?>" id="add_more">Add Another Name Badge</a></div>
+	<div class="clb txtC mb-40">
+		<a href="javascript: void(0)" class="add-another" value="<?php echo $type;?>" data-price="<?php echo $price;?>" id="add_more">
+			<?php 
+				if(strpos(strtolower($style), 'wing') === false){
+			?>
+				Add Another Name Badge
+			<?php 
+				}else{
+			?>
+				Add Another Wing
+			<?php
+				}
+			?>
+		</a>
+	</div>
 	<div class="clb txtC mb-15"><input type="button" value="Add Badges to Order" id="add_names"></div>
 </div>
 <!-- 

@@ -65,7 +65,7 @@
         	</a> 
         </div>
         <div class="qty-add clb" id="extras-boxes" style="display:none">
-        	<div class="small-red-heading">You must be a Pilot or Flight Attendant to purchase these items. Orders will be verified.</div>
+        	<div class="small-red-heading">You must be a Pilot to purchase the wings and pins below. Orders will be verified.</div>
         	<h3 class="title">
         		<!-- Commented by sunny on 16-march-2016 -->
         		<!-- Enter Fastener Quantities: -->
