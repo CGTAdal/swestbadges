@@ -45,7 +45,7 @@
 										foreach ($order_detail['badges'] as $order_item) {
 											/*echo $item['item_name'];
 											echo '<pre>';print_r($order_item); echo '</pre>'; exit;*/
-											if(!empty($order_item) && in_array($item['item_name'], $order_item)){
+											if(!empty($order_item) && in_array($item['item_id'], $order_item)){
 												$itemCount++;
 												//exit;	
 											}
