@@ -35,6 +35,7 @@
 				<div class="pl-20 fontGL mb-30">
 					<!-- <div>Jenny Craig Centre <?php //echo $shipping['selected_store'];?></div>
 					<div>ATTN:  <?php //echo $shipping['attn'];?></div> -->
+					<div><?php echo $shipping['attn'];?></div>
 					<div><?php echo $shipping['address'];?></div>
 					<div><?php echo isset($shipping['address_2']) ? $shipping['address_2'] : "";?></div>
 					<div><?php echo $shipping['city'].', '.$shipping['state'].' '.$shipping['zip'];?></div>
