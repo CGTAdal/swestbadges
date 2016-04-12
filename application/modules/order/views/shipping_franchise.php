@@ -22,6 +22,9 @@
 	height: 24px;
 	overflow: hidden;
 }
+label span{
+	margin-right: 16px;
+}
 </style>
 <div class="main clb">
 	<div class="main-left fll">
@@ -234,7 +237,7 @@
 					</label>
 					<div style="font-size: 18px;margin-bottom: 15px;padding-left:75px;">
 						<span>Expiration date:</span>
-						<select style="width:70px;padding:4px;margin-left:20px" name="expiration_month" id="expiration_month">
+						<select style="width:70px;padding:4px;margin-left:16px" name="expiration_month" id="expiration_month">
 							<?php for($i=1; $i<=12; $i++) {?>
 								<option value="<?php echo $i;?>"><?php echo $i;?></option>
 							<?php }?>
