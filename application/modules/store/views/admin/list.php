@@ -24,7 +24,7 @@
 					</select>
 				</div>
 				<?php */?>
-				<?php if(count($market_directors) > 0) {?>
+				<?php /*if(count($market_directors) > 0) {?>
 					<div class="field">
 						<label>Assigned to</label>
 						<select name="" id="search_assigned_to">
@@ -34,7 +34,7 @@
 							<?php }?>	
 						</select>
 					</div>
-				<?php }?>
+				<?php }*/?>
 				<?php if(1==0) {?>
 					<div class="field">
 						<label>abc</label>

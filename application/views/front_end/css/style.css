@@ -74,7 +74,7 @@ label.lblRadioCheckbox{display:inline-block;}
 .header{margin:22px 24px 10px; overflow:hidden; padding-bottom:12px; *padding-bottom:0; border-bottom:2px solid #e3e3e3; font-size:18px; color:#737373;}
 .header a{color:#737373;}
 .header .logo{overflow:hidden;}
-.header .namebadge{margin:25px 0 0 24px;}
+.header .namebadge{margin:25px 0 0 24px; width: 298px;}
 .header .split{padding:0 10px;}
 .note{padding-left: 50px; font-size:13px; padding-bottom: 38px}
 .note .note_1{color:#EE3A43; font-size:17px}
@@ -213,3 +213,34 @@ table tr.row1{background:#fff;}
 /* SELECT ORDER PAGE */
 .small-red-heading-order{color: red;margin:0px 0px 10px 24px; font-weight: bold; font-size: 14px; text-align: left;}
 /* SELECT ORDER PAGE */
+
+.sb-setstatecss{
+    padding: 4px 2px !important;
+}
+.sb-setstatecsswidthonfcedit{
+    width:  242px;
+}
+.sb-setstatewidthonshpping{
+    width: 341px;
+}
+.fc-edit.fc-signup label span{
+    width: 216px;
+}
+.red-text{
+    color: #f00;
+    /*font-weight: bold;*/
+}
+
+/*---- Order page css ----*/
+
+.sb-extra-info-block{
+    float: left;
+}
+.sb-extra-info1{
+    margin-top: -3px;
+    width: 200px;
+}
+.sb-extra-info1 div{
+    font-weight: 600;
+    margin-bottom: 7px;
+}

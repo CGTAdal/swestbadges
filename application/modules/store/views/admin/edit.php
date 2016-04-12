@@ -81,7 +81,21 @@
 				</div>					
 				<div class="field">
 					<label  class="required">State </label> 
-					<input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php echo (isset($store->store_state))?$store->store_state:"";?>">
+					<!-- commented by sunny 18-march-2016 -->
+					<!-- <input type="text" class="large validate[required]" size="50" name="store_state" id="store_state" value="<?php //echo (isset($store->store_state))?$store->store_state:"";?>"> -->
+					<select class="large validate[required]"   name="store_state" id="store_state">
+						<option value="">Select State</option>
+						<?php 
+							foreach ($states as $key => $state) {
+								$optionSelected ='';
+								if(isset($store->store_state) && (strtolower($store->store_state) == strtolower($state['state_name'])) )
+									$optionSelected = 'selected="selected"';
+						?>
+						<option value="<?php echo strtolower($state['state_name']); ?>" <?php echo $optionSelected; ?>><?php echo $state['state_name']; ?></option>
+						<?php 
+							}
+						?>
+					</select>
 				</div>
 				<div class="field">
 					<label  class="required">Zip </label> 
@@ -99,11 +113,11 @@
 				</div>
 				<div class="field">
 					<label class="required">Mailcode:</label>
-					<input type="text" name="mailcode" id="mailcode" size="50" class="<?php if($store->store_location_title=="") { echo 'validate[funcCall[checkMailCode]]]'; }?> large" value="<?php echo (isset($store->store_mailcode))?$store->store_mailcode:"";?>" />
+					<input type="text" name="mailcode" id="mailcode" size="50" class="<?php if($store->store_location_title=="" && $store->store_mailcode=='') { echo 'validate[funcCall[checkMailCode]]]'; }?> large" value="<?php echo (isset($store->store_mailcode))?$store->store_mailcode:"";?>" />
 					<a class="mailcode-link" href="javascript:void(0);" onclick="showLocationField()">Don’t have a mailcode?</a>
 					
 				</div>
-				<div class="field <?php if($store->store_location_title=="") { echo 'hidden'; }?>">
+				<div class="field <?php if($store->store_mailcode!="") { echo 'hidden'; }?>">
 					<label class="required">Please enter your Location and Title:</label>
 					<input type="text" name="store_location_title" id="store_location_title" size="50" class="validate[required] large" value="<?php echo (isset($store->store_location_title))?$store->store_location_title:"";?>" />
 				</div>
@@ -121,7 +135,12 @@
 				<?php }?>
 				<?php */?>
 				<div class="field"><?php echo ($error_full!="")?"<p>".$error_full."</p>":"";?></div>
-				<input type="hidden" name="store_role" id="store_role" value="<?php echo (isset($store->store_role))?$store->store_role:"";?>">
+				<?php 
+					/*
+					//commented as per client feedback. Only single role exist in the website now.
+				?>
+				<input type="hidden" name="store_role" id="store_role" value="<?php //echo (isset($store->store_role))?$store->store_role:"";?>">
+				<?php */?>
 				<input type="hidden" name="store_id" id="store_id" value="<?php echo (isset($store->store_id))?$store->store_id:"";?>">
 				<div class="buttonrow" align="center">
 					<input type="submit" class="btn btn-apply" value="Apply" name="submit"/>
@@ -133,6 +152,16 @@
 	</div>
 </div>
 <script>
+var isMailCode = <?php if($store->store_location_title==""){ echo 'true';}else{ echo 'false'; }?>;
+function showLocationField() {
+	isMailCode = false;
+	$(".hidden").show();
+}
+function checkMailCode(field, rules, i, options){
+	if (isMailCode) {
+        rules.push('required'); 
+    }
+}
 $(document).ready(function(){
 	$('.btn-grey').live('click',function(){				
 		 parent.history.back();

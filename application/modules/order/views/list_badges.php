@@ -2,6 +2,7 @@
 	<?php foreach($badges as $badge) {?>
 		<li>
 			<p><strong>Style:</strong><span><?php echo $badge['style'];?></span></p>
+			<p><strong>Price:</strong><span><?php echo '$'.$badge['price'];?></span></p>
 			<?php if(isset($badge['name'])) {?>
 				<p><strong>Name:</strong><span><?php echo $badge['name'];?></span></p>
 			<?php }?>
@@ -11,7 +12,9 @@
 			<?php if(isset($badge['title'])) {?>
 				<p><strong>Title:</strong><span><?php echo $badge['title'];?></span></p>
 			<?php }?>
+			<?php if(isset($badge['fastener'])) {?>
 			<p><strong>Fastener:</strong><span><?php echo $badge['fastener'];?></span></p>
+			<?php }?>
 			<?php if(isset($badge['spk_spanish'])) {?>
 				<p><strong>Hablo Español:</strong><span><?php echo $badge['spk_spanish'];?></span></p>
 			<?php }?>

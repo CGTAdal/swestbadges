@@ -1,5 +1,12 @@
 DirectoryIndex index.php index.html
 RewriteEngine on
+
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+#RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#RewriteCond %{HTTP_HOST} !^www\. [NC]
+#RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
 RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

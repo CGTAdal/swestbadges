@@ -3,7 +3,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>application/views/front_end/js/jquery.validationEngine.js" charset="utf-8"></script>
 <div class="main clb">
 	<div class="main-left-no-border fll" id="main-left">
-		<div class="fc-signup" style="margin-top:30px">
+		<div class="fc-signup fc-edit" style="margin-top:30px">
 			<form action="" method="post" id="edit-account" >
 				<label>
 					<span class="required">Email:</span>
@@ -15,7 +15,7 @@
 				</label>
 				<label>
 					<span>Phone:</span>
-					<input type="text" name="phone" id=""/>
+					<input type="text" name="phone" id="store_phone" value="<?php echo $store->store_phone;?>"/>
 				</label>
 				<label>
 					<span class="required">Mailing Address:</span>
@@ -31,7 +31,21 @@
 				</label>
 				<label>
 					<span class="required">State:</span>
-					<input type="text" name="state" id="state" class="validate[required]" value="<?php echo $store->store_state;?>"/>
+					<!-- commented by sunny 18-march-2016 -->
+					<!-- <input type="text" name="state" id="state" class="validate[required]" value="<?php //echo $store->store_state;?>"/> -->
+					<select name="state" class="validate[required] sb-setstatecss sb-setstatecsswidthonfcedit">
+						<option value="">Select State</option>
+						<?php 
+							foreach ($states as $key => $state) {
+								$optionSelected ='';
+								if(strtolower($store->store_state) == strtolower($state['state_name']))
+									$optionSelected = 'selected="selected"';
+						?>
+						<option value="<?php echo strtolower($state['state_name']); ?>" <?php echo $optionSelected; ?>><?php echo $state['state_name']; ?></option>
+						<?php 
+							}
+						?>
+					</select>
 				</label>
 				<label>
 					<span class="required">Zip:</span>

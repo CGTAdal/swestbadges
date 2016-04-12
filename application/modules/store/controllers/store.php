@@ -35,7 +35,7 @@ class Store extends MX_Controller {
 	
 	function edit_account() {
 		$store = $this->session->userdata('store');
-		if($store->store_role!=3) {
+		if(empty($store) && $store->store_role!=3) {
 			redirect('order/select');
 		}
 
@@ -47,14 +47,20 @@ class Store extends MX_Controller {
 			$data['store_city'] 		= $this->input->post('city');
 			$data['store_state']		= $this->input->post('state');
 			$data['store_zip'] 			= $this->input->post('zip');
-			$data['store_phone'] 		= $this->input->post('phone');			
-			
+			$data['store_phone'] 		= $this->input->post('phone');
+			//echo '<pre>'; print_r($data); exit;
 			$store_id = $this->store_model->saveItem('stores',array('field'=>'store_id','id'=>$store->store_id),$data);
-			
+			//echo $store_id; exit;
 			$store 	= $this->store_model->getStoreDetail(array('store_id'=>$store_id));
+			//echo '<pre>'; print_r($store); exit;
 			$this->session->set_userdata('store',$store);
 		}
 		
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+
+		$data['states'] = $states;
 		$data['store']		= $store;
 		$data['content']	= 'franchise_edit';
 		$this->load->view('front_end/index',$data);
@@ -156,9 +162,13 @@ class Store extends MX_Controller {
 				
 				$this->session->set_userdata('store', $store);
 				redirect('order/select');
-				
 			}
 		}
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+
+		$data['states'] = $states;
 		$data['content']	= 'franchise_signup';
 		$this->load->view('front_end/index',$data);
 	}

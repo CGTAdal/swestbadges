@@ -480,3 +480,13 @@ h2.calendar_header { font-size: 56px; text-align: center; line-height: 48px; mar
 #add-user-form { width: 270px; margin: 0 auto; }
 
 .no-pointer {cursor:auto;}
+
+/*------------------------------
+   Order listing css
+--------------------------------*/
+
+.order-listing-container{
+	/*border:1px solid #000;*/
+	width: 100%;
+	overflow-x: scroll;
+}

@@ -28,7 +28,7 @@
 						?>
 					</label>
 				<?php }?>
-				<div class="mag-pin">
+				<!-- <div class="mag-pin">
 					<label class="lblRadioCheckbox">
 						<input type="radio" value="Magnetic" name="fastener_<?php echo $number;?>" checked="checked">Magnetic
 					</label>
@@ -37,7 +37,7 @@
 						<input type="radio" value="Pin" name="fastener_<?php echo $number;?>">Pin
 					</label>
 					<div class="order-des">pacemakers: caution with magnet</div>
-				</div>
+				</div> -->
 				<!-- 
 				<div class="order-yesno fll">
 					<strong>Hablo español:</strong>
@@ -53,6 +53,8 @@
 				</div>
 				-->
 				<input type="hidden" id="style_<?php echo $number;?>" value="<?php echo $style;?>" />
+				<input type="hidden" id="price_<?php echo $number;?>" value="<?php echo $price;?>" />
+				<input type="hidden" id="item_id_<?php echo $number;?>" value="<?php echo $item_id;?>" />
 				<?php if(isset($title)) {?><input type="hidden" id="title_<?php echo $number;?>" value="<?php echo $title;?>" /><?php }?>
 			</div>
 		</div>

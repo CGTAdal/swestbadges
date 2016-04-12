@@ -66,9 +66,14 @@ class Order extends MX_Controller {
 			'order_total'	=> $search_order_total,
 			// 'store_type'	=> $search_store_type
 		);
+
+		$this->db->select('item_id, item_name, item_price');
+		$items_query = $this->db->get_where('items',array('item_status' => 1));
+		$items = $items_query->result_array();
 		
 		$orders = $this->order_model->getOrderList($filter);
 		$data['orders']	= $orders;
+		$data['items']	= $items;
 		$view 	= $this->load->view('order/admin/list_excel',$data);
 		
 		$file	 = "Badges-Output.xls";
@@ -82,19 +87,24 @@ class Order extends MX_Controller {
 	
 	function detail($id)
 	{
+		/*
+		// update status removed as per client feedback on 21-march-2016 by sunny
 		if(isset($_REQUEST['submit'])) {
 			$data = array('order_status'=>(int)$this->input->post('status'));
 			$this->order_model->saveItem('orders',array('field'=>'order_id','id'=>$id),$data);
-		}
+		}*/
 		$order 		= $this->order_model->getOrderDetail(array('order_id'=>$id));
 		$item		= (count($order)>0)?unserialize($order->order_items):'';		
 		$shipping	= (count($order)>0)?unserialize($order->order_shipping):'';
 		$billing	= (count($order)>0)?unserialize($order->order_billing):'';
 
-		$badges		= (isset($item['badges']))?$item['badges']:((!isset($item['extras']))?$item:null);
-
+		//$badges		= (isset($item['badges'])) ? $item['badges'] : ((!isset($item['extras']))?$item:null);
+		$badges		= (isset($item['badges'])) ? $item['badges'] : null;
+		$extras		= (isset($item['extras'])) ? $item['extras'] : null;
+		//echo '<pre>'; print_r($extras); exit;
 		$data['order'] 		= $order;
 		$data['badges']		= $badges;
+		$data['extras']		= $extras;
 
 		$data['shipping'] 		= $shipping;
 		$data['billing']		= $billing;
@@ -258,10 +268,16 @@ class Order extends MX_Controller {
 		
 		# get order list
 		$orders = $this->order_model->getOrderList($filter);
+
+		$this->db->select('item_id, item_name, item_price');
+		$items_query = $this->db->get_where('items',array('item_status' => 1));
+		$items = $items_query->result_array();
+
 //		display($filter);
 //		display($orders); 
 
 		$data['orders']				= $orders;
+		$data['items']				= $items;
 		$data['from_date']			= $from_date;
 		$data['to_date']			= $to_date;
 		$data['s_from_date']		= $s_from_date;

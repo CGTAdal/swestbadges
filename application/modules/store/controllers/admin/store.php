@@ -21,7 +21,7 @@ class Store extends MX_Controller {
 	function liststores(){
 		$store_location_name	= setSessionVariable($this->input->post('store_location_name'), 'store_location_name', '');		
 		// $search_store_type			= setSessionVariable($this->input->post('search_store_type'), 'search_store_type', 'all');
-		$search_assigned_store		= setSessionVariable($this->input->post('search_assigned_store'), 'search_store_assigned', '');
+		//$search_assigned_store		= setSessionVariable($this->input->post('search_assigned_store'), 'search_store_assigned', '');
 		$perpage					= setSessionVariable($this->input->post('perpage'), 'store_on_per_page', 12);
 		$offset						= ($this->uri->segment(4)=='')?0:$this->uri->segment(4);
 		setSessionVariable($offset, "store_list_offset", 0);					
@@ -30,7 +30,7 @@ class Store extends MX_Controller {
 			'perpage'   	=> $perpage,
 			'store_location_name' 	=> $store_location_name,
 			// 'store_role'	=> $search_store_type,
-			'store_assigned'=> $search_assigned_store
+			//'store_assigned'=> $search_assigned_store
 		);
 
 		#Create pagintaion
@@ -64,7 +64,7 @@ class Store extends MX_Controller {
 		$data['stores'] 					= $stores;
 		$data['store_location_name'] 		= $this->session->userdata['store_location_name'];
 		// $data['search_store_type'] 		= $this->session->userdata['search_store_type'];
-		$data['search_store_assigned']		= $this->session->userdata['search_store_assigned']; 
+		//$data['search_store_assigned']		= $this->session->userdata['search_store_assigned']; 
 		$data['pagination'] 				= $pagination;
 		$data['select_perpage'] 			= $this->session->userdata['store_on_per_page'];
 		$data['market_directors']			= $market_directors;
@@ -177,9 +177,12 @@ class Store extends MX_Controller {
 			$data['store_mailcode']		= $this->input->post('mailcode');
 			$data['store_location_title']	= $this->input->post('store_location_title');
 			// $data['store_role']			= (int)$this->input->post('store_role');
-			if($this->input->post('store_role')==1) {
+			
+			//commented as per client feedback. Only single role exist in the website now.
+			/*if($this->input->post('store_role')==1) {
 				$data['store_role']			= (int)$this->input->post('store_role');
-			}
+			}*/
+			$data['store_role']			= 3;
 
 			/*$data['store_express'] 		= $this->input->post('store_express');
 			$data['store_ground'] 		= $this->input->post('store_ground');
@@ -214,6 +217,11 @@ class Store extends MX_Controller {
 			$market_directories = $this->store_model->getStoreList(array('store_role' => 2));	
 		}		
 		
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+
+		$data['states'] 			= $states;
 		$data['error_full'] 		= $this->error_full;
 		$data['error_phone'] 		= $this->error_phone;
 		$data['error_email'] 		= $this->error_email;
@@ -248,7 +256,9 @@ class Store extends MX_Controller {
 				$data['store_mailcode']		= $this->input->post('mailcode');
 				$data['store_location_title']	= $this->input->post('store_location_title');
 
-				$data['store_role']			= (int)$this->input->post('store_role');
+				//commented as per client feedback. Only single role exist in the website now.
+				//$data['store_role']			= (int)$this->input->post('store_role');
+				$data['store_role']			= 3; 
 
 				// OLD FIELDS
 				/*$data['store_express'] 		= (int)$this->input->post('store_express');
@@ -291,7 +301,13 @@ class Store extends MX_Controller {
 				redirect('admin/store/liststores');
 			}
 		}
+
+		$this->db->select('state_name,state_code');
+		$this->db->order_by('state_name ASC');
+		$states = $this->db->get_where('states',array('state_status' => 1))->result_array();
+
 		$data['mode'] 				= 'add';	
+		$data['states'] 			= $states;
 		$data['error_full'] 		= $this->error_full;
 		$data['error_number'] 		= $this->error_number;
 		$data['error_phone'] 		= $this->error_phone;
