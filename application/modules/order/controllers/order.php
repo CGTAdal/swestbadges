@@ -557,6 +557,7 @@ class Order extends MX_Controller {
 					$shipping['attn']	 		= $store->store_location_name;
 					$shipping['selected_store']	= $store->store_number;
 					$shipping['address'] 		= $store->store_address;
+					$shipping['address_2'] 		= (isset($store->store_address_2) && !empty($store->store_address_2)) ? $store->store_address_2 : '';
 					$shipping['city']	 		= $store->store_city;
 					$shipping['state']	 		= $store->store_state;
 					$shipping['zip']	 		= $store->store_zip;

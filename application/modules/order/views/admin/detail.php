@@ -34,7 +34,7 @@
 				<h2 class="title">Billing Address:</h2>
 				<div class="pl-20 fontGL mb-30">
 					<div><?php echo $billing['fname'].' '.$billing['lname'];?></div>
-					<div><?php echo $billing['phone'];?></div>
+					<div><?php //echo $billing['phone'];?></div>
 					<div><?php echo $billing['address'];?></div>
 					<div><?php echo $billing['city'].', '.$billing['state'].' '.$billing['zip'];?></div>
 				</div>
