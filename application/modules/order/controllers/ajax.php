@@ -183,6 +183,9 @@ class Ajax extends MX_Controller {
 				#$data['title']	 = "no title included";
 				#$data['license'] = 1;
 				$data['price']	 = $price;
+				if(isset($item_detail[0]['item_is_title']) && $item_detail[0]['item_is_title'] == 1){
+					$data['title_options'] 	= $this->config->item('title_options');
+				}
 				$this->load->view('order/form/additional_input_name_form',$data);
 				return;
 			break;
@@ -286,6 +289,9 @@ class Ajax extends MX_Controller {
 				$data['type']			= 1;
 				$data['price']			= $price;
 				//$data['license']		= 1;
+				if(isset($item_detail[0]['item_is_title']) && $item_detail[0]['item_is_title'] == 1){
+					$data['title_options'] 	= $this->config->item('title_options');
+				}
 				$this->load->view('order/form/input_names_form',$data);
 				break;
 			case '2':

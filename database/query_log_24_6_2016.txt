@@ -1,0 +1,5 @@
+Query Log:-
+
+ALTER TABLE `ci_items` ADD `item_is_title` TINYINT( 2 ) NOT NULL DEFAULT '0' COMMENT '0 => Title filed not display, 1 => Title field display' AFTER `item_status` ;
+
+UPDATE `southwes_namebadges`.`ci_items` SET `item_is_title` = '1' WHERE `ci_items`.`item_id` IN(1,18);
