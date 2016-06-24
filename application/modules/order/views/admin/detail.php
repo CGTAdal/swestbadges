@@ -88,6 +88,7 @@
 				<tr>
 					<th>Style</th>
 					<th>Name</th>
+					<th>Title</th>
 					<!-- <th>Fastener</th>
 					<th>Years Of Service</th> -->
 					<th>Price</th>
@@ -101,6 +102,7 @@
 						<tr>						
 							<td><?php if(isset($badge['style'])) {echo $badge['style'];}else{}?></td>			
 							<td><?php if(isset($badge['name'])){echo $badge['name'];}else{}?></td>
+							<td><?php if(isset($badge['title'])){echo $badge['title'];}else{echo '-';}?></td>
 							<?php /*?>
 							<td><?php if(isset($badge['fastener'])){echo $badge['fastener'];}else{}?></td>
 							<td>
