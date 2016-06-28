@@ -1,3 +1,4 @@
+<div class="small-red-heading">You must be a Flight Attendant to purchase these wings. Orders will be verified.</div>
 <div class="order-new clb" id="enter_names">
 	<input type="hidden" value="1" id="current_input_boxes_number"/>
 	<h3 class="title">Enter Name: <?php echo $description!=""?"($description)":$description;?></h3>
@@ -32,7 +33,7 @@
 						?>
 					</label>
 				<?php }?>
-				<div class="mag-pin">
+				<!-- <div class="mag-pin">
 					<label class="lblRadioCheckbox">
 						<input type="radio" value="Magnetic" name="fastener_1" checked="checked">Magnetic
 					</label>
@@ -41,7 +42,7 @@
 						<input type="radio" value="Pin" name="fastener_1">Pin
 					</label>
 					<div class="order-des">pacemakers: caution with magnet</div>
-				</div>
+				</div> -->
 				<!-- 
 				<div class="order-yesno fll">
 					<strong>Hablo español:</strong>
@@ -58,12 +59,28 @@
 				-->
 				<?php */?>
 				<input type="hidden" id="style_1" value="<?php echo $style;?>" />
+				<input type="hidden" id="price_1" value="<?php echo $price;?>" />
+				<input type="hidden" id="item_id_1" value="<?php echo $item_id;?>" />
 				<?php if(isset($title)) {?><input type="hidden" id="title_1" value="<?php echo $title;?>" /><?php }?>
 			</div>
 		</div>
 	</div>
 	<div class="clb txtC mb-5">&nbsp;</div>
-	<div class="clb txtC mb-40"><a href="javascript: void(0)" class="add-another" value="<?php echo $type;?>" id="add_more">Add Another Name</a></div>
+	<div class="clb txtC mb-40">
+		<a href="javascript: void(0)" class="add-another" value="<?php echo $type;?>" data-price="<?php echo $price;?>" id="add_more">
+			<?php 
+				if(strpos(strtolower($style), 'wing') === false){
+			?>
+				Add Another Name Badge
+			<?php 
+				}else{
+			?>
+				Add Another Wing
+			<?php
+				}
+			?>
+		</a>
+	</div>
 	<div class="clb txtC mb-15"><input type="button" value="Add Badges to Order" id="add_names"></div>
 </div>
 <!-- 

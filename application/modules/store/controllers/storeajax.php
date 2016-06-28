@@ -100,14 +100,20 @@ class Storeajax extends MX_Controller {
 			$this->email->initialize($config);
 			
 			# from
-			$this->email->from('support@bestnamebadges.com');
+			//changed according to client feedback by sunny on 22-march-2016
+			//$this->email->from('support@bestnamebadges.com');
+			$this->email->from('julih@catalystteam.com');
 			# to
 			$this->email->to($account->store_email);
 			#set subject
 			$subject	= '[Southwest Name Badges] New Password';
 			#set content
+			//changed according to client feedback by sunny on 22-march-2016
+			/*$message	= "Your new password is: {$new_pass} <br/><br/>
+			Best Name Badges <br />";*/
 			$message	= "Your new password is: {$new_pass} <br/><br/>
-			Best Name Badges <br />";
+			Catalyst Marketing <br />";
+			
 			$this->email->subject($subject);
 			$this->email->message($message);
 			#sending email

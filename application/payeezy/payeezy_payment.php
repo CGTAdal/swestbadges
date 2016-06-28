@@ -11,10 +11,12 @@ class Payment {
     public $transaction_id;
 
     public function charge($paybilling) {
-        if($_SERVER['SERVER_NAME']=='localhost'){
-            $this->transaction_id = rand(1000,9000);
-            return array('success'=>true);
+        $whitelistIp = array('127.0.0.1','::1');
+        if (in_array($_SERVER['REMOTE_ADDR'], $whitelistIp)){
+            $result['success'] = true;  
+            return $result;
         }
+        //print_r($paybilling);
         //TESTING ACCOUNT
         //get from account API settings these are not valid keys, key_id, gateway_id or password
         $key = 'za4FB6RtBhtNdr0GC2O1NrGO3VDmLXAU';

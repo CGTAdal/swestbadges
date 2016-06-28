@@ -362,5 +362,15 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 
+$config['title_options'] = array(
+	'No Title'						=> 'No Title',
+	'Customer Service Agent'		=> 'Customer Service Agent',
+	'Customer Service Supervisor'	=> 'Customer Service Supervisor',
+	'Operations Agent' 				=> 'Operations Agent',
+	'Operations Supervisor'			=> 'Operations Supervisor',
+	'Station Supervisor'			=> 'Station Supervisor'
+);
+
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */
